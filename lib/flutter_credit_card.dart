@@ -14,6 +14,8 @@ class CreditCardWidget extends StatefulWidget {
   final Gradient backgroundGradientColor;
   final bool showBackView;
   final Duration animationDuration;
+  final double height;
+  final double width;
 
   const CreditCardWidget({
     Key key,
@@ -24,6 +26,8 @@ class CreditCardWidget extends StatefulWidget {
     this.textStyle,
     @required this.showBackView,
     this.animationDuration = const Duration(milliseconds: 500),
+    this.height,
+    this.width,
     this.backgroundGradientColor = const LinearGradient(
       // Where the linear gradient begins and ends
       begin: Alignment.topRight,
@@ -141,8 +145,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         gradient: widget.backgroundGradientColor,
       ),
       margin: const EdgeInsets.all(16),
-      width: width,
-      height: height / 4,
+      width: widget.width ?? width,
+      height: widget.height ?? height / 4,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,

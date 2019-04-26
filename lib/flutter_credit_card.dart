@@ -3,7 +3,6 @@ library flutter_credit_card;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CreditCardWidget extends StatefulWidget {
   final String cardNumber;
@@ -360,34 +359,38 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     Widget icon;
     switch (detectCCType(cardNumber)) {
       case CardType.visa:
-        icon = Icon(
-          FontAwesomeIcons.ccVisa,
-          size: 48,
-          color: Colors.white,
+        icon = Image.asset(
+          "icons/visa.png",
+          height: 48,
+          width: 48,
+          package: "flutter_credit_card",
         );
         break;
 
       case CardType.americanExpress:
-        icon = Icon(
-          FontAwesomeIcons.ccAmex,
-          size: 48,
-          color: Colors.white,
+        icon = Image.asset(
+          "icons/amex.png",
+          height: 48,
+          width: 48,
+          package: "flutter_credit_card",
         );
         break;
 
       case CardType.mastercard:
-        icon = Icon(
-          FontAwesomeIcons.ccMastercard,
-          size: 48,
-          color: Colors.white,
+        icon = Image.asset(
+          "icons/mastercard.png",
+          height: 48,
+          width: 48,
+          package: "flutter_credit_card",
         );
         break;
 
       case CardType.discover:
-        icon = Icon(
-          FontAwesomeIcons.ccDiscover,
-          size: 48,
-          color: Colors.white,
+        icon = Image.asset(
+          "icons/discover.png",
+          height: 48,
+          width: 48,
+          package: "flutter_credit_card",
         );
         break;
 

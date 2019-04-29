@@ -10,7 +10,7 @@ class CreditCardWidget extends StatefulWidget {
   final String cardHolderName;
   final String cvvCode;
   final TextStyle textStyle;
-  final Gradient backgroundGradientColor;
+  final Color cardbgColor;
   final bool showBackView;
   final Duration animationDuration;
   final double height;
@@ -27,19 +27,8 @@ class CreditCardWidget extends StatefulWidget {
     this.height,
     this.width,
     this.textStyle,
-    this.backgroundGradientColor = const LinearGradient(
-      // Where the linear gradient begins and ends
-      begin: Alignment.topRight,
-      end: Alignment.bottomLeft,
-      // Add one stop for each color. Stops should increase from 0 to 1
-      stops: const [0.1, 0.5, 0.7, 0.9],
-      colors: const [
-        Color(0xff2973d5),
-        Color(0xff428ceb),
-        Color(0xff4a9bef),
-        Color(0xff5aa5f7),
-      ],
-    ),
+    this.cardbgColor = const Color(0xff1b447b),
+
   })  : assert(cardNumber != null),
         assert(showBackView != null),
         super(key: key);
@@ -53,6 +42,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   AnimationController controller;
   Animation<double> _frontRotation;
   Animation<double> _backRotation;
+  Gradient backgroundGradientColor;
 
   @override
   void initState() {
@@ -62,6 +52,20 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     controller = AnimationController(
       duration: widget.animationDuration,
       vsync: this,
+    );
+
+    backgroundGradientColor = LinearGradient(
+      // Where the linear gradient begins and ends
+      begin: Alignment.topRight,
+      end: Alignment.bottomLeft,
+      // Add one stop for each color. Stops should increase from 0 to 1
+      stops: const [0.1, 0.4, 0.7, 0.9],
+      colors:  [
+        widget.cardbgColor.withOpacity(1),
+        widget.cardbgColor.withOpacity(0.97),
+        widget.cardbgColor.withOpacity(0.90),
+        widget.cardbgColor.withOpacity(0.86),
+      ],
     );
 
     ///Initialize the Front to back rotation tween sequence.
@@ -159,7 +163,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         boxShadow: [
           BoxShadow(color: Colors.black26, offset: Offset(0, 0), blurRadius: 24)
         ],
-        gradient: widget.backgroundGradientColor,
+        gradient: backgroundGradientColor,
       ),
       margin: const EdgeInsets.all(16),
       width: widget.width ?? width,
@@ -255,7 +259,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         boxShadow: [
           BoxShadow(color: Colors.black26, offset: Offset(0, 0), blurRadius: 24)
         ],
-        gradient: widget.backgroundGradientColor,
+        gradient: backgroundGradientColor,
       ),
       width: width,
       height: orientation == Orientation.portrait ? height / 4 : height / 2,

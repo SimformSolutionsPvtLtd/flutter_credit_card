@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _expiryDateController =
       MaskedTextController(mask: "00/00");
   TextEditingController _cardHolderNameController = TextEditingController();
-  TextEditingController _cvvCodeController = MaskedTextController(mask: "000");
+  TextEditingController _cvvCodeController = MaskedTextController(mask: "0000");
 
   FocusNode cvvFocusNode = FocusNode();
 
@@ -147,9 +147,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           focusNode: cvvFocusNode,
                           controller: _cvvCodeController,
                           decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "CVV",
-                              hintText: "XXX"),
+                            border: OutlineInputBorder(),
+                            labelText: "CVV",
+                            hintText: "XXXX",
+                          ),
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.done,
                           onChanged: (text) {

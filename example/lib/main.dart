@@ -82,91 +82,91 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              CreditCardWidget(
-                cardNumber: cardNumber,
-                expiryDate: expiryDate,
-                cardHolderName: cardHolderName,
-                cvvCode: cvvCode,
-                showBackView: isCvvFocused,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Form(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          margin: EdgeInsets.only(left: 16, top: 16, right: 16),
-                          child: TextFormField(
-                            controller: _cardNumberController,
-                            decoration: InputDecoration(
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            CreditCardWidget(
+              cardNumber: cardNumber,
+              expiryDate: expiryDate,
+              cardHolderName: cardHolderName,
+              cvvCode: cvvCode,
+              showBackView: isCvvFocused,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Form(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        margin: EdgeInsets.only(left: 16, top: 16, right: 16),
+                        child: TextFormField(
+                          controller: _cardNumberController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "Card number",
+                            hintText: "xxxx xxxx xxxx xxxx",
+                          ),
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        margin: EdgeInsets.only(left: 16, top: 8, right: 16),
+                        child: TextFormField(
+                          controller: _expiryDateController,
+                          decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: "Card number",
-                              hintText: "xxxx xxxx xxxx xxxx",
-                            ),
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.next,
-                          ),
+                              labelText: "Expired Date",
+                              hintText: "MM/YY"),
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          margin: EdgeInsets.only(left: 16, top: 8, right: 16),
-                          child: TextFormField(
-                            controller: _expiryDateController,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "Expired Date",
-                                hintText: "MM/YY"),
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.next,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        margin: EdgeInsets.only(left: 16, top: 8, right: 16),
+                        child: TextFormField(
+                          controller: _cardHolderNameController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "Card Holder",
                           ),
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          margin: EdgeInsets.only(left: 16, top: 8, right: 16),
-                          child: TextFormField(
-                            controller: _cardHolderNameController,
-                            decoration: InputDecoration(
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        margin: EdgeInsets.only(left: 16, top: 8, right: 16),
+                        child: TextField(
+                          focusNode: cvvFocusNode,
+                          controller: _cvvCodeController,
+                          decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: "Card Holder",
-                            ),
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.next,
-                          ),
+                              labelText: "CVV",
+                              hintText: "XXX"),
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.done,
+                          onChanged: (text) {
+                            setState(() {
+                              cvvCode = text;
+                            });
+                          },
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          margin: EdgeInsets.only(left: 16, top: 8, right: 16),
-                          child: TextField(
-                            focusNode: cvvFocusNode,
-                            controller: _cvvCodeController,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "CVV",
-                                hintText: "XXX"),
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.done,
-                            onChanged: (text) {
-                              setState(() {
-                                cvvCode = text;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }

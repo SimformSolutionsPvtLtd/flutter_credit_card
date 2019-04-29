@@ -22,11 +22,11 @@ class CreditCardWidget extends StatefulWidget {
     @required this.expiryDate,
     @required this.cardHolderName,
     @required this.cvvCode,
-    this.textStyle,
     @required this.showBackView,
     this.animationDuration = const Duration(milliseconds: 500),
     this.height,
     this.width,
+    this.textStyle,
     this.backgroundGradientColor = const LinearGradient(
       // Where the linear gradient begins and ends
       begin: Alignment.topRight,
@@ -104,6 +104,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    Orientation orientation = MediaQuery
+        .of(context)
+        .orientation;
 
     ///
     /// If uer adds CVV then toggle the card from front to back..
@@ -120,11 +123,11 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       children: <Widget>[
         AnimationCard(
           animation: _frontRotation,
-          child: buildFrontContainer(width, height, context),
+          child: buildFrontContainer(width, height, context, orientation),
         ),
         AnimationCard(
           animation: _backRotation,
-          child: buildBackContainer(width, height, context),
+          child: buildBackContainer(width, height, context, orientation),
         ),
       ],
     );
@@ -133,8 +136,23 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   ///
   /// Builds a back container containing cvv
   ///
-  Container buildBackContainer(
-      double width, double height, BuildContext context) {
+  Container buildBackContainer(double width,
+      double height,
+      BuildContext context,
+      Orientation orientation,) {
+    var defaultTextStyle = Theme
+        .of(context)
+        .textTheme
+        .title
+        .merge(
+      TextStyle(
+        color: Colors.black,
+        fontFamily: "halter",
+        fontSize: 16,
+        package: "flutter_credit_card",
+      ),
+    );
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -145,7 +163,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       ),
       margin: const EdgeInsets.all(16),
       width: widget.width ?? width,
-      height: widget.height ?? height / 4,
+      height: widget.height ?? orientation == Orientation.portrait
+          ? height / 4
+          : height / 2,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,29 +186,22 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    flex: 6,
+                    flex: 9,
                     child: Container(
                       height: 48,
                       color: Colors.white70,
                     ),
                   ),
                   Expanded(
+                    flex: 2,
                     child: Container(
                       color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: Text(
                           widget.cvvCode.isEmpty ? "XXX" : widget.cvvCode,
-                          style: widget.textStyle ??
-                              Theme
-                                  .of(context)
-                                  .textTheme
-                                  .title
-                                  .merge(
-                                TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
+                          maxLines: 1,
+                          style: widget.textStyle ?? defaultTextStyle,
                         ),
                       ),
                     ),
@@ -220,7 +233,21 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     double width,
     double height,
     BuildContext context,
+      Orientation orientation,
   ) {
+    var defaultTextStyle = Theme
+        .of(context)
+        .textTheme
+        .title
+        .merge(
+      TextStyle(
+        color: Colors.white,
+        fontFamily: "halter",
+        fontSize: 16,
+        package: "flutter_credit_card",
+      ),
+    );
+
     return Container(
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -231,7 +258,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         gradient: widget.backgroundGradientColor,
       ),
       width: width,
-      height: height / 4,
+      height: orientation == Orientation.portrait ? height / 4 : height / 2,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -249,16 +276,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                 widget.cardNumber.isEmpty || widget.cardNumber == null
                     ? "XXXX XXXX XXXX XXXX"
                     : widget.cardNumber,
-                style: widget.textStyle ??
-                    Theme
-                        .of(context)
-                        .textTheme
-                        .title
-                        .merge(
-                      TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
+                style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
           ),
@@ -270,16 +288,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                 widget.expiryDate.isEmpty || widget.expiryDate == null
                     ? "MM/YY"
                     : widget.expiryDate,
-                style: widget.textStyle ??
-                    Theme
-                        .of(context)
-                        .textTheme
-                        .title
-                        .merge(
-                      TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
+                style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
           ),
@@ -287,21 +296,14 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Text(
-                widget.cardHolderName.isEmpty || widget.cardHolderName == null
+                widget.cardHolderName.isEmpty ||
+                    widget.cardHolderName == null ||
+                    !RegExp(r'[a-zA-Z]').hasMatch(widget.cardHolderName)
                     ? "CARD HOLDER"
                     : widget.cardHolderName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: widget.textStyle ??
-                    Theme
-                        .of(context)
-                        .textTheme
-                        .title
-                        .merge(
-                      TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
+                style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
           ),

@@ -54,6 +54,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   Animation<double> _frontRotation;
   Animation<double> _backRotation;
 
+  bool isAmex = false;
+
   @override
   void initState() {
     super.initState();
@@ -193,13 +195,15 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                     ),
                   ),
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: Container(
                       color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: Text(
-                          widget.cvvCode.isEmpty ? "XXX" : widget.cvvCode,
+                          widget.cvvCode.isEmpty
+                              ? isAmex ? "XXXX" : "XXX"
+                              : widget.cvvCode,
                           maxLines: 1,
                           style: widget.textStyle ?? defaultTextStyle,
                         ),
@@ -403,6 +407,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           width: 48,
           package: "flutter_credit_card",
         );
+        isAmex = false;
         break;
 
       case CardType.americanExpress:
@@ -412,6 +417,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           width: 48,
           package: "flutter_credit_card",
         );
+        isAmex = true;
         break;
 
       case CardType.mastercard:
@@ -421,6 +427,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           width: 48,
           package: "flutter_credit_card",
         );
+        isAmex = false;
         break;
 
       case CardType.discover:
@@ -430,6 +437,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           width: 48,
           package: "flutter_credit_card",
         );
+        isAmex = false;
         break;
 
       default:
@@ -437,6 +445,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           height: 48,
           width: 48,
         );
+        isAmex = false;
+        break;
     }
 
     return icon;

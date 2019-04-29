@@ -150,44 +150,61 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            height: 48,
-            color: Colors.black,
+          Expanded(
+            flex: 2,
+            child: Container(
+              margin: EdgeInsets.only(top: 16),
+              height: 48,
+              color: Colors.black,
+            ),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                flex: 6,
-                child: Container(
-                  height: 48,
-                  color: Colors.white70,
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      widget.cvvCode.isEmpty ? "XXX" : widget.cvvCode,
-                      style: widget.textStyle ??
-                          Theme.of(context).textTheme.title.merge(
+          Expanded(
+            flex: 2,
+            child: Container(
+              margin: EdgeInsets.only(top: 16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    flex: 6,
+                    child: Container(
+                      height: 48,
+                      color: Colors.white70,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          widget.cvvCode.isEmpty ? "XXX" : widget.cvvCode,
+                          style: widget.textStyle ??
+                              Theme
+                                  .of(context)
+                                  .textTheme
+                                  .title
+                                  .merge(
                                 TextStyle(
                                   color: Colors.black,
                                 ),
                               ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              )
-            ],
+                  )
+                ],
+              ),
+            ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-              child: getCardTypeIcon(widget.cardNumber),
+          Expanded(
+            flex: 2,
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                child: getCardTypeIcon(widget.cardNumber),
+              ),
             ),
           ),
         ],
@@ -221,52 +238,71 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           Align(
             alignment: Alignment.topRight,
             child: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
               child: getCardTypeIcon(widget.cardNumber),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, top: 8),
-            child: Text(
-              widget.cardNumber.isEmpty || widget.cardNumber == null
-                  ? "XXXX XXXX XXXX XXXX"
-                  : widget.cardNumber,
-              style: widget.textStyle ??
-                  Theme.of(context).textTheme.title.merge(
-                        TextStyle(
-                          color: Colors.white,
-                        ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Text(
+                widget.cardNumber.isEmpty || widget.cardNumber == null
+                    ? "XXXX XXXX XXXX XXXX"
+                    : widget.cardNumber,
+                style: widget.textStyle ??
+                    Theme
+                        .of(context)
+                        .textTheme
+                        .title
+                        .merge(
+                      TextStyle(
+                        color: Colors.white,
                       ),
+                    ),
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, top: 16),
-            child: Text(
-              widget.expiryDate.isEmpty || widget.expiryDate == null
-                  ? "MM/YY"
-                  : widget.expiryDate,
-              style: widget.textStyle ??
-                  Theme.of(context).textTheme.title.merge(
-                        TextStyle(
-                          color: Colors.white,
-                        ),
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Text(
+                widget.expiryDate.isEmpty || widget.expiryDate == null
+                    ? "MM/YY"
+                    : widget.expiryDate,
+                style: widget.textStyle ??
+                    Theme
+                        .of(context)
+                        .textTheme
+                        .title
+                        .merge(
+                      TextStyle(
+                        color: Colors.white,
                       ),
+                    ),
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
-            child: Text(
-              widget.cardHolderName.isEmpty || widget.cardHolderName == null
-                  ? "CARD HOLDER"
-                  : widget.cardHolderName,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: widget.textStyle ??
-                  Theme.of(context).textTheme.title.merge(
-                        TextStyle(
-                          color: Colors.white,
-                        ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+              child: Text(
+                widget.cardHolderName.isEmpty || widget.cardHolderName == null
+                    ? "CARD HOLDER"
+                    : widget.cardHolderName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: widget.textStyle ??
+                    Theme
+                        .of(context)
+                        .textTheme
+                        .title
+                        .merge(
+                      TextStyle(
+                        color: Colors.white,
                       ),
+                    ),
+              ),
             ),
           ),
         ],

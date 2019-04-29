@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _expiryDateController =
       MaskedTextController(mask: "00/00");
   TextEditingController _cardHolderNameController = TextEditingController();
-  TextEditingController _cvvCodeController = TextEditingController();
+  TextEditingController _cvvCodeController = MaskedTextController(mask: "000");
 
   FocusNode cvvFocusNode = FocusNode();
 
@@ -81,91 +81,92 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         resizeToAvoidBottomInset: true,
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            CreditCardWidget(
-              cardNumber: cardNumber,
-              expiryDate: expiryDate,
-              cardHolderName: cardHolderName,
-              cvvCode: cvvCode,
-              showBackView: isCvvFocused,
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Form(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(left: 16, top: 16, right: 16),
-                        child: TextFormField(
-                          controller: _cardNumberController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "Card number",
-                            hintText: "xxxx xxxx xxxx xxxx",
-                          ),
-                          keyboardType: TextInputType.number,
-                          maxLength: 201,
-                          textInputAction: TextInputAction.next,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 16, top: 8, right: 16),
-                        child: TextFormField(
-                          controller: _expiryDateController,
-                          decoration: InputDecoration(
+        body: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              CreditCardWidget(
+                cardNumber: cardNumber,
+                expiryDate: expiryDate,
+                cardHolderName: cardHolderName,
+                cvvCode: cvvCode,
+                showBackView: isCvvFocused,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Form(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          margin: EdgeInsets.only(left: 16, top: 16, right: 16),
+                          child: TextFormField(
+                            controller: _cardNumberController,
+                            decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: "Expired Date",
-                              hintText: "MM/YY"),
-                          keyboardType: TextInputType.number,
-                          maxLength: 5,
-                          textInputAction: TextInputAction.next,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 16, top: 8, right: 16),
-                        child: TextFormField(
-                          controller: _cardHolderNameController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "Card Holder",
+                              labelText: "Card number",
+                              hintText: "xxxx xxxx xxxx xxxx",
+                            ),
+                            keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
                           ),
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.next,
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 16, top: 8, right: 16),
-                        child: TextField(
-                          focusNode: cvvFocusNode,
-                          controller: _cvvCodeController,
-                          decoration: InputDecoration(
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          margin: EdgeInsets.only(left: 16, top: 8, right: 16),
+                          child: TextFormField(
+                            controller: _expiryDateController,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Expired Date",
+                                hintText: "MM/YY"),
+                            keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          margin: EdgeInsets.only(left: 16, top: 8, right: 16),
+                          child: TextFormField(
+                            controller: _cardHolderNameController,
+                            decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: "CVV",
-                              hintText: "XXX"),
-                          keyboardType: TextInputType.number,
-                          textInputAction: TextInputAction.done,
-                          maxLength: 3,
-                          onChanged: (text) {
-                            setState(() {
-                              cvvCode = text;
-                            });
-                          },
+                              labelText: "Card Holder",
+                            ),
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.next,
+                          ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          margin: EdgeInsets.only(left: 16, top: 8, right: 16),
+                          child: TextField(
+                            focusNode: cvvFocusNode,
+                            controller: _cvvCodeController,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "CVV",
+                                hintText: "XXX"),
+                            keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.done,
+                            onChanged: (text) {
+                              setState(() {
+                                cvvCode = text;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
     );
   }
 }

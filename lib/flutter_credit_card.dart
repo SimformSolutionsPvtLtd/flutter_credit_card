@@ -176,7 +176,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                     child: Container(
                       color: Colors.white,
                       child: Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(5),
                         child: Text(
                           widget.cvvCode.isEmpty ? "XXX" : widget.cvvCode,
                           style: widget.textStyle ??

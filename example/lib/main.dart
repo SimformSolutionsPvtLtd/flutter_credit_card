@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _expiryDateController =
       MaskedTextController(mask: "00/00");
   TextEditingController _cardHolderNameController = TextEditingController();
-  TextEditingController _cvvCodeController = TextEditingController();
+  TextEditingController _cvvCodeController = MaskedTextController(mask: "000");
 
   FocusNode cvvFocusNode = FocusNode();
 
@@ -81,10 +81,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: Column(
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -101,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     children: <Widget>[
                       Container(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
                         margin: EdgeInsets.only(left: 16, top: 16, right: 16),
                         child: TextFormField(
                           controller: _cardNumberController,
@@ -110,11 +111,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             hintText: "xxxx xxxx xxxx xxxx",
                           ),
                           keyboardType: TextInputType.number,
-                          maxLength: 201,
                           textInputAction: TextInputAction.next,
                         ),
                       ),
                       Container(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
                         margin: EdgeInsets.only(left: 16, top: 8, right: 16),
                         child: TextFormField(
                           controller: _expiryDateController,
@@ -123,11 +124,11 @@ class _MyHomePageState extends State<MyHomePage> {
                               labelText: "Expired Date",
                               hintText: "MM/YY"),
                           keyboardType: TextInputType.number,
-                          maxLength: 5,
                           textInputAction: TextInputAction.next,
                         ),
                       ),
                       Container(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
                         margin: EdgeInsets.only(left: 16, top: 8, right: 16),
                         child: TextFormField(
                           controller: _cardHolderNameController,
@@ -140,6 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       Container(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
                         margin: EdgeInsets.only(left: 16, top: 8, right: 16),
                         child: TextField(
                           focusNode: cvvFocusNode,
@@ -150,7 +152,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               hintText: "XXX"),
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.done,
-                          maxLength: 3,
                           onChanged: (text) {
                             setState(() {
                               cvvCode = text;

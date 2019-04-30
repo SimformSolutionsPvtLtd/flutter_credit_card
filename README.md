@@ -1,6 +1,6 @@
 # Flutter Credit Card
 
-A Fluter package allows you to easily implement the Credit card's UI easily with the Card detection.
+A Flutter package allows you to easily implement the Credit card's UI easily with the Card detection.
 
 ## Preview
 
@@ -23,9 +23,22 @@ dependencies:
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 ```
 
+3. Adding CreditCardWidget
+
+    *With required parameters*
+    
+```dart
+CreditCardWidget(
+  cardNumber: cardNumber,
+  expiryDate: expiryDate, 
+  cardHolderName: cardHolderName,
+  cvvCode: cvvCode,
+  showBackView: isCvvFocused, //true when you want to show cvv(back) view
+),
+```
+
 ## How to use
 **Check out the example app** in the [example](example) directory or the 'Example' tab on pub.dartlang.org for a more complete example.
-
 
 ## Getting Started
 

@@ -1,6 +1,15 @@
-# example
+# Flutter Credit Card Example
 
-A new Flutter application.
+A new Flutter application demonstrate use of the CreditCard widget package.
+
+# Running the app
+
+## Get packages
+```dart
+flutter packages get
+```
+## Run the app
+`flutter run`
 
 ## Getting Started
 

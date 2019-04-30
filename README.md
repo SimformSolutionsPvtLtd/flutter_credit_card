@@ -26,33 +26,31 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 3. Adding CreditCardWidget
 
     *With required parameters*
+    ```dart
+    CreditCardWidget(
+        cardNumber: cardNumber,
+        expiryDate: expiryDate, 
+        cardHolderName: cardHolderName,
+        cvvCode: cvvCode,
+        showBackView: isCvvFocused, //true when you want to show cvv(back) view
+    ),
+    ```
     
-```dart
-CreditCardWidget(
-  cardNumber: cardNumber,
-  expiryDate: expiryDate, 
-  cardHolderName: cardHolderName,
-  cvvCode: cvvCode,
-  showBackView: isCvvFocused, //true when you want to show cvv(back) view
-),
-```
-
-    *With required parameters*
-
-```dart
-CreditCardWidget(
-  cardNumber: cardNumber,
-  expiryDate: expiryDate,
-  cardHolderName: cardHolderName,
-  cvvCode: cvvCode,
-  showBackView: isCvvFocused,
-  cardbgColor: Colors.black,
-  height: 175,
-  textStyle: TextStyle(color: Colors.yellowAccent),
-  width: MediaQuery.of(context).size.width,
-  animationDuration: Duration(milliseconds: 1000),
-),
-```
+   *With optional parameters*
+    ```dart
+    CreditCardWidget(
+        cardNumber: cardNumber,
+        expiryDate: expiryDate,
+        cardHolderName: cardHolderName,
+        cvvCode: cvvCode,
+        showBackView: isCvvFocused,
+        cardbgColor: Colors.black,
+        height: 175,
+        textStyle: TextStyle(color: Colors.yellowAccent),
+        width: MediaQuery.of(context).size.width,
+        animationDuration: Duration(milliseconds: 1000),
+        ),
+    ```
 
 ## How to use
 **Check out the example app** in the [example](example) directory or the 'Example' tab on pub.dartlang.org for a more complete example.

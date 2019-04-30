@@ -1,6 +1,31 @@
-# flutter_credit_card
+# Flutter Credit Card
 
-A new Flutter package.
+A Fluter package allows you to easily implement the Credit card's UI easily with the Card detection.
+
+## Preview
+
+<p>
+    <img src="./preview/preview.gif" height="400" alt="Screenshot" raw="true"/>
+</p>
+
+## Installing
+1. Add dependency to `pubspec.yaml`
+
+    *Get the latest version in the 'Installing' tab on pub.dartlang.org*
+    
+```dart
+dependencies:
+    flutter_credit_card: 0.1.0
+```
+
+2. Import the package
+```dart
+import 'package:flutter_credit_card/flutter_credit_card.dart';
+```
+
+## How to use
+**Check out the example app** in the [example](example) directory or the 'Example' tab on pub.dartlang.org for a more complete example.
+
 
 ## Getting Started
 

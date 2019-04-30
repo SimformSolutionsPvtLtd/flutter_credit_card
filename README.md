@@ -1,6 +1,6 @@
 # Flutter Credit Card
 
-A Fluter package allows you to easily implement the Credit card's UI easily with the Card detection.
+A Flutter package allows you to easily implement the Credit card's UI easily with the Card detection.
 
 ## Preview
 

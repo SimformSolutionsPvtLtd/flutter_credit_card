@@ -12,21 +12,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: CreditCardExample(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({
+class CreditCardExample extends StatefulWidget {
+  CreditCardExample({
     Key key,
   }) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _CreditCardExampleState createState() => _CreditCardExampleState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _CreditCardExampleState extends State<CreditCardExample> {
   String cardNumber = "";
   String expiryDate = "";
   String cardHolderName = "";

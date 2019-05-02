@@ -53,7 +53,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
     ```
 
 ## How to use
-**Check out the example app** in the [example](example) directory or the 'Example' tab on pub.dartlang.org for a more complete example.
+Check out the **example** app in the [example](example) directory or the 'Example' tab on pub.dartlang.org for a more complete example.
 
 ## Getting Started
 
@@ -65,3 +65,7 @@ multiple Flutter or Dart projects.
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
+
+## Credit
+
+This package's animation is inspired from from this [Dribbble](https://dribbble.com/shots/2187649-Credit-card-Checkout-flow-AMEX) art.

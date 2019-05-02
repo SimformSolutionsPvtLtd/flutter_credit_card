@@ -109,9 +109,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    Orientation orientation = MediaQuery
-        .of(context)
-        .orientation;
+    Orientation orientation = MediaQuery.of(context).orientation;
 
     ///
     /// If uer adds CVV then toggle the card from front to back..
@@ -141,22 +139,20 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   ///
   /// Builds a back container containing cvv
   ///
-  Container buildBackContainer(double width,
-      double height,
-      BuildContext context,
-      Orientation orientation,) {
-    var defaultTextStyle = Theme
-        .of(context)
-        .textTheme
-        .title
-        .merge(
-      TextStyle(
-        color: Colors.black,
-        fontFamily: "halter",
-        fontSize: 16,
-        package: "flutter_credit_card",
-      ),
-    );
+  Container buildBackContainer(
+    double width,
+    double height,
+    BuildContext context,
+    Orientation orientation,
+  ) {
+    var defaultTextStyle = Theme.of(context).textTheme.title.merge(
+          TextStyle(
+            color: Colors.black,
+            fontFamily: "halter",
+            fontSize: 16,
+            package: "flutter_credit_card",
+          ),
+        );
 
     return Container(
       decoration: BoxDecoration(
@@ -239,20 +235,16 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     double width,
     double height,
     BuildContext context,
-      Orientation orientation,
+    Orientation orientation,
   ) {
-    var defaultTextStyle = Theme
-        .of(context)
-        .textTheme
-        .title
-        .merge(
-      TextStyle(
-        color: Colors.white,
-        fontFamily: "halter",
-        fontSize: 16,
-        package: "flutter_credit_card",
-      ),
-    );
+    var defaultTextStyle = Theme.of(context).textTheme.title.merge(
+          TextStyle(
+            color: Colors.white,
+            fontFamily: "halter",
+            fontSize: 16,
+            package: "flutter_credit_card",
+          ),
+        );
 
     return Container(
       margin: const EdgeInsets.all(16),

@@ -3,6 +3,7 @@ description: A Credit Card widget package, support entering card details, card f
 version: 0.0.1
 author: Simform Solutions <developer@simform.com>
 homepage: https://github.com/simformsolutions/flutter_credit_card
+issue_tracker : https://github.com/simformsolutions/flutter_credit_card/issues
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

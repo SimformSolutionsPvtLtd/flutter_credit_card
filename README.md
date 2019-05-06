@@ -26,7 +26,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 3.  Adding CreditCardWidget
 
-    * With required parameters *
+*With required parameters*
     
     ```dart
     CreditCardWidget(
@@ -38,7 +38,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
     ),
     ```
     
-   * With optional parameters*
+* With optional parameters *
    
     ```dart
     CreditCardWidget(

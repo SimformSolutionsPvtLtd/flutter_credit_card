@@ -7,7 +7,7 @@ A Flutter package allows you to easily implement the Credit card's UI easily wit
 ## Preview
 
 <p>
-    <img src="./preview/preview.gif" height="400" alt="Screenshot" raw="true"/>
+    ![The example app running in android](https://github.com/simformsolutions/flutter_credit_card/blob/master/preview/preview.gif?raw=true)
 </p>
 
 ## Installing

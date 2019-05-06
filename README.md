@@ -16,7 +16,7 @@ A Flutter package allows you to easily implement the Credit card's UI easily wit
     
 ```dart
 dependencies:
-    flutter_credit_card: 0.1.0
+    flutter_credit_card: 0.1.1
 ```
 
 2.  Import the package

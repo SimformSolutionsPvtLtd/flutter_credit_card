@@ -38,7 +38,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
     ),
     ```
     
-* With optional parameters *
+*With optional parameters *
    
     ```dart
     CreditCardWidget(

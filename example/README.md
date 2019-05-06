@@ -2,7 +2,7 @@
 
 A new Flutter application demonstrate use of the CreditCard widget package.
 
-# Running the app
+## Running the app
 
 ## Get packages
 ```dart

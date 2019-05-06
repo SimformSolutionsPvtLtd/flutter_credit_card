@@ -1,4 +1,4 @@
-# How to contribute?
+# Way to contribute
 
 1. Fork the repo and create your branch from `master`.
 2. Clone the project to your own machine.

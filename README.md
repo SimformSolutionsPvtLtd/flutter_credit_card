@@ -30,7 +30,6 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 *With required parameters*
     
-    dart
     CreditCardWidget(
         cardNumber: cardNumber,
         expiryDate: expiryDate, 
@@ -41,7 +40,6 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
     
 *With optional parameters*
    
-    dart
     CreditCardWidget(
         cardNumber: cardNumber,
         expiryDate: expiryDate,

@@ -12,13 +12,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CreditCardExample(),
+      home: const CreditCardExample(),
     );
   }
 }
 
 class CreditCardExample extends StatefulWidget {
-  CreditCardExample({
+  const CreditCardExample({
     Key key,
   }) : super(key: key);
 
@@ -27,17 +27,17 @@ class CreditCardExample extends StatefulWidget {
 }
 
 class _CreditCardExampleState extends State<CreditCardExample> {
-  String cardNumber = "";
-  String expiryDate = "";
-  String cardHolderName = "";
-  String cvvCode = "";
+  String cardNumber = '';
+  String expiryDate = '';
+  String cardHolderName = '';
+  String cvvCode = '';
 
-  MaskedTextController _cardNumberController =
-      MaskedTextController(mask: "0000 0000 0000 0000");
-  TextEditingController _expiryDateController =
-      MaskedTextController(mask: "00/00");
-  TextEditingController _cardHolderNameController = TextEditingController();
-  TextEditingController _cvvCodeController = MaskedTextController(mask: "0000");
+  final MaskedTextController _cardNumberController =
+      MaskedTextController(mask: '0000 0000 0000 0000');
+  final TextEditingController _expiryDateController =
+      MaskedTextController(mask: '00/00');
+  final TextEditingController _cardHolderNameController = TextEditingController();
+  final TextEditingController _cvvCodeController = MaskedTextController(mask: '0000');
 
   FocusNode cvvFocusNode = FocusNode();
 
@@ -102,55 +102,55 @@ class _CreditCardExampleState extends State<CreditCardExample> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        margin: EdgeInsets.only(left: 16, top: 16, right: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        margin: const EdgeInsets.only(left: 16, top: 16, right: 16),
                         child: TextFormField(
                           controller: _cardNumberController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: "Card number",
-                            hintText: "xxxx xxxx xxxx xxxx",
+                            labelText: 'Card number',
+                            hintText: 'xxxx xxxx xxxx xxxx',
                           ),
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        margin: EdgeInsets.only(left: 16, top: 8, right: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
                         child: TextFormField(
                           controller: _expiryDateController,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: "Expired Date",
-                              hintText: "MM/YY"),
+                              labelText: 'Expired Date',
+                              hintText: 'MM/YY'),
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        margin: EdgeInsets.only(left: 16, top: 8, right: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
                         child: TextFormField(
                           controller: _cardHolderNameController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: "Card Holder",
+                            labelText: 'Card Holder',
                           ),
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.next,
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        margin: EdgeInsets.only(left: 16, top: 8, right: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
                         child: TextField(
                           focusNode: cvvFocusNode,
                           controller: _cvvCodeController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: "CVV",
-                            hintText: "XXXX",
+                            labelText: 'CVV',
+                            hintText: 'XXXX',
                           ),
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.done,

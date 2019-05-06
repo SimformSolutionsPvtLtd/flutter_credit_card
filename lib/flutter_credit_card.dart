@@ -5,17 +5,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class CreditCardWidget extends StatefulWidget {
-  final String cardNumber;
-  final String expiryDate;
-  final String cardHolderName;
-  final String cvvCode;
-  final TextStyle textStyle;
-  final Color cardbgColor;
-  final bool showBackView;
-  final Duration animationDuration;
-  final double height;
-  final double width;
-
   const CreditCardWidget({
     Key key,
     @required this.cardNumber,
@@ -31,6 +20,17 @@ class CreditCardWidget extends StatefulWidget {
   })  : assert(cardNumber != null),
         assert(showBackView != null),
         super(key: key);
+
+  final String cardNumber;
+  final String expiryDate;
+  final String cardHolderName;
+  final String cvvCode;
+  final TextStyle textStyle;
+  final Color cardbgColor;
+  final bool showBackView;
+  final Duration animationDuration;
+  final double height;
+  final double width;
 
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
@@ -107,9 +107,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    Orientation orientation = MediaQuery.of(context).orientation;
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+    final Orientation orientation = MediaQuery.of(context).orientation;
 
     ///
     /// If uer adds CVV then toggle the card from front to back..
@@ -145,12 +145,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     BuildContext context,
     Orientation orientation,
   ) {
-    var defaultTextStyle = Theme.of(context).textTheme.title.merge(
+    final TextStyle defaultTextStyle = Theme.of(context).textTheme.title.merge(
           TextStyle(
             color: Colors.black,
-            fontFamily: "halter",
+            fontFamily: 'halter',
             fontSize: 16,
-            package: "flutter_credit_card",
+            package: 'flutter_credit_card',
           ),
         );
 
@@ -158,7 +158,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
-          BoxShadow(color: Colors.black26, offset: Offset(0, 0), blurRadius: 24)
+          const BoxShadow(
+              color: Colors.black26, offset: Offset(0, 0), blurRadius: 24)
         ],
         gradient: backgroundGradientColor,
       ),
@@ -173,7 +174,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           Expanded(
             flex: 2,
             child: Container(
-              margin: EdgeInsets.only(top: 16),
+              margin: const EdgeInsets.only(top: 16),
               height: 48,
               color: Colors.black,
             ),
@@ -181,7 +182,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           Expanded(
             flex: 2,
             child: Container(
-              margin: EdgeInsets.only(top: 16),
+              margin: const EdgeInsets.only(top: 16),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -200,7 +201,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                         padding: const EdgeInsets.all(5),
                         child: Text(
                           widget.cvvCode.isEmpty
-                              ? isAmex ? "XXXX" : "XXX"
+                              ? isAmex ? 'XXXX' : 'XXX'
                               : widget.cvvCode,
                           maxLines: 1,
                           style: widget.textStyle ?? defaultTextStyle,
@@ -237,12 +238,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     BuildContext context,
     Orientation orientation,
   ) {
-    var defaultTextStyle = Theme.of(context).textTheme.title.merge(
+    final TextStyle defaultTextStyle = Theme.of(context).textTheme.title.merge(
           TextStyle(
             color: Colors.white,
-            fontFamily: "halter",
+            fontFamily: 'halter',
             fontSize: 16,
-            package: "flutter_credit_card",
+            package: 'flutter_credit_card',
           ),
         );
 
@@ -251,7 +252,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
-          BoxShadow(color: Colors.black26, offset: Offset(0, 0), blurRadius: 24)
+          const BoxShadow(
+              color: Colors.black26, offset: Offset(0, 0), blurRadius: 24)
         ],
         gradient: backgroundGradientColor,
       ),
@@ -273,7 +275,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               padding: const EdgeInsets.only(left: 16),
               child: Text(
                 widget.cardNumber.isEmpty || widget.cardNumber == null
-                    ? "XXXX XXXX XXXX XXXX"
+                    ? 'XXXX XXXX XXXX XXXX'
                     : widget.cardNumber,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
@@ -285,7 +287,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               padding: const EdgeInsets.only(left: 16),
               child: Text(
                 widget.expiryDate.isEmpty || widget.expiryDate == null
-                    ? "MM/YY"
+                    ? 'MM/YY'
                     : widget.expiryDate,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
@@ -296,7 +298,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Text(
                 widget.cardHolderName.isEmpty || widget.cardHolderName == null
-                    ? "CARD HOLDER"
+                    ? 'CARD HOLDER'
                     : widget.cardHolderName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -352,7 +354,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           // Remove any spaces
           String ccPatternStr =
               cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
-          int rangeLen = patternRange[0].length;
+          final int rangeLen = patternRange[0].length;
           // Trim the Credit Card number string to match the pattern prefix length
           if (rangeLen < cardNumber.length) {
             ccPatternStr = ccPatternStr.substring(0, rangeLen);
@@ -362,9 +364,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             // Convert the prefix range into numbers then make sure the
             // Credit Card num is in the pattern range.
             // Because Strings don't have '>=' type operators
-            int ccPrefixAsInt = int.parse(ccPatternStr);
-            int startPatternPrefixAsInt = int.parse(patternRange[0]);
-            int endPatternPrefixAsInt = int.parse(patternRange[1]);
+            final int ccPrefixAsInt = int.parse(ccPatternStr);
+            final int startPatternPrefixAsInt = int.parse(patternRange[0]);
+            final int endPatternPrefixAsInt = int.parse(patternRange[1]);
             if (ccPrefixAsInt >= startPatternPrefixAsInt &&
                 ccPrefixAsInt <= endPatternPrefixAsInt) {
               // Found a match
@@ -386,49 +388,49 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     return cardType;
   }
 
-  ///
-  /// This method returns the icon for the visa card type if found
-  /// else will return the empty container
-  ///
-  getCardTypeIcon(String cardNumber) {
+/*
+  This method returns the icon for the visa card type if found
+  else will return the empty container
+*/
+  Widget getCardTypeIcon(String cardNumber) {
     Widget icon;
     switch (detectCCType(cardNumber)) {
       case CardType.visa:
         icon = Image.asset(
-          "icons/visa.png",
+          'icons/visa.png',
           height: 48,
           width: 48,
-          package: "flutter_credit_card",
+          package: 'flutter_credit_card',
         );
         isAmex = false;
         break;
 
       case CardType.americanExpress:
         icon = Image.asset(
-          "icons/amex.png",
+          'icons/amex.png',
           height: 48,
           width: 48,
-          package: "flutter_credit_card",
+          package: 'flutter_credit_card',
         );
         isAmex = true;
         break;
 
       case CardType.mastercard:
         icon = Image.asset(
-          "icons/mastercard.png",
+          'icons/mastercard.png',
           height: 48,
           width: 48,
-          package: "flutter_credit_card",
+          package: 'flutter_credit_card',
         );
         isAmex = false;
         break;
 
       case CardType.discover:
         icon = Image.asset(
-          "icons/discover.png",
+          'icons/discover.png',
           height: 48,
           width: 48,
-          package: "flutter_credit_card",
+          package: 'flutter_credit_card',
         );
         isAmex = false;
         break;
@@ -447,7 +449,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
 }
 
 class AnimationCard extends StatelessWidget {
-  AnimationCard({
+  const AnimationCard({
     @required this.child,
     @required this.animation,
   });
@@ -460,7 +462,7 @@ class AnimationCard extends StatelessWidget {
     return AnimatedBuilder(
       animation: animation,
       builder: (BuildContext context, Widget child) {
-        var transform = Matrix4.identity();
+        final Matrix4 transform = Matrix4.identity();
         transform.setEntry(3, 2, 0.001);
         transform.rotateY(animation.value);
         return Transform(
@@ -479,17 +481,17 @@ class MaskedTextController extends TextEditingController {
       : super(text: text) {
     this.translator = translator ?? MaskedTextController.getDefaultTranslator();
 
-    this.addListener(() {
-      var previous = this._lastUpdatedText;
+    addListener(() {
+      final String previous = _lastUpdatedText;
       if (this.beforeChange(previous, this.text)) {
-        this.updateText(this.text);
+        updateText(this.text);
         this.afterChange(previous, this.text);
       } else {
-        this.updateText(this._lastUpdatedText);
+        updateText(_lastUpdatedText);
       }
     });
 
-    this.updateText(this.text);
+    updateText(this.text);
   }
 
   String mask;
@@ -505,17 +507,17 @@ class MaskedTextController extends TextEditingController {
 
   void updateText(String text) {
     if (text != null) {
-      this.text = this._applyMask(this.mask, text);
+      this.text = _applyMask(mask, text);
     } else {
       this.text = '';
     }
 
-    this._lastUpdatedText = this.text;
+    _lastUpdatedText = this.text;
   }
 
   void updateMask(String mask, {bool moveCursorToEnd = true}) {
     this.mask = mask;
-    this.updateText(this.text);
+    updateText(text);
 
     if (moveCursorToEnd) {
       this.moveCursorToEnd();
@@ -523,33 +525,33 @@ class MaskedTextController extends TextEditingController {
   }
 
   void moveCursorToEnd() {
-    var text = this._lastUpdatedText;
-    this.selection = new TextSelection.fromPosition(
-        new TextPosition(offset: (text ?? '').length));
+    final String text = _lastUpdatedText;
+    selection =
+        TextSelection.fromPosition(TextPosition(offset: (text ?? '').length));
   }
 
   @override
   set text(String newText) {
     if (super.text != newText) {
       super.text = newText;
-      this.moveCursorToEnd();
+      moveCursorToEnd();
     }
   }
 
   static Map<String, RegExp> getDefaultTranslator() {
     return {
-      'A': new RegExp(r'[A-Za-z]'),
-      '0': new RegExp(r'[0-9]'),
-      '@': new RegExp(r'[A-Za-z0-9]'),
-      '*': new RegExp(r'.*')
+      'A': RegExp(r'[A-Za-z]'),
+      '0': RegExp(r'[0-9]'),
+      '@': RegExp(r'[A-Za-z0-9]'),
+      '*': RegExp(r'.*')
     };
   }
 
   String _applyMask(String mask, String value) {
     String result = '';
 
-    var maskCharIndex = 0;
-    var valueCharIndex = 0;
+    int maskCharIndex = 0;
+    int valueCharIndex = 0;
 
     while (true) {
       // if mask is ended, break.
@@ -562,8 +564,8 @@ class MaskedTextController extends TextEditingController {
         break;
       }
 
-      var maskChar = mask[maskCharIndex];
-      var valueChar = value[valueCharIndex];
+      final String maskChar = mask[maskCharIndex];
+      final String valueChar = value[valueCharIndex];
 
       // value equals mask, just set
       if (maskChar == valueChar) {
@@ -574,8 +576,8 @@ class MaskedTextController extends TextEditingController {
       }
 
       // apply translator if match
-      if (this.translator.containsKey(maskChar)) {
-        if (this.translator[maskChar].hasMatch(valueChar)) {
+      if (translator.containsKey(maskChar)) {
+        if (translator[maskChar].hasMatch(valueChar)) {
           result += valueChar;
           maskCharIndex += 1;
         }

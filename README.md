@@ -9,6 +9,7 @@ A Flutter package allows you to easily implement the Credit card's UI easily wit
 </p>
 
 ## Installing
+
 1. Add dependency to `pubspec.yaml`
 
     *Get the latest version in the 'Installing' tab on pub.dartlang.org*

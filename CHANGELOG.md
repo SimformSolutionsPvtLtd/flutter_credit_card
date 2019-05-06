@@ -1,5 +1,5 @@
 ## 0.1.1
-*  Code Improvements
+*   Code Improvements
 
 ## 0.1.0
-*  First Release
+*   First Release

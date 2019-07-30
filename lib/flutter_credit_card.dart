@@ -16,7 +16,7 @@ class CreditCardWidget extends StatefulWidget {
     this.height,
     this.width,
     this.textStyle,
-    this.cardbgColor = const Color(0xff1b447b),
+    this.cardBgColor = const Color(0xff1b447b),
   })  : assert(cardNumber != null),
         assert(showBackView != null),
         super(key: key);
@@ -26,7 +26,7 @@ class CreditCardWidget extends StatefulWidget {
   final String cardHolderName;
   final String cvvCode;
   final TextStyle textStyle;
-  final Color cardbgColor;
+  final Color cardBgColor;
   final bool showBackView;
   final Duration animationDuration;
   final double height;
@@ -60,20 +60,20 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,
       // Add one stop for each color. Stops should increase from 0 to 1
-      stops: const [0.1, 0.4, 0.7, 0.9],
-      colors: [
-        widget.cardbgColor.withOpacity(1),
-        widget.cardbgColor.withOpacity(0.97),
-        widget.cardbgColor.withOpacity(0.90),
-        widget.cardbgColor.withOpacity(0.86),
+      stops: const <double>[0.1, 0.4, 0.7, 0.9],
+      colors: <Color>[
+        widget.cardBgColor.withOpacity(1),
+        widget.cardBgColor.withOpacity(0.97),
+        widget.cardBgColor.withOpacity(0.90),
+        widget.cardBgColor.withOpacity(0.86),
       ],
     );
 
     ///Initialize the Front to back rotation tween sequence.
-    _frontRotation = TweenSequence(
+    _frontRotation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         TweenSequenceItem<double>(
-          tween: Tween(begin: 0.0, end: pi / 2)
+          tween: Tween<double>(begin: 0.0, end: pi / 2)
               .chain(CurveTween(curve: Curves.easeIn)),
           weight: 50.0,
         ),
@@ -84,14 +84,14 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       ],
     ).animate(controller);
 
-    _backRotation = TweenSequence(
+    _backRotation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         TweenSequenceItem<double>(
           tween: ConstantTween<double>(pi / 2),
           weight: 50.0,
         ),
         TweenSequenceItem<double>(
-          tween: Tween(begin: -pi / 2, end: 0.0)
+          tween: Tween<double>(begin: -pi / 2, end: 0.0)
               .chain(CurveTween(curve: Curves.easeOut)),
           weight: 50.0,
         ),
@@ -157,9 +157,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          const BoxShadow(
-              color: Colors.black26, offset: Offset(0, 0), blurRadius: 24)
+        boxShadow: const <BoxShadow>[
+          BoxShadow(
+            color: Colors.black26,
+            offset: Offset(0, 0),
+            blurRadius: 24,
+          ),
         ],
         gradient: backgroundGradientColor,
       ),
@@ -251,9 +254,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          const BoxShadow(
-              color: Colors.black26, offset: Offset(0, 0), blurRadius: 24)
+        boxShadow: const <BoxShadow>[
+          BoxShadow(
+            color: Colors.black26,
+            offset: Offset(0, 0),
+            blurRadius: 24,
+          )
         ],
         gradient: backgroundGradientColor,
       ),
@@ -314,27 +320,28 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// Credit Card prefix patterns as of March 2019
   /// A [List<String>] represents a range.
   /// i.e. ['51', '55'] represents the range of cards starting with '51' to those starting with '55'
-  Map<CardType, Set<List<String>>> cardNumPatterns = {
-    CardType.visa: {
-      ['4'],
+  Map<CardType, Set<List<String>>> cardNumPatterns =
+  <CardType, Set<List<String>>>{
+    CardType.visa: <List<String>>{
+      <String>['4'],
     },
-    CardType.americanExpress: {
-      ['34'],
-      ['37'],
+    CardType.americanExpress: <List<String>>{
+      <String>['34'],
+      <String>['37'],
     },
-    CardType.discover: {
-      ['6011'],
-      ['622126', '622925'],
-      ['644', '649'],
-      ['65']
+    CardType.discover: <List<String>>{
+      <String>['6011'],
+      <String>['622126', '622925'],
+      <String>['644', '649'],
+      <String>['65']
     },
-    CardType.mastercard: {
-      ['51', '55'],
-      ['2221', '2229'],
-      ['223', '229'],
-      ['23', '26'],
-      ['270', '271'],
-      ['2720'],
+    CardType.mastercard: <List<String>>{
+      <String>['51', '55'],
+      <String>['2221', '2229'],
+      <String>['223', '229'],
+      <String>['23', '26'],
+      <String>['270', '271'],
+      <String>['2720'],
     },
   };
 
@@ -539,7 +546,7 @@ class MaskedTextController extends TextEditingController {
   }
 
   static Map<String, RegExp> getDefaultTranslator() {
-    return {
+    return <String, RegExp>{
       'A': RegExp(r'[A-Za-z]'),
       '0': RegExp(r'[0-9]'),
       '@': RegExp(r'[A-Za-z0-9]'),

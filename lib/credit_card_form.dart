@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 class CreditCardForm extends StatefulWidget {
-  CreditCardForm({
+  const CreditCardForm({
     Key key,
     @required this.onCardNumber,
     @required this.onExpireDate,
@@ -112,6 +112,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                             labelText: 'Card number',
                             hintText: 'xxxx xxxx xxxx xxxx',
                           ),
+                          maxLength: 19,
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                         ),
@@ -123,9 +124,10 @@ class _CreditCardFormState extends State<CreditCardForm> {
                         child: TextFormField(
                           controller: _expiryDateController,
                           decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Expired Date',
-                              hintText: 'MM/YY'),
+                            border: OutlineInputBorder(),
+                            labelText: 'Expired Date',
+                            hintText: 'MM/YY',
+                          ),
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.next,
                         ),
@@ -144,7 +146,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                           ),
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.done,
-                          onChanged: (text) {
+                          onChanged: (String text) {
                             setState(() {
                               cvvCode = text;
                             });

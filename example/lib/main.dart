@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,10 +14,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: CreditCardForm(
-          onCardNumber: onCardNumber,
-          onCardHolderName: onCardHolderName,
-          onExpireDate: onExpireDate,
-          onCVV: onCVV),
+        onCardNumber: onCardNumber,
+        onCardHolderName: onCardHolderName,
+        onExpireDate: onExpireDate,
+        onCVV: onCVV,
+      ),
     );
   }
 

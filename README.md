@@ -27,7 +27,8 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 3.  Adding CreditCardWidget
 
 *With required parameters*
-    
+```dart
+
     CreditCardWidget(
         cardNumber: cardNumber,
         expiryDate: expiryDate, 
@@ -35,9 +36,9 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         cvvCode: cvvCode,
         showBackView: isCvvFocused, //true when you want to show cvv(back) view
     ),
-    
+```    
 *With optional parameters*
-   
+```dart   
     CreditCardWidget(
         cardNumber: cardNumber,
         expiryDate: expiryDate,
@@ -50,6 +51,15 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         width: MediaQuery.of(context).size.width,
         animationDuration: Duration(milliseconds: 1000),
         ),
+``` 
+3.  Adding CreditCardForm
+
+```dart
+    CreditCardForm(
+      themeColor: Colors.red,
+      onCreditCardModelChange: (CreditCardModel data) {},
+    ),
+```
 
 ## How to use
 Check out the **example** app in the [example](example) directory or the 'Example' tab on pub.dartlang.org for a more complete example.

@@ -318,9 +318,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// Credit Card prefix patterns as of March 2019
   /// A [List<String>] represents a range.
   /// i.e. ['51', '55'] represents the range of cards starting with '51' to those starting with '55'
-  Map<CardType, Set<List<String>>> cardNumPatterns = {
-    CardType.visa: {
-      ['4'],
+  Map<CardType, Set<List<String>>> cardNumPatterns =
+  <CardType, Set<List<String>>>{
+    CardType.visa: <List<String>>{
+      <String>['4'],
     },
     CardType.americanExpress: <List<String>>{
       <String>['34'],

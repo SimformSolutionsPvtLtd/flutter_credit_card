@@ -36,8 +36,10 @@ class _CreditCardExampleState extends State<CreditCardExample> {
       MaskedTextController(mask: '0000 0000 0000 0000');
   final TextEditingController _expiryDateController =
       MaskedTextController(mask: '00/00');
-  final TextEditingController _cardHolderNameController = TextEditingController();
-  final TextEditingController _cvvCodeController = MaskedTextController(mask: '0000');
+  final TextEditingController _cardHolderNameController =
+  TextEditingController();
+  final TextEditingController _cvvCodeController =
+  MaskedTextController(mask: '0000');
 
   FocusNode cvvFocusNode = FocusNode();
 
@@ -103,7 +105,8 @@ class _CreditCardExampleState extends State<CreditCardExample> {
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        margin: const EdgeInsets.only(left: 16, top: 16, right: 16),
+                        margin:
+                        const EdgeInsets.only(left: 16, top: 16, right: 16),
                         child: TextFormField(
                           controller: _cardNumberController,
                           decoration: InputDecoration(
@@ -117,7 +120,8 @@ class _CreditCardExampleState extends State<CreditCardExample> {
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+                        margin:
+                        const EdgeInsets.only(left: 16, top: 8, right: 16),
                         child: TextFormField(
                           controller: _expiryDateController,
                           decoration: InputDecoration(
@@ -130,7 +134,8 @@ class _CreditCardExampleState extends State<CreditCardExample> {
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+                        margin:
+                        const EdgeInsets.only(left: 16, top: 8, right: 16),
                         child: TextFormField(
                           controller: _cardHolderNameController,
                           decoration: InputDecoration(
@@ -143,7 +148,8 @@ class _CreditCardExampleState extends State<CreditCardExample> {
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+                        margin:
+                        const EdgeInsets.only(left: 16, top: 8, right: 16),
                         child: TextField(
                           focusNode: cvvFocusNode,
                           controller: _cvvCodeController,
@@ -154,9 +160,9 @@ class _CreditCardExampleState extends State<CreditCardExample> {
                           ),
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.done,
-                          onChanged: (text) {
+                          onChanged: (String cvvText) {
                             setState(() {
-                              cvvCode = text;
+                              cvvCode = cvvText;
                             });
                           },
                         ),

@@ -395,10 +395,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     return cardType;
   }
 
-/*
-  This method returns the icon for the visa card type if found
-  else will return the empty container
-*/
+  // This method returns the icon for the visa card type if found
+  // else will return the empty container
   Widget getCardTypeIcon(String cardNumber) {
     Widget icon;
     switch (detectCCType(cardNumber)) {

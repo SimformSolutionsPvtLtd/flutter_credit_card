@@ -42,7 +42,6 @@ class MySampleState extends State<MySample> {
               Expanded(
                 child: SingleChildScrollView(
                   child: CreditCardForm(
-                    themeColor: Colors.red,
                     onCreditCardModelChange: onCreditCardModelChange,
                   ),
                 ),

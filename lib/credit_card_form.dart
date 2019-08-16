@@ -12,7 +12,7 @@ class CreditCardForm extends StatefulWidget {
     this.cardHolderName,
     this.cvvCode,
     @required this.onCreditCardModelChange,
-    this.themeColor = Colors.blue,
+    this.themeColor,
     this.textColor = Colors.black,
     this.cursorColor,
   }) : super(key: key);
@@ -36,6 +36,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
   String cardHolderName;
   String cvvCode;
   bool isCvvFocused = false;
+  Color themeColor;
 
   void Function(CreditCardModel) onCreditCardModelChange;
   CreditCardModel creditCardModel;
@@ -110,11 +111,17 @@ class _CreditCardFormState extends State<CreditCardForm> {
   }
 
   @override
+  void didChangeDependencies() {
+    themeColor = widget.themeColor ?? Theme.of(context).primaryColor;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-        primaryColor: widget.themeColor.withOpacity(0.8),
-        primaryColorDark: widget.themeColor,
+        primaryColor: themeColor.withOpacity(0.8),
+        primaryColorDark: themeColor,
       ),
       child: Form(
         child: Column(
@@ -124,7 +131,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
               margin: const EdgeInsets.only(left: 16, top: 16, right: 16),
               child: TextFormField(
                 controller: _cardNumberController,
-                cursorColor: widget.cursorColor ?? widget.themeColor,
+                cursorColor: widget.cursorColor ?? themeColor,
                 style: TextStyle(
                   color: widget.textColor,
                 ),
@@ -142,7 +149,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
               margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
               child: TextFormField(
                 controller: _expiryDateController,
-                cursorColor: widget.cursorColor ?? widget.themeColor,
+                cursorColor: widget.cursorColor ?? themeColor,
                 style: TextStyle(
                   color: widget.textColor,
                 ),
@@ -160,7 +167,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
               child: TextField(
                 focusNode: cvvFocusNode,
                 controller: _cvvCodeController,
-                cursorColor: widget.cursorColor ?? widget.themeColor,
+                cursorColor: widget.cursorColor ?? themeColor,
                 style: TextStyle(
                   color: widget.textColor,
                 ),
@@ -183,7 +190,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
               margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
               child: TextFormField(
                 controller: _cardHolderNameController,
-                cursorColor: widget.cursorColor ?? widget.themeColor,
+                cursorColor: widget.cursorColor ?? themeColor,
                 style: TextStyle(
                   color: widget.textColor,
                 ),

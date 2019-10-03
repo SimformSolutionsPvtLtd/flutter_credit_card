@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/mask_text_controller.dart';
 
 class CreditCardWidget extends StatefulWidget {
   const CreditCardWidget({
@@ -19,10 +20,10 @@ class CreditCardWidget extends StatefulWidget {
         assert(showBackView != null),
         super(key: key);
 
-  final String cardNumber;
-  final String expiryDate;
-  final String cardHolderName;
-  final String cvvCode;
+  final MaskedTextController cardNumber;
+  final MaskedTextController expiryDate;
+  final MaskedTextController cardHolderName;
+  final MaskedTextController cvvCode;
   final TextStyle textStyle;
   final Color cardBgColor;
   final bool showBackView;
@@ -46,6 +47,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   @override
   void initState() {
     super.initState();
+    widget.cardNumber.addListener(() => setState(() {}));
+    widget.expiryDate.addListener(() => setState(() {}));
+    widget.cardHolderName.addListener(() => setState(() {}));
+    widget.cvvCode.addListener(() => setState(() {}));
 
     ///initialize the animation controller
     controller = AnimationController(
@@ -201,7 +206,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: Text(
-                          widget.cvvCode.isEmpty
+                          widget.cvvCode.text.isEmpty
                               ? isAmex ? 'XXXX' : 'XXX'
                               : widget.cvvCode,
                           maxLines: 1,
@@ -220,7 +225,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                child: getCardTypeIcon(widget.cardNumber),
+                child: getCardTypeIcon(widget.cardNumber.text),
               ),
             ),
           ),
@@ -271,16 +276,16 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             alignment: Alignment.topRight,
             child: Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
-              child: getCardTypeIcon(widget.cardNumber),
+              child: getCardTypeIcon(widget.cardNumber.text),
             ),
           ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.cardNumber.isEmpty || widget.cardNumber == null
+                widget.cardNumber.text.isEmpty || widget.cardNumber == null
                     ? 'XXXX XXXX XXXX XXXX'
-                    : widget.cardNumber,
+                    : widget.cardNumber.text,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
@@ -290,7 +295,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.expiryDate.isEmpty || widget.expiryDate == null
+                widget.expiryDate.text.isEmpty || widget.expiryDate == null
                     ? 'MM/YY'
                     : widget.expiryDate,
                 style: widget.textStyle ?? defaultTextStyle,
@@ -301,7 +306,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Text(
-                widget.cardHolderName.isEmpty || widget.cardHolderName == null
+                widget.cardHolderName.text.isEmpty ||
+                        widget.cardHolderName == null
                     ? 'CARD HOLDER'
                     : widget.cardHolderName,
                 maxLines: 1,
@@ -319,7 +325,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// A [List<String>] represents a range.
   /// i.e. ['51', '55'] represents the range of cards starting with '51' to those starting with '55'
   Map<CardType, Set<List<String>>> cardNumPatterns =
-  <CardType, Set<List<String>>>{
+      <CardType, Set<List<String>>>{
     CardType.visa: <List<String>>{
       <String>['4'],
     },
@@ -476,126 +482,6 @@ class AnimationCard extends StatelessWidget {
       },
       child: child,
     );
-  }
-}
-
-class MaskedTextController extends TextEditingController {
-  MaskedTextController({String text, this.mask, Map<String, RegExp> translator})
-      : super(text: text) {
-    this.translator = translator ?? MaskedTextController.getDefaultTranslator();
-
-    addListener(() {
-      final String previous = _lastUpdatedText;
-      if (this.beforeChange(previous, this.text)) {
-        updateText(this.text);
-        this.afterChange(previous, this.text);
-      } else {
-        updateText(_lastUpdatedText);
-      }
-    });
-
-    updateText(this.text);
-  }
-
-  String mask;
-
-  Map<String, RegExp> translator;
-
-  Function afterChange = (String previous, String next) {};
-  Function beforeChange = (String previous, String next) {
-    return true;
-  };
-
-  String _lastUpdatedText = '';
-
-  void updateText(String text) {
-    if (text != null) {
-      this.text = _applyMask(mask, text);
-    } else {
-      this.text = '';
-    }
-
-    _lastUpdatedText = this.text;
-  }
-
-  void updateMask(String mask, {bool moveCursorToEnd = true}) {
-    this.mask = mask;
-    updateText(text);
-
-    if (moveCursorToEnd) {
-      this.moveCursorToEnd();
-    }
-  }
-
-  void moveCursorToEnd() {
-    final String text = _lastUpdatedText;
-    selection =
-        TextSelection.fromPosition(TextPosition(offset: (text ?? '').length));
-  }
-
-  @override
-  set text(String newText) {
-    if (super.text != newText) {
-      super.text = newText;
-      moveCursorToEnd();
-    }
-  }
-
-  static Map<String, RegExp> getDefaultTranslator() {
-    return <String, RegExp>{
-      'A': RegExp(r'[A-Za-z]'),
-      '0': RegExp(r'[0-9]'),
-      '@': RegExp(r'[A-Za-z0-9]'),
-      '*': RegExp(r'.*')
-    };
-  }
-
-  String _applyMask(String mask, String value) {
-    String result = '';
-
-    int maskCharIndex = 0;
-    int valueCharIndex = 0;
-
-    while (true) {
-      // if mask is ended, break.
-      if (maskCharIndex == mask.length) {
-        break;
-      }
-
-      // if value is ended, break.
-      if (valueCharIndex == value.length) {
-        break;
-      }
-
-      final String maskChar = mask[maskCharIndex];
-      final String valueChar = value[valueCharIndex];
-
-      // value equals mask, just set
-      if (maskChar == valueChar) {
-        result += maskChar;
-        valueCharIndex += 1;
-        maskCharIndex += 1;
-        continue;
-      }
-
-      // apply translator if match
-      if (translator.containsKey(maskChar)) {
-        if (translator[maskChar].hasMatch(valueChar)) {
-          result += valueChar;
-          maskCharIndex += 1;
-        }
-
-        valueCharIndex += 1;
-        continue;
-      }
-
-      // not masked value, fixed char on mask
-      result += maskChar;
-      maskCharIndex += 1;
-      continue;
-    }
-
-    return result;
   }
 }
 

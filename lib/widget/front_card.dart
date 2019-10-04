@@ -49,7 +49,8 @@ class _FrontCardState extends State<FrontCard> {
             alignment: Alignment.topRight,
             child: Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
-              child: getCardTypeIcon(widget.numberController.text),
+              child:
+                  Container(), //getCardTypeIcon(widget.numberController.text),
             ),
           ),
           Expanded(

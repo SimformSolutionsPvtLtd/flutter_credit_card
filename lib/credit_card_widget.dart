@@ -50,6 +50,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
 
   List<MaskedTextController> _controllers;
 
+  String numberString;
+
   bool isAmex = false;
 
   @override
@@ -69,6 +71,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       widget.cvvCode.controller
     ];
     _controllers.forEach((f) => f.addListener(() => setState(() {})));
+
+    // widget.cardNumber.controller.addListener(() => setState(() {
+    //       numberString = widget.cardNumber.controller.text;
+    //     }));
 
     controller = animationController(
       duration: widget.animationDuration,
@@ -95,7 +101,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             bgColor: widget.frontCardColor,
             nameController: widget.cardHolderName.controller,
             expiryController: widget.expiryDate.controller,
-            numberController: widget.cvvCode.controller,
+            numberController: widget.cardNumber.controller,
           ),
         ),
         AnimationCard(

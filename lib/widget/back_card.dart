@@ -96,7 +96,8 @@ class _BackCardState extends State<BackCard> {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                child: getCardTypeIcon(widget.numberController.text),
+                child:
+                    Container(), //getCardTypeIcon(widget.numberController.text),
               ),
             ),
           ),

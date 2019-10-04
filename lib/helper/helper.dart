@@ -1,63 +1,68 @@
+import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_credit_card/model/card_patterns.dart';
+import 'package:http/http.dart' as http;
 
 Size size(BuildContext context) => MediaQuery.of(context).size;
 Orientation orientation(BuildContext context) =>
     MediaQuery.of(context).orientation;
 
-Widget getCardTypeIcon(String cardNumber) {
-  Widget icon;
-  switch (detectCCType(cardNumber)) {
-    case CardType.visa:
-      icon = Image.asset(
-        'icons/visa.png',
-        height: 48,
-        width: 48,
-        package: 'flutter_credit_card',
-      );
+void getCardTypeIcon(String cardNumber) {
+  getCardBin(cardNumber);
 
-      break;
+  // Widget icon;
+  // switch (detectCCType(cardNumber)) {
+  //   case CardType.visa:
+  //     icon = Image.asset(
+  //       'icons/visa.png',
+  //       height: 48,
+  //       width: 48,
+  //       package: 'flutter_credit_card',
+  //     );
 
-    case CardType.americanExpress:
-      icon = Image.asset(
-        'icons/amex.png',
-        height: 48,
-        width: 48,
-        package: 'flutter_credit_card',
-      );
+  //     break;
 
-      break;
+  //   case CardType.americanExpress:
+  //     icon = Image.asset(
+  //       'icons/amex.png',
+  //       height: 48,
+  //       width: 48,
+  //       package: 'flutter_credit_card',
+  //     );
 
-    case CardType.mastercard:
-      icon = Image.asset(
-        'icons/mastercard.png',
-        height: 48,
-        width: 48,
-        package: 'flutter_credit_card',
-      );
+  //     break;
 
-      break;
+  //   case CardType.mastercard:
+  //     icon = Image.asset(
+  //       'icons/mastercard.png',
+  //       height: 48,
+  //       width: 48,
+  //       package: 'flutter_credit_card',
+  //     );
 
-    case CardType.discover:
-      icon = Image.asset(
-        'icons/discover.png',
-        height: 48,
-        width: 48,
-        package: 'flutter_credit_card',
-      );
+  //     break;
 
-      break;
+  //   case CardType.discover:
+  //     icon = Image.asset(
+  //       'icons/discover.png',
+  //       height: 48,
+  //       width: 48,
+  //       package: 'flutter_credit_card',
+  //     );
 
-    default:
-      icon = Container(
-        height: 48,
-        width: 48,
-      );
+  //     break;
 
-      break;
-  }
+  //   default:
+  //     icon = Container(
+  //       height: 48,
+  //       width: 48,
+  //     );
 
-  return icon;
+  //     break;
+  // }
+
+  // return icon;
 }
 
 CardType detectCCType(String cardNumber) {
@@ -105,4 +110,20 @@ CardType detectCCType(String cardNumber) {
   );
 
   return cardType;
+}
+
+Future<Widget> getCardBin(String cardNumber) async {
+  if (cardNumber.length >= 6) {
+    try {
+      dynamic result =
+          await http.read('https://binlist.io/lookup/' + cardNumber);
+      print(jsonDecode(result)['scheme']);
+      return Container();
+    } catch (e) {
+      print(e);
+      print('did not find the card flag');
+    }
+  }
+
+  return Container();
 }

@@ -1,15 +1,17 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:flutter/material.dart';
 
 TextStyle textCardStyle = TextStyle(
   color: Colors.black,
-  fontFamily: 'halter',
   fontSize: 16,
+  fontFamily: 'halter',
   package: 'flutter_credit_card',
 );
 
+int _defaultCardBgColor = 0xff1b447b;
+
 LinearGradient cardGradient({Color color}) {
-  final Color _color = color == null ? cardBgColor : color;
+  final Color _color = color == null ? Color(_defaultCardBgColor) : color;
 
   return LinearGradient(
     begin: Alignment.topRight,
@@ -23,8 +25,6 @@ LinearGradient cardGradient({Color color}) {
     ],
   );
 }
-
-Color cardBgColor = const Color(0xff1b447b);
 
 AnimationController animationController(
         {TickerProvider vsync, Duration duration}) =>

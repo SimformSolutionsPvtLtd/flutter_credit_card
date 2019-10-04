@@ -10,13 +10,15 @@ class FrontCard extends StatefulWidget {
       this.height,
       this.numberController,
       this.expiryController,
-      this.nameController})
+      this.nameController,
+      this.bgColor})
       : super(key: key);
 
   @override
   _FrontCardState createState() => _FrontCardState();
   final double width;
   final double height;
+  final Color bgColor;
 
   final MaskedTextController numberController;
   final MaskedTextController expiryController;
@@ -33,7 +35,7 @@ class _FrontCardState extends State<FrontCard> {
         boxShadow: const <BoxShadow>[
           BoxShadow(color: Colors.black26, offset: Offset(0, 0), blurRadius: 24)
         ],
-        gradient: cardGradient(),
+        gradient: cardGradient(color: widget.bgColor),
       ),
       width: widget.width ?? size(context).width,
       height: widget.height ??

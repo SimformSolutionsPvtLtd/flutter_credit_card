@@ -19,7 +19,8 @@ class CreditCardWidget extends StatefulWidget {
     this.height,
     this.width,
     this.textStyle,
-    this.cardBgColor = const Color(0xff1b447b),
+    this.frontCardColor,
+    this.backCradColor,
   })  : assert(cardNumber != null),
         assert(showBackView != null),
         super(key: key);
@@ -29,7 +30,8 @@ class CreditCardWidget extends StatefulWidget {
   final CardFieldController cardHolderName;
   final CardFieldController cvvCode;
   final TextStyle textStyle;
-  final Color cardBgColor;
+  final Color frontCardColor;
+  final Color backCradColor;
   final bool showBackView;
   final Duration animationDuration;
   final double height;
@@ -46,11 +48,6 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   Animation<double> _backRotation;
   Gradient backgroundGradientColor;
 
-  MaskedTextController _numberController;
-  MaskedTextController _expiryController;
-  MaskedTextController _nameController;
-  MaskedTextController _cvvController;
-
   List<MaskedTextController> _controllers;
 
   bool isAmex = false;
@@ -65,18 +62,13 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   void initState() {
     super.initState();
 
-    _numberController = widget.cardNumber.controller;
-    _expiryController = widget.expiryDate.controller;
-    _nameController = widget.cardHolderName.controller;
-    _cvvController = widget.cvvCode.controller;
     _controllers = <MaskedTextController>[
-      _numberController,
-      _expiryController,
-      _nameController,
-      _cvvController,
+      widget.cardNumber.controller,
+      widget.expiryDate.controller,
+      widget.cardHolderName.controller,
+      widget.cvvCode.controller
     ];
     _controllers.forEach((f) => f.addListener(() => setState(() {})));
-    backgroundGradientColor = cardGradient();
 
     controller = animationController(
       duration: widget.animationDuration,
@@ -100,16 +92,18 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         AnimationCard(
           animation: _frontRotation,
           child: FrontCard(
-            nameController: _nameController,
-            expiryController: _expiryController,
-            numberController: _numberController,
+            bgColor: widget.frontCardColor,
+            nameController: widget.cardHolderName.controller,
+            expiryController: widget.expiryDate.controller,
+            numberController: widget.cvvCode.controller,
           ),
         ),
         AnimationCard(
           animation: _backRotation,
           child: BackCard(
-              cvvController: _cvvController,
-              numberController: _numberController),
+              bgColor: widget.backCradColor,
+              cvvController: widget.cvvCode.controller,
+              numberController: widget.cvvCode.controller),
         ),
       ],
     );

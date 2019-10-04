@@ -9,13 +9,15 @@ class BackCard extends StatefulWidget {
       this.width,
       this.height,
       @required this.cvvController,
-      @required this.numberController})
+      @required this.numberController,
+      this.bgColor})
       : super(key: key);
 
   @override
   _BackCardState createState() => _BackCardState();
   final double width;
   final double height;
+  final Color bgColor;
 
   final MaskedTextController cvvController;
   final MaskedTextController numberController;
@@ -34,7 +36,7 @@ class _BackCardState extends State<BackCard> {
             blurRadius: 24,
           ),
         ],
-        gradient: cardGradient(),
+        gradient: cardGradient(color: widget.bgColor),
       ),
       margin: const EdgeInsets.all(16),
       width: widget.width ?? size(context).width,

@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/model/card_field.dart';
+import 'package:flutter_credit_card/model/card_patterns.dart';
+import 'package:flutter_credit_card/style/styles.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CreditCardWidget extends StatefulWidget {
@@ -74,19 +76,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       vsync: this,
     );
 
-    backgroundGradientColor = LinearGradient(
-      // Where the linear gradient begins and ends
-      begin: Alignment.topRight,
-      end: Alignment.bottomLeft,
-      // Add one stop for each color. Stops should increase from 0 to 1
-      stops: const <double>[0.1, 0.4, 0.7, 0.9],
-      colors: <Color>[
-        widget.cardBgColor.withOpacity(1),
-        widget.cardBgColor.withOpacity(0.97),
-        widget.cardBgColor.withOpacity(0.90),
-        widget.cardBgColor.withOpacity(0.86),
-      ],
-    );
+    backgroundGradientColor = cardGradient();
 
     ///Initialize the Front to back rotation tween sequence.
     _frontRotation = TweenSequence<double>(
@@ -260,14 +250,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     BuildContext context,
     Orientation orientation,
   ) {
-    final TextStyle defaultTextStyle = Theme.of(context).textTheme.title.merge(
-          TextStyle(
-            color: Colors.white,
-            fontFamily: 'halter',
-            fontSize: 16,
-            package: 'flutter_credit_card',
-          ),
-        );
+    final TextStyle defaultTextStyle =
+        Theme.of(context).textTheme.title.merge(textCardStyle);
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -335,34 +319,6 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       ),
     );
   }
-
-  /// Credit Card prefix patterns as of March 2019
-  /// A [List<String>] represents a range.
-  /// i.e. ['51', '55'] represents the range of cards starting with '51' to those starting with '55'
-  Map<CardType, Set<List<String>>> cardNumPatterns =
-      <CardType, Set<List<String>>>{
-    CardType.visa: <List<String>>{
-      <String>['4'],
-    },
-    CardType.americanExpress: <List<String>>{
-      <String>['34'],
-      <String>['37'],
-    },
-    CardType.discover: <List<String>>{
-      <String>['6011'],
-      <String>['622126', '622925'],
-      <String>['644', '649'],
-      <String>['65']
-    },
-    CardType.mastercard: <List<String>>{
-      <String>['51', '55'],
-      <String>['2221', '2229'],
-      <String>['223', '229'],
-      <String>['23', '26'],
-      <String>['270', '271'],
-      <String>['2720'],
-    },
-  };
 
   /// This function determines the Credit Card type based on the cardPatterns
   /// and returns it.
@@ -498,12 +454,4 @@ class AnimationCard extends StatelessWidget {
       child: child,
     );
   }
-}
-
-enum CardType {
-  otherBrand,
-  mastercard,
-  visa,
-  americanExpress,
-  discover,
 }

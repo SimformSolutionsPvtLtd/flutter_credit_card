@@ -19,9 +19,10 @@ class MySampleState extends State<MySample> {
 
   CardFieldController numberController =
       CardFieldController(mask: '0000 0000 0000 0000');
-  CardFieldController cvvController = CardFieldController(mask: 'MM/AA');
-  CardFieldController nameController = CardFieldController(mask: 'MM/AA');
-  CardFieldController expiryController = CardFieldController(mask: 'MM/AA');
+  CardFieldController cvvController = CardFieldController(mask: '0000');
+  CardFieldController nameController =
+      CardFieldController(mask: 'AAAAAAAAAAAAAAAAAAAAAAAA');
+  CardFieldController expiryController = CardFieldController(mask: '00/00');
 
   @override
   void initState() {

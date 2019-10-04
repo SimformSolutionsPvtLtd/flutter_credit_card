@@ -1,13 +1,10 @@
-import 'package:flutter_credit_card/mask_text_controller.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CardField {
-  const CardField({
-    this.label,
+  CardField({
     this.mask,
-    this.controller,
-  });
+  }) : controller = MaskedTextController(mask: mask);
 
-  final String label;
   final String mask;
-  final MaskedTextController controller;
+  MaskedTextController controller;
 }

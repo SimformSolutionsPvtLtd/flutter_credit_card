@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/mask_text_controller.dart';
+import 'package:flutter_credit_card/model/card_field.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CreditCardWidget extends StatefulWidget {
   const CreditCardWidget({
@@ -20,10 +21,10 @@ class CreditCardWidget extends StatefulWidget {
         assert(showBackView != null),
         super(key: key);
 
-  final MaskedTextController cardNumber;
-  final MaskedTextController expiryDate;
-  final MaskedTextController cardHolderName;
-  final MaskedTextController cvvCode;
+  final CardField cardNumber;
+  final CardField expiryDate;
+  final CardField cardHolderName;
+  final CardField cvvCode;
   final TextStyle textStyle;
   final Color cardBgColor;
   final bool showBackView;
@@ -42,15 +43,30 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   Animation<double> _backRotation;
   Gradient backgroundGradientColor;
 
+  MaskedTextController _numberController;
+  MaskedTextController _expiryController;
+  MaskedTextController _nameController;
+  MaskedTextController _cvvController;
+
+  List<MaskedTextController> _controllers;
+
   bool isAmex = false;
 
   @override
   void initState() {
     super.initState();
-    widget.cardNumber.addListener(() => setState(() {}));
-    widget.expiryDate.addListener(() => setState(() {}));
-    widget.cardHolderName.addListener(() => setState(() {}));
-    widget.cvvCode.addListener(() => setState(() {}));
+
+    _numberController = widget.cardNumber.controller;
+    _expiryController = widget.expiryDate.controller;
+    _nameController = widget.cardHolderName.controller;
+    _cvvController = widget.cvvCode.controller;
+    _controllers = <MaskedTextController>[
+      _numberController,
+      _expiryController,
+      _nameController,
+      _cvvController,
+    ];
+    _controllers.forEach((f) => f.addListener(() => setState(() {})));
 
     ///initialize the animation controller
     controller = AnimationController(
@@ -206,9 +222,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: Text(
-                          widget.cvvCode.text.isEmpty
+                          _cvvController.text.isEmpty
                               ? isAmex ? 'XXXX' : 'XXX'
-                              : widget.cvvCode,
+                              : _cvvController.text,
                           maxLines: 1,
                           style: widget.textStyle ?? defaultTextStyle,
                         ),
@@ -225,7 +241,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                child: getCardTypeIcon(widget.cardNumber.text),
+                child: getCardTypeIcon(_numberController.text),
               ),
             ),
           ),
@@ -276,16 +292,16 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             alignment: Alignment.topRight,
             child: Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
-              child: getCardTypeIcon(widget.cardNumber.text),
+              child: getCardTypeIcon(_numberController.text),
             ),
           ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.cardNumber.text.isEmpty || widget.cardNumber == null
+                _numberController.text.isEmpty || widget.cardNumber == null
                     ? 'XXXX XXXX XXXX XXXX'
-                    : widget.cardNumber.text,
+                    : _numberController.text,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
@@ -295,9 +311,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.expiryDate.text.isEmpty || widget.expiryDate == null
+                _expiryController.text.isEmpty || widget.expiryDate == null
                     ? 'MM/YY'
-                    : widget.expiryDate,
+                    : _expiryController.text,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
@@ -306,10 +322,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Text(
-                widget.cardHolderName.text.isEmpty ||
-                        widget.cardHolderName == null
+                _nameController.text.isEmpty || widget.cardHolderName == null
                     ? 'CARD HOLDER'
-                    : widget.cardHolderName,
+                    : _nameController.text,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: widget.textStyle ?? defaultTextStyle,

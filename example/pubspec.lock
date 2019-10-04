@@ -48,6 +48,13 @@ packages:
       relative: true
     source: path
     version: "0.1.3"
+  flutter_masked_text:
+    dependency: transitive
+    description:
+      name: flutter_masked_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter

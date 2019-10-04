@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 TextStyle textCardStyle = TextStyle(
   color: Colors.black,
@@ -24,3 +25,38 @@ LinearGradient cardGradient({Color color}) {
 }
 
 Color cardBgColor = const Color(0xff1b447b);
+
+AnimationController animationController(
+        {TickerProvider vsync, Duration duration}) =>
+    AnimationController(
+      duration: duration,
+      vsync: vsync,
+    );
+Animation<double> frontRotation(AnimationController controller) =>
+    TweenSequence<double>(
+      <TweenSequenceItem<double>>[
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: 0.0, end: pi / 2)
+              .chain(CurveTween(curve: Curves.easeIn)),
+          weight: 50.0,
+        ),
+        TweenSequenceItem<double>(
+          tween: ConstantTween<double>(pi / 2),
+          weight: 50.0,
+        ),
+      ],
+    ).animate(controller);
+Animation<double> backRotation(AnimationController controller) =>
+    TweenSequence<double>(
+      <TweenSequenceItem<double>>[
+        TweenSequenceItem<double>(
+          tween: ConstantTween<double>(pi / 2),
+          weight: 50.0,
+        ),
+        TweenSequenceItem<double>(
+          tween: Tween<double>(begin: -pi / 2, end: 0.0)
+              .chain(CurveTween(curve: Curves.easeOut)),
+          weight: 50.0,
+        ),
+      ],
+    ).animate(controller);

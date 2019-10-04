@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
-import 'package:flutter_credit_card/model/card_field.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 void main() => runApp(MySample());
 
@@ -17,6 +17,8 @@ class MySampleState extends State<MySample> {
   TextField expiryField;
   TextField nameField;
 
+  FocusNode _cvvFocus = FocusNode();
+
   CardFieldController numberController =
       CardFieldController(mask: '0000 0000 0000 0000');
   CardFieldController cvvController = CardFieldController(mask: '0000');
@@ -26,8 +28,11 @@ class MySampleState extends State<MySample> {
 
   @override
   void initState() {
+    _cvvFocus.addListener(() => setState(() {}));
+
     numberField = TextField(controller: numberController.controller);
-    cvvField = TextField(controller: cvvController.controller);
+    cvvField =
+        TextField(controller: cvvController.controller, focusNode: _cvvFocus);
     expiryField = TextField(controller: expiryController.controller);
     nameField = TextField(controller: nameController.controller);
     super.initState();
@@ -51,7 +56,7 @@ class MySampleState extends State<MySample> {
                 expiryDate: expiryController,
                 cardHolderName: nameController,
                 cvvCode: cvvController,
-                showBackView: isCvvFocused,
+                showBackView: _cvvFocus.hasFocus,
               ),
               Expanded(child: numberField),
               Expanded(child: nameField),

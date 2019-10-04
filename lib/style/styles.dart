@@ -1,6 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+TextStyle textStyle(TextStyle style) => style != null ? style : textCardStyle;
+Duration animationDuration(Duration duration) =>
+    duration != null ? duration : Duration(milliseconds: 500);
+
 TextStyle textCardStyle = TextStyle(
   color: Colors.black,
   fontSize: 16,

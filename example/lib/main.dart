@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 void main() => runApp(MySample());
@@ -17,24 +16,20 @@ class MySampleState extends State<MySample> {
   TextField expiryField;
   TextField nameField;
 
-  FocusNode _cvvFocus = FocusNode();
-
-  CardFieldController numberController =
-      CardFieldController(mask: '0000 0000 0000 0000');
-  CardFieldController cvvController = CardFieldController(mask: '0000');
-  CardFieldController nameController =
-      CardFieldController(mask: 'AAAAAAAAAAAAAAAAAAAAAAAA');
-  CardFieldController expiryController = CardFieldController(mask: '00/00');
+  CardModel cardModel;
+  FocusNode cvvFocus = FocusNode();
 
   @override
   void initState() {
-    _cvvFocus.addListener(() => setState(() {}));
+    cvvFocus.addListener(() => setState(() {}));
 
-    numberField = TextField(controller: numberController.controller);
+    cardModel = CardModel();
+    numberField = TextField(controller: cardModel.numberController);
     cvvField =
-        TextField(controller: cvvController.controller, focusNode: _cvvFocus);
-    expiryField = TextField(controller: expiryController.controller);
-    nameField = TextField(controller: nameController.controller);
+        TextField(controller: cardModel.cvvController, focusNode: cvvFocus);
+    expiryField = TextField(controller: cardModel.expiryController);
+    nameField = TextField(controller: cardModel.nameController);
+
     super.initState();
   }
 
@@ -52,12 +47,10 @@ class MySampleState extends State<MySample> {
           child: Column(
             children: <Widget>[
               CreditCardWidget(
-                cardNumber: numberController,
-                expiryDate: expiryController,
-                cardHolderName: nameController,
-                cvvCode: cvvController,
-                showBackView: _cvvFocus.hasFocus,
+                cardModel: cardModel,
+                showBackView: cvvFocus.hasFocus,
               ),
+              //USE YOUR OWN TEXTFIELDS
               Expanded(child: numberField),
               Expanded(child: nameField),
               Expanded(child: expiryField),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/helper/helper.dart';
 import 'package:flutter_credit_card/style/styles.dart';
+import 'package:flutter_credit_card/widget/card-flag.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class BackCard extends StatefulWidget {
@@ -10,7 +11,8 @@ class BackCard extends StatefulWidget {
       this.height,
       @required this.cvvController,
       @required this.numberController,
-      this.bgColor})
+      this.bgColor,
+      this.textStyle})
       : super(key: key);
 
   @override
@@ -18,6 +20,8 @@ class BackCard extends StatefulWidget {
   final double width;
   final double height;
   final Color bgColor;
+
+  final TextStyle textStyle;
 
   final MaskedTextController cvvController;
   final MaskedTextController numberController;
@@ -81,7 +85,7 @@ class _BackCardState extends State<BackCard> {
                               ? 'XXX'
                               : widget.cvvController.text,
                           maxLines: 1,
-                          style: textCardStyle,
+                          style: textStyle(widget.textStyle),
                         ),
                       ),
                     ),
@@ -96,8 +100,7 @@ class _BackCardState extends State<BackCard> {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                child:
-                    Container(), //getCardTypeIcon(widget.numberController.text),
+                child: CardFlag(numberController: widget.numberController),
               ),
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/helper/helper.dart';
 import 'package:flutter_credit_card/style/styles.dart';
+import 'package:flutter_credit_card/widget/card-flag.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class FrontCard extends StatefulWidget {
@@ -11,7 +12,8 @@ class FrontCard extends StatefulWidget {
       this.numberController,
       this.expiryController,
       this.nameController,
-      this.bgColor})
+      this.bgColor,
+      this.textStyle})
       : super(key: key);
 
   @override
@@ -19,6 +21,7 @@ class FrontCard extends StatefulWidget {
   final double width;
   final double height;
   final Color bgColor;
+  final TextStyle textStyle;
 
   final MaskedTextController numberController;
   final MaskedTextController expiryController;
@@ -48,20 +51,19 @@ class _FrontCardState extends State<FrontCard> {
           Align(
             alignment: Alignment.topRight,
             child: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
-              child:
-                  Container(), //getCardTypeIcon(widget.numberController.text),
-            ),
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+                child: CardFlag(
+                  numberController: widget.numberController,
+                )),
           ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.numberController.text.isEmpty
-                    ? 'XXXX XXXX XXXX XXXX'
-                    : widget.numberController.text,
-                style: textCardStyle,
-              ),
+                  widget.numberController.text.isEmpty
+                      ? 'XXXX XXXX XXXX XXXX'
+                      : widget.numberController.text,
+                  style: textStyle(widget.textStyle)),
             ),
           ),
           Expanded(
@@ -69,11 +71,10 @@ class _FrontCardState extends State<FrontCard> {
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.expiryController.text.isEmpty
-                    ? 'MM/YY'
-                    : widget.expiryController.text,
-                style: textCardStyle,
-              ),
+                  widget.expiryController.text.isEmpty
+                      ? 'MM/YY'
+                      : widget.expiryController.text,
+                  style: textStyle(widget.textStyle)),
             ),
           ),
           Expanded(
@@ -85,7 +86,7 @@ class _FrontCardState extends State<FrontCard> {
                       : widget.nameController.text,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: textCardStyle),
+                  style: textStyle(widget.textStyle)),
             ),
           ),
         ],

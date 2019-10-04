@@ -1,7 +1,7 @@
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
-class CardField {
-  CardField({
+class CardFieldController {
+  CardFieldController({
     this.mask,
   }) : controller = MaskedTextController(mask: mask);
 

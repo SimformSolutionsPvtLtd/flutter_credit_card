@@ -21,10 +21,10 @@ class CreditCardWidget extends StatefulWidget {
         assert(showBackView != null),
         super(key: key);
 
-  final CardField cardNumber;
-  final CardField expiryDate;
-  final CardField cardHolderName;
-  final CardField cvvCode;
+  final CardFieldController cardNumber;
+  final CardFieldController expiryDate;
+  final CardFieldController cardHolderName;
+  final CardFieldController cvvCode;
   final TextStyle textStyle;
   final Color cardBgColor;
   final bool showBackView;

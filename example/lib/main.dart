@@ -12,13 +12,23 @@ class MySample extends StatefulWidget {
 class MySampleState extends State<MySample> {
   bool isCvvFocused = false;
 
-  TextField holderField;
-  CardFieldController numberField =
-      CardFieldController(mask: '0000 0000 0000 0000 ');
+  TextField numberField;
+  TextField cvvField;
+  TextField expiryField;
+  TextField nameField;
+
+  CardFieldController numberController =
+      CardFieldController(mask: '0000 0000 0000 0000');
+  CardFieldController cvvController = CardFieldController(mask: 'MM/AA');
+  CardFieldController nameController = CardFieldController(mask: 'MM/AA');
+  CardFieldController expiryController = CardFieldController(mask: 'MM/AA');
 
   @override
   void initState() {
-    holderField = TextField(controller: numberField.controller);
+    numberField = TextField(controller: numberController.controller);
+    cvvField = TextField(controller: cvvController.controller);
+    expiryField = TextField(controller: expiryController.controller);
+    nameField = TextField(controller: nameController.controller);
     super.initState();
   }
 
@@ -36,36 +46,20 @@ class MySampleState extends State<MySample> {
           child: Column(
             children: <Widget>[
               CreditCardWidget(
-                cardNumber: numberField,
-                expiryDate: numberField,
-                cardHolderName: numberField,
-                cvvCode: numberField,
+                cardNumber: numberController,
+                expiryDate: expiryController,
+                cardHolderName: nameController,
+                cvvCode: cvvController,
                 showBackView: isCvvFocused,
               ),
-              Expanded(
-                child: holderField,
-              )
-              // Expanded(
-              //   child: SingleChildScrollView(
-              //     child: CreditCardForm(
-              //       onCreditCardModelChange: onCreditCardModelChange,
-              //     ),
-              //   ),
-              // )
+              Expanded(child: numberField),
+              Expanded(child: nameField),
+              Expanded(child: expiryField),
+              Expanded(child: cvvField),
             ],
           ),
         ),
       ),
     );
   }
-
-  // void onCreditCardModelChange(CreditCardModel creditCardModel) {
-  //   setState(() {
-  //     cardNumber = creditCardModel.cardNumber;
-  //     expiryDate = creditCardModel.expiryDate;
-  //     cardHolderName = creditCardModel.cardHolderName;
-  //     cvvCode = creditCardModel.cvvCode;
-  //     isCvvFocused = creditCardModel.isCvvFocused;
-  //   });
-  // }
 }

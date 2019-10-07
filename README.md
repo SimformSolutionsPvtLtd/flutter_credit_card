@@ -1,8 +1,8 @@
-# Flutter Credit Card
+# Flutter Credit Card 2.0
 
-A Flutter package allows you to easily implement the Credit card's UI easily with the Card detection.
+A Flutter package allows you to easily implement the Credit card's UI easily with the Card detection. 
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e546818ff64e4883a18a920f6a1c091c)](https://www.codacy.com/app/reg_3/flutter_credit_card?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=simformsolutions/flutter_credit_card&amp;utm_campaign=Badge_Grade)
+
 
 ## Preview
 
@@ -24,57 +24,49 @@ dependencies:
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 ```
 
-3.  Adding CreditCardWidget
-
-*With required parameters*
-```dart
-
-    CreditCardWidget(
-        cardNumber: cardNumber,
-        expiryDate: expiryDate, 
-        cardHolderName: cardHolderName,
-        cvvCode: cvvCode,
-        showBackView: isCvvFocused, //true when you want to show cvv(back) view
-    ),
-```    
-*With optional parameters*
-```dart   
-    CreditCardWidget(
-        cardNumber: cardNumber,
-        expiryDate: expiryDate,
-        cardHolderName: cardHolderName,
-        cvvCode: cvvCode,
-        showBackView: isCvvFocused,
-        cardbgColor: Colors.black,
-        height: 175,
-        textStyle: TextStyle(color: Colors.yellowAccent),
-        width: MediaQuery.of(context).size.width,
-        animationDuration: Duration(milliseconds: 1000),
-        ),
-``` 
-3.  Adding CreditCardForm
-
-```dart
-    CreditCardForm(
-      themeColor: Colors.red,
-      onCreditCardModelChange: (CreditCardModel data) {},
-    ),
+3.  Create your own InputFields
+``` dart
+TextField numberField;
+TextField cvvField;
+TextField expiryField;
+TextField nameField;
 ```
 
-## How to use
-Check out the **example** app in the [example](example) directory or the 'Example' tab on pub.dartlang.org for a more complete example.
+4.  Create CardModel
+``` dart
+CardModel cardModel;
+```
 
-## Getting Started
+5.  Get controllers from model and pass to fields
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+```  dart
+@override
+  void initState() {
+    cardModel = CardModel(frontCardColor: Colors.red);
+    numberField = TextField(controller: cardModel.numberController);
+    cvvField =
+        TextField(controller: cardModel.cvvController, focusNode: cvvFocus);
+    expiryField = TextField(controller: cardModel.expiryController);
+    nameField = TextField(controller: cardModel.nameController);
+    super.initState();
+  }
+  ```
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
 
-## Credit
+  6. Customize  card
+*Use CardModel class to cusotmize the entire card (OPTIONAL)) *
+ •height,
+ •width,
+ •frontTextStyle,
+ •backTextStyle,
+ •animeDuration,
+ • frontCardColor,
+ • backCardColor,
+ • numberMask = '0000 0000 0000 0000',
+ • cvvMask = '0000',
+ • nameMask = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+ • expiryMask = '00/00',
+ 
+*This plugin uses https://binlist.io/ to retrieve the card info*
 
-This package's animation is inspired from from this [Dribbble](https://dribbble.com/shots/2187649-Credit-card-Checkout-flow-AMEX) art.
+Forked from -> simformsolutions/flutter_credit_card

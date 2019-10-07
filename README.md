@@ -2,6 +2,8 @@
 
 A Flutter package allows you to easily implement the Credit card's UI easily with the Card detection. 
 
+*This plugin use https://binlist.io/lookup/ to lookup the Binn card and retrieve data*
+
 
 
 ## Preview

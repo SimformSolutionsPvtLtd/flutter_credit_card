@@ -34,13 +34,18 @@ Future<Widget> getCardBin(String cardNumber) async {
 }
 
 Map<String, dynamic> flags = <String, dynamic>{
-  'MASTERCARD': SvgPicture.asset('assets/master.svg'),
-  'VISA': SvgPicture.asset('assets/visa.svg'),
-  'ELO': SvgPicture.asset('assets/elo.svg'),
-  'JCB': SvgPicture.asset('assets/jcb.svg'),
-  'DISCOVER': SvgPicture.asset('assets/discover.svg'),
-  'DINERS CLUB': SvgPicture.asset('assets/diners.svg'),
-  'aura': SvgPicture.asset('assets/aura.svg'),
-  'AMERICAN EXPRESS': SvgPicture.asset('assets/amex.svg'),
-  'HIPERCARD': SvgPicture.asset('assets/hipercard.svg'),
+  'MASTERCARD':
+      SvgPicture.asset('packages/flutter_credit_card/assets/master.svg'),
+  'VISA': SvgPicture.asset('packages/flutter_credit_card/assets/visa.svg'),
+  'ELO': SvgPicture.asset('packages/flutter_credit_card/assets/elo.svg'),
+  'JCB': SvgPicture.asset('packages/flutter_credit_card/assets/jcb.svg'),
+  'DISCOVER':
+      SvgPicture.asset('packages/flutter_credit_card/assets/discover.svg'),
+  'DINERS CLUB':
+      SvgPicture.asset('packages/flutter_credit_card/assets/diners.svg'),
+  'aura': SvgPicture.asset('packages/flutter_credit_card/assets/aura.svg'),
+  'AMERICAN EXPRESS':
+      SvgPicture.asset('packages/flutter_credit_card/assets/amex.svg'),
+  'HIPERCARD':
+      SvgPicture.asset('packages/flutter_credit_card/assets/hipercard'),
 };

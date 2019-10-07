@@ -22,7 +22,14 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/
+   - packages/flutter_credit_card/assets/amex.svg
+   - packages/flutter_credit_card/assets/aura.svg
+   - packages/flutter_credit_card/assets/diners.svg
+   - packages/flutter_credit_card/assets/elo.svg
+   - packages/flutter_credit_card/assets/hipercard.svg
+   - packages/flutter_credit_card/assets/jcb.svg
+   - packages/flutter_credit_card/assets/master.svg
+   - packages/flutter_credit_card/assets/visa.svg
 
   fonts:
     - family: halter

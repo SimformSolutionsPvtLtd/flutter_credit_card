@@ -23,7 +23,8 @@ class MySampleState extends State<MySample> {
   void initState() {
     cvvFocus.addListener(() => setState(() {}));
 
-    cardModel = CardModel(frontCardColor: Colors.red);
+    cardModel = CardModel();
+
     numberField = TextField(controller: cardModel.numberController);
     cvvField =
         TextField(controller: cardModel.cvvController, focusNode: cvvFocus);

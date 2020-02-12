@@ -15,6 +15,8 @@ class CreditCardWidget extends StatefulWidget {
     this.width,
     this.textStyle,
     this.cardBgColor = const Color(0xff1b447b),
+    this.labelCardHolder = 'CARD HOLDER',
+    this.labelExpiredDate = 'MM/YY',
   })  : assert(cardNumber != null),
         assert(showBackView != null),
         super(key: key);
@@ -30,12 +32,14 @@ class CreditCardWidget extends StatefulWidget {
   final double height;
   final double width;
 
+  final String labelCardHolder;
+  final String labelExpiredDate;
+
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
 }
 
-class _CreditCardWidgetState extends State<CreditCardWidget>
-    with SingleTickerProviderStateMixin {
+class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<double> _frontRotation;
   Animation<double> _backRotation;
@@ -71,8 +75,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     _frontRotation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: pi / 2)
-              .chain(CurveTween(curve: Curves.easeIn)),
+          tween: Tween<double>(begin: 0.0, end: pi / 2).chain(CurveTween(curve: Curves.easeIn)),
           weight: 50.0,
         ),
         TweenSequenceItem<double>(
@@ -89,8 +92,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           weight: 50.0,
         ),
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: -pi / 2, end: 0.0)
-              .chain(CurveTween(curve: Curves.easeOut)),
+          tween: Tween<double>(begin: -pi / 2, end: 0.0).chain(CurveTween(curve: Curves.easeOut)),
           weight: 50.0,
         ),
       ],
@@ -166,8 +168,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       ),
       margin: const EdgeInsets.all(16),
       width: widget.width ?? width,
-      height: widget.height ??
-          (orientation == Orientation.portrait ? height / 4 : height / 2),
+      height: widget.height ?? (orientation == Orientation.portrait ? height / 4 : height / 2),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,9 +202,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: Text(
-                          widget.cvvCode.isEmpty
-                              ? isAmex ? 'XXXX' : 'XXX'
-                              : widget.cvvCode,
+                          widget.cvvCode.isEmpty ? isAmex ? 'XXXX' : 'XXX' : widget.cvvCode,
                           maxLines: 1,
                           style: widget.textStyle ?? defaultTextStyle,
                         ),
@@ -262,8 +261,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         gradient: backgroundGradientColor,
       ),
       width: widget.width ?? width,
-      height: widget.height ??
-          (orientation == Orientation.portrait ? height / 4 : height / 2),
+      height: widget.height ?? (orientation == Orientation.portrait ? height / 4 : height / 2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -278,9 +276,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.cardNumber.isEmpty || widget.cardNumber == null
-                    ? 'XXXX XXXX XXXX XXXX'
-                    : widget.cardNumber,
+                widget.cardNumber.isEmpty || widget.cardNumber == null ? 'XXXX XXXX XXXX XXXX' : widget.cardNumber,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
@@ -290,9 +286,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.expiryDate.isEmpty || widget.expiryDate == null
-                    ? 'MM/YY'
-                    : widget.expiryDate,
+                widget.expiryDate.isEmpty || widget.expiryDate == null ? widget.labelExpiredDate : widget.expiryDate,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
@@ -301,9 +295,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Text(
-                widget.cardHolderName.isEmpty || widget.cardHolderName == null
-                    ? 'CARD HOLDER'
-                    : widget.cardHolderName,
+                widget.cardHolderName.isEmpty || widget.cardHolderName == null ? widget.labelCardHolder : widget.cardHolderName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: widget.textStyle ?? defaultTextStyle,
@@ -318,8 +310,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// Credit Card prefix patterns as of March 2019
   /// A [List<String>] represents a range.
   /// i.e. ['51', '55'] represents the range of cards starting with '51' to those starting with '55'
-  Map<CardType, Set<List<String>>> cardNumPatterns =
-  <CardType, Set<List<String>>>{
+  Map<CardType, Set<List<String>>> cardNumPatterns = <CardType, Set<List<String>>>{
     CardType.visa: <List<String>>{
       <String>['4'],
     },
@@ -357,8 +348,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       (CardType type, Set<List<String>> patterns) {
         for (List<String> patternRange in patterns) {
           // Remove any spaces
-          String ccPatternStr =
-              cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
+          String ccPatternStr = cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
           final int rangeLen = patternRange[0].length;
           // Trim the Credit Card number string to match the pattern prefix length
           if (rangeLen < cardNumber.length) {
@@ -372,8 +362,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             final int ccPrefixAsInt = int.parse(ccPatternStr);
             final int startPatternPrefixAsInt = int.parse(patternRange[0]);
             final int endPatternPrefixAsInt = int.parse(patternRange[1]);
-            if (ccPrefixAsInt >= startPatternPrefixAsInt &&
-                ccPrefixAsInt <= endPatternPrefixAsInt) {
+            if (ccPrefixAsInt >= startPatternPrefixAsInt && ccPrefixAsInt <= endPatternPrefixAsInt) {
               // Found a match
               cardType = type;
               break;
@@ -480,8 +469,7 @@ class AnimationCard extends StatelessWidget {
 }
 
 class MaskedTextController extends TextEditingController {
-  MaskedTextController({String text, this.mask, Map<String, RegExp> translator})
-      : super(text: text) {
+  MaskedTextController({String text, this.mask, Map<String, RegExp> translator}) : super(text: text) {
     this.translator = translator ?? MaskedTextController.getDefaultTranslator();
 
     addListener(() {
@@ -529,8 +517,7 @@ class MaskedTextController extends TextEditingController {
 
   void moveCursorToEnd() {
     final String text = _lastUpdatedText;
-    selection =
-        TextSelection.fromPosition(TextPosition(offset: (text ?? '').length));
+    selection = TextSelection.fromPosition(TextPosition(offset: (text ?? '').length));
   }
 
   @override
@@ -542,12 +529,7 @@ class MaskedTextController extends TextEditingController {
   }
 
   static Map<String, RegExp> getDefaultTranslator() {
-    return <String, RegExp>{
-      'A': RegExp(r'[A-Za-z]'),
-      '0': RegExp(r'[0-9]'),
-      '@': RegExp(r'[A-Za-z0-9]'),
-      '*': RegExp(r'.*')
-    };
+    return <String, RegExp>{'A': RegExp(r'[A-Za-z]'), '0': RegExp(r'[0-9]'), '@': RegExp(r'[A-Za-z0-9]'), '*': RegExp(r'.*')};
   }
 
   String _applyMask(String mask, String value) {

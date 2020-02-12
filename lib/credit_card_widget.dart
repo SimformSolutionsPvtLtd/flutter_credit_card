@@ -2,6 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+const Map<CardType, String> CardTypeIconAsset = {
+  CardType.visa: 'icons/visa.png',
+  CardType.americanExpress: 'icons/amex.png',
+  CardType.mastercard: 'icons/mastercard.png',
+  CardType.discover: 'icons/discover.png',
+};
+
 class CreditCardWidget extends StatefulWidget {
   const CreditCardWidget({
     Key key,
@@ -17,6 +24,7 @@ class CreditCardWidget extends StatefulWidget {
     this.cardBgColor = const Color(0xff1b447b),
     this.labelCardHolder = 'CARD HOLDER',
     this.labelExpiredDate = 'MM/YY',
+    this.cardType,
   })  : assert(cardNumber != null),
         assert(showBackView != null),
         super(key: key);
@@ -34,6 +42,8 @@ class CreditCardWidget extends StatefulWidget {
 
   final String labelCardHolder;
   final String labelExpiredDate;
+
+  final CardType cardType;
 
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
@@ -219,7 +229,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                child: getCardTypeIcon(widget.cardNumber),
+                child: widget.cardType != null ? getCardTypeImage(widget.cardType) : getCardTypeIcon(widget.cardNumber),
               ),
             ),
           ),
@@ -381,6 +391,13 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
 
     return cardType;
   }
+
+  Widget getCardTypeImage(CardType cardType) => Image.asset(
+        CardTypeIconAsset[cardType],
+        height: 48,
+        width: 48,
+        package: 'flutter_credit_card',
+      );
 
   // This method returns the icon for the visa card type if found
   // else will return the empty container

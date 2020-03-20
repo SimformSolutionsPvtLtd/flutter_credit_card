@@ -30,7 +30,7 @@ class CreditCardForm extends StatefulWidget {
   final String expiryDate;
   final String cardHolderName;
   final String cvvCode;
-  final void Function(CreditCardModel) onCreditCardModelChange;
+  final void Function(CreditCardModel, bool) onCreditCardModelChange;
   final Color themeColor;
   final Color textColor;
   final Color cursorColor;
@@ -61,7 +61,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
   Color themeColor;
   bool isAmex = false;
 
-  void Function(CreditCardModel) onCreditCardModelChange;
+  void Function(CreditCardModel, bool) onCreditCardModelChange;
   CreditCardModel creditCardModel;
 
   final RegExp regExpAmex = RegExp(r'^3[47].');
@@ -76,7 +76,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
 
   void textFieldFocusDidChange() {
     creditCardModel.isCvvFocused = cvvFocusNode.hasFocus;
-    onCreditCardModelChange(creditCardModel);
+    onCreditCardModelChange(creditCardModel, false);
   }
 
   void createCreditCardModel() {
@@ -110,7 +110,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
       setState(() {
         cardNumber = _cardNumberController.text;
         creditCardModel.cardNumber = cardNumber;
-        onCreditCardModelChange(creditCardModel);
+        onCreditCardModelChange(creditCardModel, false);
         isAmex = regExpAmex.hasMatch(cardNumber);
         hintCvv = isAmex ? 'XXXX' : widget.hintCVV;
       });
@@ -120,7 +120,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
       setState(() {
         expiryDate = _expiryDateController.text;
         creditCardModel.expiryDate = expiryDate;
-        onCreditCardModelChange(creditCardModel);
+        onCreditCardModelChange(creditCardModel, false);
       });
     });
 
@@ -128,7 +128,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
       setState(() {
         cardHolderName = _cardHolderNameController.text;
         creditCardModel.cardHolderName = cardHolderName;
-        onCreditCardModelChange(creditCardModel);
+        onCreditCardModelChange(creditCardModel, false);
       });
     });
 
@@ -136,7 +136,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
       setState(() {
         cvvCode = _cvvCodeController.text;
         creditCardModel.cvvCode = cvvCode;
-        onCreditCardModelChange(creditCardModel);
+        onCreditCardModelChange(creditCardModel, false);
       });
     });
   }
@@ -260,6 +260,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 ),
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.done,
+                onEditingComplete: () {
+                  onCreditCardModelChange(creditCardModel, true);
+                },
               ),
             ),
           ],

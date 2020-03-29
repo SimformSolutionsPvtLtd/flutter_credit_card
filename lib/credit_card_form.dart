@@ -51,6 +51,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
       MaskedTextController(mask: '0000');
 
   FocusNode cvvFocusNode = FocusNode();
+  FocusNode cardNumberNode = FocusNode();
+  FocusNode expiryDateNode = FocusNode();
+  FocusNode cardHolderNode = FocusNode();
 
   void textFieldFocusDidChange() {
     creditCardModel.isCvvFocused = cvvFocusNode.hasFocus;
@@ -135,7 +138,11 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 style: TextStyle(
                   color: widget.textColor,
                 ),
-                decoration: InputDecoration(
+                onEditingComplete: () {
+                  FocusScope.of(context).requestFocus(expiryDateNode);
+                },
+                focusNode: cardNumberNode,
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Card number',
                   hintText: 'xxxx xxxx xxxx xxxx',
@@ -153,10 +160,15 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 style: TextStyle(
                   color: widget.textColor,
                 ),
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Expired Date',
-                    hintText: 'MM/YY'),
+                onEditingComplete: () {
+                  FocusScope.of(context).requestFocus(cvvFocusNode);
+                },
+                focusNode: expiryDateNode,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Expired Date',
+                  hintText: 'MM/YY',
+                ),
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
               ),
@@ -171,13 +183,16 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 style: TextStyle(
                   color: widget.textColor,
                 ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'CVV',
                   hintText: 'XXXX',
                 ),
                 keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
+                onEditingComplete: () {
+                  FocusScope.of(context).requestFocus(cardHolderNode);
+                },
                 onChanged: (String text) {
                   setState(() {
                     cvvCode = text;
@@ -194,12 +209,13 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 style: TextStyle(
                   color: widget.textColor,
                 ),
-                decoration: InputDecoration(
+                focusNode: cardHolderNode,
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Card Holder',
                 ),
                 keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
+                textInputAction: TextInputAction.done,
               ),
             ),
           ],

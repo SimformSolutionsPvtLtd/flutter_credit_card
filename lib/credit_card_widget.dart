@@ -246,6 +246,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         gradient: backgroundGradientColor,
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 5,
+          ),
+        ],
       ),
       width: widget.width ?? width,
       height: widget.height ??

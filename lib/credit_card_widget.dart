@@ -15,6 +15,7 @@ class CreditCardWidget extends StatefulWidget {
     this.width,
     this.textStyle,
     this.cardBgColor = const Color(0xff1b447b),
+    this.maskCardNumber = true,
   })  : assert(cardNumber != null),
         assert(showBackView != null),
         super(key: key);
@@ -29,6 +30,7 @@ class CreditCardWidget extends StatefulWidget {
   final Duration animationDuration;
   final double height;
   final double width;
+  final bool maskCardNumber;
 
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
@@ -241,6 +243,13 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           ),
         );
 
+    final List<String> cardNumber =
+        widget.cardNumber != null ? widget.cardNumber.split(' ') : null;
+    String numbers;
+    if (cardNumber != null) {
+      numbers = 'XXX XXXX XXXX ${cardNumber[cardNumber.length - 1]}';
+    }
+
     return Container(
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -272,7 +281,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               child: Text(
                 widget.cardNumber.isEmpty || widget.cardNumber == null
                     ? 'XXXX XXXX XXXX XXXX'
-                    : widget.cardNumber,
+                    : widget.maskCardNumber ? numbers : widget.cardNumber,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),

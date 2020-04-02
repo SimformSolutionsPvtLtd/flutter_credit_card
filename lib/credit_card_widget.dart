@@ -247,7 +247,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         widget.cardNumber != null ? widget.cardNumber.split(' ') : null;
     String numbers;
     if (cardNumber != null) {
-      numbers = 'XXX XXXX XXXX ${cardNumber[cardNumber.length - 1]}';
+      numbers = 'XXXX XXXX XXXX ${cardNumber[cardNumber.length - 1]}';
     }
 
     return Container(

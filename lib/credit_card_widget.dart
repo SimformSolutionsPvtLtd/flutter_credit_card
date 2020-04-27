@@ -15,13 +15,17 @@ class CreditCardWidget extends StatefulWidget {
     this.width,
     this.textStyle,
     this.cardBgColor = const Color(0xff1b447b),
+    this.expiryDateCaption = 'MM/YY',
+    this.cardHolderNameCaption = 'CARD HOLDER'
   })  : assert(cardNumber != null),
         assert(showBackView != null),
         super(key: key);
 
   final String cardNumber;
   final String expiryDate;
+  final String expiryDateCaption;
   final String cardHolderName;
+  final String cardHolderNameCaption;  
   final String cvvCode;
   final TextStyle textStyle;
   final Color cardBgColor;
@@ -291,7 +295,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               padding: const EdgeInsets.only(left: 16),
               child: Text(
                 widget.expiryDate.isEmpty || widget.expiryDate == null
-                    ? 'MM/YY'
+                    ? widget.expiryDateCaption
                     : widget.expiryDate,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
@@ -302,7 +306,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Text(
                 widget.cardHolderName.isEmpty || widget.cardHolderName == null
-                    ? 'CARD HOLDER'
+                    ? widget.cardHolderNameCaption
                     : widget.cardHolderName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

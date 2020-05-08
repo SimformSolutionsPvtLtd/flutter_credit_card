@@ -145,14 +145,15 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     BuildContext context,
     Orientation orientation,
   ) {
-    final TextStyle defaultTextStyle = Theme.of(context).textTheme.title.merge(
-          TextStyle(
-            color: Colors.black,
-            fontFamily: 'halter',
-            fontSize: 16,
-            package: 'flutter_credit_card',
-          ),
-        );
+    final TextStyle defaultTextStyle =
+        Theme.of(context).textTheme.headline6.merge(
+              TextStyle(
+                color: Colors.black,
+                fontFamily: 'halter',
+                fontSize: 16,
+                package: 'flutter_credit_card',
+              ),
+            );
 
     return Container(
       decoration: BoxDecoration(
@@ -234,14 +235,15 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     BuildContext context,
     Orientation orientation,
   ) {
-    final TextStyle defaultTextStyle = Theme.of(context).textTheme.title.merge(
-          TextStyle(
-            color: Colors.white,
-            fontFamily: 'halter',
-            fontSize: 16,
-            package: 'flutter_credit_card',
-          ),
-        );
+    final TextStyle defaultTextStyle =
+        Theme.of(context).textTheme.headline6.merge(
+              TextStyle(
+                color: Colors.white,
+                fontFamily: 'halter',
+                fontSize: 16,
+                package: 'flutter_credit_card',
+              ),
+            );
 
     final List<String> cardNumber =
         widget.cardNumber != null ? widget.cardNumber.split(' ') : null;

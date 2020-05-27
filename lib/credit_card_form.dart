@@ -17,6 +17,14 @@ class CreditCardForm extends StatefulWidget {
     this.themeColor,
     this.textColor = Colors.black,
     this.cursorColor,
+    this.labelCardHolder = 'Card holder',
+    this.labelCardNumber = 'Card number',
+    this.labelCVV = 'CVV',
+    this.labelExpiredDate = 'Expired Date',
+    this.hintCarhHolder = '',
+    this.hintCardNumber = 'xxxx xxxx xxxx xxxx',
+    this.hintCVV = 'xxx',
+    this.hintExpiredDate = 'MM/YY',
   }) : super(key: key);
 
   final String cardNumber;
@@ -29,6 +37,16 @@ class CreditCardForm extends StatefulWidget {
   final Color cursorColor;
   final bool obscureCvv;
   final bool obscureNumber;
+
+  final String labelCardHolder;
+  final String labelCardNumber;
+  final String labelExpiredDate;
+  final String labelCVV;
+
+  final String hintCarhHolder;
+  final String hintCardNumber;
+  final String hintExpiredDate;
+  final String hintCVV;
 
   @override
   _CreditCardFormState createState() => _CreditCardFormState();
@@ -118,6 +136,14 @@ class _CreditCardFormState extends State<CreditCardForm> {
   }
 
   @override
+  void dispose() {
+    cardHolderNameFocus.dispose();
+    cvvFocusNode.dispose();
+    expiredFocus.dispose();
+    super.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     themeColor = widget.themeColor ?? Theme.of(context).primaryColor;
     super.didChangeDependencies();
@@ -174,127 +200,103 @@ class _CreditCardFormState extends State<CreditCardForm> {
             Container(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               margin: const EdgeInsets.only(left: 16, top: 16, right: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.all(4.0),
-                    child: const Text('Card Number'),
-                  ),
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFEAEAEA),
-                    ),
-                    margin: const EdgeInsets.all(4.0),
+              child: TextFormField(
+                obscureText: widget.obscureNumber,
+                controller: _cardNumberController,
+                cursorColor: widget.cursorColor ?? themeColor,
+                onEditingComplete: () {
+                  FocusScope.of(context).requestFocus(expiredFocus);
+                },
+                style: TextStyle(
+                  color: widget.textColor,
+                ),
+                decoration: InputDecoration(
+                  border: widget.inputBorder,
+                  labelText: widget.labelCardNumber,
+                  hintText: widget.hintCardNumber,
+                ),
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.next,
+              ),
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
                     child: TextFormField(
-                      obscureText: widget.obscureNumber,
-                      controller: _cardNumberController,
+                      controller: _expiryDateController,
                       cursorColor: widget.cursorColor ?? themeColor,
+                      focusNode: expiredFocus,
+                      onEditingComplete: () {
+                        FocusScope.of(context).requestFocus(cvvFocusNode);
+                      },
                       style: TextStyle(
                         color: widget.textColor,
                       ),
-                      onEditingComplete: () {
-                        FocusScope.of(context).requestFocus(expiryDateNode);
-                      },
-                      focusNode: cardNumberNode,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        // labelText: 'Card number',
-                        hintText: 'xxxx xxxx xxxx xxxx',
+                      decoration: InputDecoration(
+                        border: widget.inputBorder,
+                        labelText: widget.labelExpiredDate,
+                        hintText: widget.hintExpiredDate,
                       ),
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
                     ),
                   ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(4.0),
-                        alignment: Alignment.topLeft,
-                        child: const Text(
-                          'Expiry Date',
-                          textAlign: TextAlign.left,
-                        ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+                    child: TextFormField(
+                      obscureText: widget.obscureCvv,
+                      focusNode: cvvFocusNode,
+                      controller: _cvvCodeController,
+                      cursorColor: widget.cursorColor ?? themeColor,
+                      onEditingComplete: () {
+                        FocusScope.of(context).requestFocus(cardHolderNameFocus);
+                      },
+                      style: TextStyle(
+                        color: widget.textColor,
                       ),
-                      Container(
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFEAEAEA),
-                        ),
-                        margin: const EdgeInsets.all(4.0),
-                        width: 150,
-                        alignment: Alignment.centerLeft,
-                        child: TextFormField(
-                          controller: _expiryDateController,
-                          cursorColor: widget.cursorColor ?? themeColor,
-                          style: TextStyle(
-                            color: widget.textColor,
-                          ),
-                          onEditingComplete: () {
-                            FocusScope.of(context).requestFocus(cvvFocusNode);
-                          },
-                          focusNode: expiryDateNode,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            // labelText: 'Expiry Date',
-                            hintText: 'MM/YY',
-                          ),
-                          keyboardType: TextInputType.number,
-                          textInputAction: TextInputAction.next,
-                        ),
+                      decoration: InputDecoration(
+                        border: widget.inputBorder,
+                        labelText: widget.labelCVV,
+                        hintText: hintCvv,
                       ),
-                    ],
-                  ),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.all(4.0),
-                          child: const Text('CVV Code'),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(4.0),
-                          alignment: Alignment.centerRight,
-                          width: 150,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFEAEAEA),
-                          ),
-                          child: TextField(
-                            obscureText: widget.obscureCvv,
-                            focusNode: cvvFocusNode,
-                            controller: _cvvCodeController,
-                            cursorColor: widget.cursorColor ?? themeColor,
-                            style: TextStyle(
-                              color: widget.textColor,
-                            ),
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: '3 - 4 Digits',
-                            ),
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.done,
-                            onChanged: (String text) {
-                              setState(() {
-                                cvvCode = text;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                      onChanged: (String text) {
+                        setState(() {
+                          cvvCode = text;
+                        });
+                      },
                     ),
                   ),
-                ],
+                ),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+              child: TextFormField(
+                controller: _cardHolderNameController,
+                cursorColor: widget.cursorColor ?? themeColor,
+                focusNode: cardHolderNameFocus,
+                style: TextStyle(
+                  color: widget.textColor,
+                ),
+                decoration: InputDecoration(
+                  border: widget.inputBorder,
+                  labelText: widget.labelCardHolder,
+                  hintText: widget.hintCarhHolder,
+                ),
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.done,
+                onEditingComplete: () {
+                  onCreditCardModelChange(creditCardModel);
+                },
               ),
             ),
           ],

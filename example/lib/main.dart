@@ -46,6 +46,8 @@ class MySampleState extends State<MySample> {
                   child: CreditCardForm(
                     obscureCvv: true,
                     obscureNumber: true,
+                    labelCardHolder: "Nombre",
+                    labelCardNumber: "Numero",
                     onCreditCardModelChange: onCreditCardModelChange,
                   ),
                 ),

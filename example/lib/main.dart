@@ -46,8 +46,11 @@ class MySampleState extends State<MySample> {
                   child: CreditCardForm(
                     obscureCvv: true,
                     obscureNumber: true,
-                    labelCardHolder: "Nombre",
-                    labelCardNumber: "Numero",
+                    cardNumberDecoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Number',
+                      hintText: 'xxxx xxxx xxxx xxxx',
+                    ),
                     onCreditCardModelChange: onCreditCardModelChange,
                   ),
                 ),

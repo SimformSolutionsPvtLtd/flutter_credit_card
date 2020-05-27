@@ -15,6 +15,7 @@ class CreditCardWidget extends StatefulWidget {
     this.width,
     this.textStyle,
     this.cardBgColor = const Color(0xff1b447b),
+    this.maskCardNumber = true,
   })  : assert(cardNumber != null),
         assert(showBackView != null),
         super(key: key);
@@ -29,6 +30,7 @@ class CreditCardWidget extends StatefulWidget {
   final Duration animationDuration;
   final double height;
   final double width;
+  final bool maskCardNumber;
 
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
@@ -143,25 +145,19 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     BuildContext context,
     Orientation orientation,
   ) {
-    final TextStyle defaultTextStyle = Theme.of(context).textTheme.title.merge(
-          TextStyle(
-            color: Colors.black,
-            fontFamily: 'halter',
-            fontSize: 16,
-            package: 'flutter_credit_card',
-          ),
-        );
+    final TextStyle defaultTextStyle =
+        Theme.of(context).textTheme.headline6.merge(
+              TextStyle(
+                color: Colors.black,
+                fontFamily: 'halter',
+                fontSize: 16,
+                package: 'flutter_credit_card',
+              ),
+            );
 
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        boxShadow: const <BoxShadow>[
-          BoxShadow(
-            color: Colors.black26,
-            offset: Offset(0, 0),
-            blurRadius: 24,
-          ),
-        ],
         gradient: backgroundGradientColor,
       ),
       margin: const EdgeInsets.all(16),
@@ -239,27 +235,34 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     BuildContext context,
     Orientation orientation,
   ) {
-    final TextStyle defaultTextStyle = Theme.of(context).textTheme.title.merge(
-          TextStyle(
-            color: Colors.white,
-            fontFamily: 'halter',
-            fontSize: 16,
-            package: 'flutter_credit_card',
-          ),
-        );
+    final TextStyle defaultTextStyle =
+        Theme.of(context).textTheme.headline6.merge(
+              TextStyle(
+                color: Colors.white,
+                fontFamily: 'halter',
+                fontSize: 16,
+                package: 'flutter_credit_card',
+              ),
+            );
+
+    final List<String> cardNumber =
+        widget.cardNumber != null ? widget.cardNumber.split(' ') : null;
+    String numbers;
+    if (cardNumber != null) {
+      numbers = 'XXXX XXXX XXXX ${cardNumber[cardNumber.length - 1]}';
+    }
 
     return Container(
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        boxShadow: const <BoxShadow>[
-          BoxShadow(
-            color: Colors.black26,
-            offset: Offset(0, 0),
-            blurRadius: 24,
-          )
-        ],
         gradient: backgroundGradientColor,
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 5,
+          ),
+        ],
       ),
       width: widget.width ?? width,
       height: widget.height ??
@@ -280,7 +283,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               child: Text(
                 widget.cardNumber.isEmpty || widget.cardNumber == null
                     ? 'XXXX XXXX XXXX XXXX'
-                    : widget.cardNumber,
+                    : widget.maskCardNumber ? numbers : widget.cardNumber,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
@@ -319,7 +322,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// A [List<String>] represents a range.
   /// i.e. ['51', '55'] represents the range of cards starting with '51' to those starting with '55'
   Map<CardType, Set<List<String>>> cardNumPatterns =
-  <CardType, Set<List<String>>>{
+      <CardType, Set<List<String>>>{
     CardType.visa: <List<String>>{
       <String>['4'],
     },
@@ -486,9 +489,9 @@ class MaskedTextController extends TextEditingController {
 
     addListener(() {
       final String previous = _lastUpdatedText;
-      if (this.beforeChange(previous, this.text)) {
+      if (beforeChange(previous, this.text)) {
         updateText(this.text);
-        this.afterChange(previous, this.text);
+        afterChange(previous, this.text);
       } else {
         updateText(_lastUpdatedText);
       }

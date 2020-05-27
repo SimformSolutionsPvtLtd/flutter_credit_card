@@ -42,6 +42,8 @@ class MySampleState extends State<MySample> {
               Expanded(
                 child: SingleChildScrollView(
                   child: CreditCardForm(
+                    labelCardHolder: "Nombre",
+                    labelCardNumber: "Numero",
                     onCreditCardModelChange: onCreditCardModelChange,
                   ),
                 ),

@@ -18,6 +18,7 @@ class MySampleState extends State<MySample> {
   String cardHolderName = '';
   String cvvCode = '';
   bool isCvvFocused = false;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +45,7 @@ class MySampleState extends State<MySample> {
               Expanded(
                 child: SingleChildScrollView(
                   child: CreditCardForm(
+                    formKey: formKey,
                     obscureCvv: true,
                     obscureNumber: true,
                     cardNumberDecoration: const InputDecoration(
@@ -54,6 +56,16 @@ class MySampleState extends State<MySample> {
                     onCreditCardModelChange: onCreditCardModelChange,
                   ),
                 ),
+              ),
+              RaisedButton(
+                child: const Text('Validate'),
+                onPressed: () {
+                  if (formKey.currentState.validate()) {
+                    print('valid!');
+                  } else {
+                    print('invalid!');
+                  }
+                },
               )
             ],
           ),

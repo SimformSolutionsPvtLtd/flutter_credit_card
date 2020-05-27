@@ -1,6 +1,7 @@
 ## 0.1.4
 *   Feature : Added number and CVV obfuscation
 *   Feature : Added input decorations
+*   Feature : Added simple card input validations
 
 ## 0.1.3
 *   Feature : Applied Default ThemeData.

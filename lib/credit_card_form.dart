@@ -32,18 +32,26 @@ class CreditCardForm extends StatefulWidget {
       labelText: 'CVV',
       hintText: 'XXX',
     ),
+    @required this.formKey,
+    this.cvvValidationMessage = 'Please input a valid CVV',
+    this.dateValidationMessage = 'Please input a valid date',
+    this.numberValidationMessage = 'Please input a valid number',
   }) : super(key: key);
 
   final String cardNumber;
   final String expiryDate;
   final String cardHolderName;
   final String cvvCode;
+  final String cvvValidationMessage;
+  final String dateValidationMessage;
+  final String numberValidationMessage;
   final void Function(CreditCardModel) onCreditCardModelChange;
   final Color themeColor;
   final Color textColor;
   final Color cursorColor;
   final bool obscureCvv;
   final bool obscureNumber;
+  final GlobalKey<FormState> formKey;
 
   final InputDecoration cardNumberDecoration;
   final InputDecoration cardHolderDecoration;
@@ -159,6 +167,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
         primaryColorDark: themeColor,
       ),
       child: Form(
+        key: widget.formKey,
         child: Column(
           children: <Widget>[
             Container(
@@ -177,6 +186,13 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 decoration: widget.cardNumberDecoration,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
+                validator: (String value) {
+                  // Validate less that 13 digits +3 white spaces
+                  if (value.isEmpty || value.length < 16) {
+                    return widget.numberValidationMessage;
+                  }
+                  return null;
+                },
               ),
             ),
             Row(
@@ -198,6 +214,22 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       decoration: widget.expiryDateDecoration,
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return widget.dateValidationMessage;
+                        }
+
+                        final DateTime now = DateTime.now();
+                        final List<String> date = value.split(RegExp(r'/'));
+                        final int month = int.parse(date.first);
+                        final int year = int.parse('20${date.last}');
+                        final DateTime cardDate = DateTime(year, month);
+
+                        if (cardDate.isBefore(now) || month > 12 || month == 0) {
+                          return widget.dateValidationMessage;
+                        }
+                        return null;
+                      },
                     ),
                   ),
                 ),
@@ -223,6 +255,12 @@ class _CreditCardFormState extends State<CreditCardForm> {
                         setState(() {
                           cvvCode = text;
                         });
+                      },
+                      validator: (value) {
+                        if (value.isEmpty || value.length < 3) {
+                          return widget.cvvValidationMessage;
+                        }
+                        return null;
                       },
                     ),
                   ),

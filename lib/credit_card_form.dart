@@ -22,7 +22,7 @@ class CreditCardForm extends StatefulWidget {
     ),
     this.cardNumberDecoration = const InputDecoration(
       labelText: 'Card number',
-      hintText: 'xxxx xxxx xxxx xxxx',
+      hintText: 'XXXX XXXX XXXX XXXX',
     ),
     this.expiryDateDecoration = const InputDecoration(
       labelText: 'Expired Date',

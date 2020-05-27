@@ -15,7 +15,8 @@ class CreditCardWidget extends StatefulWidget {
     this.width,
     this.textStyle,
     this.cardBgColor = const Color(0xff1b447b),
-    this.maskCardNumber = true,
+    this.obscureCardNumber = true,
+    this.obscureCardCvv = true,
   })  : assert(cardNumber != null),
         assert(showBackView != null),
         super(key: key);
@@ -30,7 +31,8 @@ class CreditCardWidget extends StatefulWidget {
   final Duration animationDuration;
   final double height;
   final double width;
-  final bool maskCardNumber;
+  final bool obscureCardNumber;
+  final bool obscureCardCvv;
 
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
@@ -155,6 +157,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               ),
             );
 
+    final String cvv = widget.obscureCardCvv
+        ? widget.cvvCode.replaceAll(RegExp(r'\d'), '*')
+        : widget.cvvCode;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -199,7 +205,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                         child: Text(
                           widget.cvvCode.isEmpty
                               ? isAmex ? 'XXXX' : 'XXX'
-                              : widget.cvvCode,
+                              : cvv,
                           maxLines: 1,
                           style: widget.textStyle ?? defaultTextStyle,
                         ),
@@ -245,12 +251,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               ),
             );
 
-    final List<String> cardNumber =
-        widget.cardNumber != null ? widget.cardNumber.split(' ') : null;
-    String numbers;
-    if (cardNumber != null) {
-      numbers = 'XXXX XXXX XXXX ${cardNumber[cardNumber.length - 1]}';
-    }
+    final String number = widget.obscureCardNumber
+        ? widget.cardNumber.replaceAll(RegExp(r'(?<=.{4})\d(?=.{4})'), '*')
+        : widget.cardNumber;
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -283,7 +286,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               child: Text(
                 widget.cardNumber.isEmpty || widget.cardNumber == null
                     ? 'XXXX XXXX XXXX XXXX'
-                    : widget.maskCardNumber ? numbers : widget.cardNumber,
+                    : number,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),

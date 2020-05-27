@@ -1,3 +1,6 @@
+## 0.1.4
+*   Feature : Added number and CVV obfuscation
+
 ## 0.1.3
 *   Feature : Applied Default ThemeData.
 

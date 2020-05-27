@@ -11,6 +11,8 @@ class CreditCardForm extends StatefulWidget {
     this.expiryDate,
     this.cardHolderName,
     this.cvvCode,
+    this.obscureCvv = false,
+    this.obscureNumber = false,
     @required this.onCreditCardModelChange,
     this.themeColor,
     this.textColor = Colors.black,
@@ -25,6 +27,8 @@ class CreditCardForm extends StatefulWidget {
   final Color themeColor;
   final Color textColor;
   final Color cursorColor;
+  final bool obscureCvv;
+  final bool obscureNumber;
 
   @override
   _CreditCardFormState createState() => _CreditCardFormState();
@@ -183,6 +187,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                     ),
                     margin: const EdgeInsets.all(4.0),
                     child: TextFormField(
+                      obscureText: widget.obscureNumber,
                       controller: _cardNumberController,
                       cursorColor: widget.cursorColor ?? themeColor,
                       style: TextStyle(
@@ -266,6 +271,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                             color: Color(0xFFEAEAEA),
                           ),
                           child: TextField(
+                            obscureText: widget.obscureCvv,
                             focusNode: cvvFocusNode,
                             controller: _cvvCodeController,
                             cursorColor: widget.cursorColor ?? themeColor,

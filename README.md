@@ -35,6 +35,8 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         cardHolderName: cardHolderName,
         cvvCode: cvvCode,
         showBackView: isCvvFocused, //true when you want to show cvv(back) view
+        obscureCardNumber: true, // replace the middle card numbers with *
+        obscureCardCvv: true, // replace the CVV numbers with *
     ),
 ```    
 *With optional parameters*
@@ -50,13 +52,14 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         textStyle: TextStyle(color: Colors.yellowAccent),
         width: MediaQuery.of(context).size.width,
         animationDuration: Duration(milliseconds: 1000),
-        ),
+    ),
 ``` 
 3.  Adding CreditCardForm
 
 ```dart
     CreditCardForm(
       themeColor: Colors.red,
+      obscureCvv: true, // hide the input's value
       onCreditCardModelChange: (CreditCardModel data) {},
     ),
 ```

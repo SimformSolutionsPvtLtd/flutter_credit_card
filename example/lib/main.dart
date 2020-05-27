@@ -38,10 +38,14 @@ class MySampleState extends State<MySample> {
                 cardHolderName: cardHolderName,
                 cvvCode: cvvCode,
                 showBackView: isCvvFocused,
+                obscureCardNumber: true,
+                obscureCardCvv: true,
               ),
               Expanded(
                 child: SingleChildScrollView(
                   child: CreditCardForm(
+                    obscureCvv: true,
+                    obscureNumber: true,
                     onCreditCardModelChange: onCreditCardModelChange,
                   ),
                 ),

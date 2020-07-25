@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 import 'credit_card_model.dart';
 
@@ -136,7 +137,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   color: widget.textColor,
                 ),
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: InputBorder.none,
+                  icon: Icon(EvaIcons.creditCardOutline),
                   labelText: 'Card number',
                   hintText: 'xxxx xxxx xxxx xxxx',
                 ),
@@ -144,46 +146,53 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 textInputAction: TextInputAction.next,
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
-              child: TextFormField(
-                controller: _expiryDateController,
-                cursorColor: widget.cursorColor ?? themeColor,
-                style: TextStyle(
-                  color: widget.textColor,
-                ),
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Expired Date',
-                    hintText: 'MM/YY'),
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
-              child: TextField(
-                focusNode: cvvFocusNode,
-                controller: _cvvCodeController,
-                cursorColor: widget.cursorColor ?? themeColor,
-                style: TextStyle(
-                  color: widget.textColor,
-                ),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'CVV',
-                  hintText: 'XXXX',
-                ),
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.done,
-                onChanged: (String text) {
-                  setState(() {
-                    cvvCode = text;
-                  });
-                },
-              ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      child: Flexible(
+                          child: TextFormField(
+                        controller: _expiryDateController,
+                        cursorColor: widget.cursorColor ?? themeColor,
+                        style: TextStyle(
+                          color: widget.textColor,
+                        ),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(EvaIcons.calendarOutline),
+                            labelText: 'Expiry Date',
+                            hintText: 'MM/YY'),
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                      )),
+                    ),
+                    Container(
+                      child: Flexible(
+                          child: TextField(
+                        focusNode: cvvFocusNode,
+                        controller: _cvvCodeController,
+                        cursorColor: widget.cursorColor ?? themeColor,
+                        style: TextStyle(
+                          color: widget.textColor,
+                        ),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: Icon(EvaIcons.lockOutline),
+                          labelText: 'CVV',
+                          hintText: 'XXXX',
+                        ),
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.done,
+                        onChanged: (String text) {
+                          setState(() {
+                            cvvCode = text;
+                          });
+                        },
+                      )),
+                    ),
+                  ]),
             ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -195,7 +204,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   color: widget.textColor,
                 ),
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: InputBorder.none,
+                  icon: Icon(EvaIcons.personOutline),
                   labelText: 'Card Holder',
                 ),
                 keyboardType: TextInputType.text,

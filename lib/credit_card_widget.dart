@@ -3,19 +3,20 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class CreditCardWidget extends StatefulWidget {
-  const CreditCardWidget({
-    Key key,
-    @required this.cardNumber,
-    @required this.expiryDate,
-    @required this.cardHolderName,
-    @required this.cvvCode,
-    @required this.showBackView,
-    this.animationDuration = const Duration(milliseconds: 500),
-    this.height,
-    this.width,
-    this.textStyle,
-    this.cardBgColor = const Color(0xff1b447b),
-  })  : assert(cardNumber != null),
+  const CreditCardWidget(
+      {Key key,
+      @required this.cardNumber,
+      @required this.expiryDate,
+      @required this.cardHolderName,
+      @required this.cvvCode,
+      @required this.showBackView,
+      this.animationDuration = const Duration(milliseconds: 500),
+      this.height,
+      this.width,
+      this.textStyle,
+      this.cardBgColor = const Color(0xff1b447b),
+      this.cvvTextStyle})
+      : assert(cardNumber != null),
         assert(showBackView != null),
         super(key: key);
 
@@ -25,6 +26,7 @@ class CreditCardWidget extends StatefulWidget {
   final String cvvCode;
   final TextStyle textStyle;
   final Color cardBgColor;
+  final TextStyle cvvTextStyle;
   final bool showBackView;
   final Duration animationDuration;
   final double height;
@@ -205,7 +207,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                               ? isAmex ? 'XXXX' : 'XXX'
                               : widget.cvvCode,
                           maxLines: 1,
-                          style: widget.textStyle ?? defaultTextStyle,
+                          style: widget.cvvTextStyle ?? defaultTextStyle,
                         ),
                       ),
                     ),
@@ -319,7 +321,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// A [List<String>] represents a range.
   /// i.e. ['51', '55'] represents the range of cards starting with '51' to those starting with '55'
   Map<CardType, Set<List<String>>> cardNumPatterns =
-  <CardType, Set<List<String>>>{
+      <CardType, Set<List<String>>>{
     CardType.visa: <List<String>>{
       <String>['4'],
     },

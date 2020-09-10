@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 import 'credit_card_model.dart';
+import 'flutter_credit_card.dart';
 
 class CreditCardForm extends StatefulWidget {
   const CreditCardForm({
@@ -15,7 +16,9 @@ class CreditCardForm extends StatefulWidget {
     this.themeColor,
     this.textColor = Colors.black,
     this.cursorColor,
-  }) : super(key: key);
+    this.localizedText = const LocalizedText(),
+  })  : assert(localizedText != null),
+        super(key: key);
 
   final String cardNumber;
   final String expiryDate;
@@ -25,6 +28,7 @@ class CreditCardForm extends StatefulWidget {
   final Color themeColor;
   final Color textColor;
   final Color cursorColor;
+  final LocalizedText localizedText;
 
   @override
   _CreditCardFormState createState() => _CreditCardFormState();
@@ -136,9 +140,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   color: widget.textColor,
                 ),
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Card number',
-                  hintText: 'xxxx xxxx xxxx xxxx',
+                  border: const OutlineInputBorder(),
+                  labelText: widget.localizedText.cardNumberLabel,
+                  hintText: widget.localizedText.cardNumberHint,
                 ),
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
@@ -154,9 +158,10 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   color: widget.textColor,
                 ),
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Expired Date',
-                    hintText: 'MM/YY'),
+                  border: const OutlineInputBorder(),
+                  labelText: widget.localizedText.expiryDateLabel,
+                  hintText: widget.localizedText.expiryDateHint,
+                ),
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
               ),
@@ -172,9 +177,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   color: widget.textColor,
                 ),
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'CVV',
-                  hintText: 'XXXX',
+                  border: const OutlineInputBorder(),
+                  labelText: widget.localizedText.cvvLabel,
+                  hintText: widget.localizedText.cvvHint,
                 ),
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.done,
@@ -195,8 +200,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   color: widget.textColor,
                 ),
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Card Holder',
+                  border: const OutlineInputBorder(),
+                  labelText: widget.localizedText.cardHolderLabel,
+                  hintText: widget.localizedText.cardHolderHint,
                 ),
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,

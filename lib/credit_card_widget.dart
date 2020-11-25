@@ -29,7 +29,6 @@ class CreditCardWidget extends StatefulWidget {
     this.cardType,
   })  : assert(cardNumber != null),
         assert(showBackView != null),
-        assert(localizedText != null),
         super(key: key);
 
   final String cardNumber;

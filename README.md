@@ -46,57 +46,47 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         cvvCode: cvvCode,
         showBackView: isCvvFocused,
         cardbgColor: Colors.black,
+        obscureCardNumber: true,
+        obscureCardCvv: true,
         height: 175,
         textStyle: TextStyle(color: Colors.yellowAccent),
         width: MediaQuery.of(context).size.width,
         animationDuration: Duration(milliseconds: 1000),
-        ),
+    ),
 ``` 
 3.  Adding CreditCardForm
 
 ```dart
     CreditCardForm(
+      formKey: formKey, // Required 
+      onCreditCardModelChange: (CreditCardModel data) {}, // Required
       themeColor: Colors.red,
-      onCreditCardModelChange: (CreditCardModel data) {},
+      obscureCvv: true, 
+      obscureNumber: true,
+      cardNumberDecoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Number',
+        hintText: 'XXXX XXXX XXXX XXXX',
+      ),
+      expiryDateDecoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Expired Date',
+        hintText: 'XX/XX',
+      ),
+      cvvCodeDecoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'CVV',
+        hintText: 'XXX',
+      ),
+      cardHolderDecoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Card Holder',
+      ),
     ),
 ```
 
-## Localization
 
-To localize text field hints and labels, use `LocalizedText` model.
 
-```dart
-const LocalizedText localizedText = LocalizedText(
-    cardNumberLabel: 'Kreditkartennummer',
-    cardNumberHint: 'XXXX-XXXX-XXXX-XXXX',
-    expiryDateLabel: 'Ablaufdatum',
-    expiryDateHint: 'MM/JJ',
-    cvvLabel: 'Kartenprüfnummer',
-    cvvHint: 'XXX',
-    cardHolderLabel: 'Karteninhaber',
-    cardHolderHint: 'Max Mustermann',
-);
-
-return Column(
-    children: <Widget>[
-        CreditCardWidget(
-            cardNumber: cardNumber,
-            expiryDate: expiryDate,
-            cardHolderName: cardHolderName,
-            cvvCode: cvvCode,
-            showBackView: isCvvFocused,
-            localizedText: localizedText,
-        ),
-        Expanded(
-        child: SingleChildScrollView(
-            child: CreditCardForm(
-                onCreditCardModelChange: onCreditCardModelChange,
-                localizedText: localizedText,
-            ),
-        ),
-    ],
-);
-```
 
 ## How to use
 Check out the **example** app in the [example](example) directory or the 'Example' tab on pub.dartlang.org for a more complete example.

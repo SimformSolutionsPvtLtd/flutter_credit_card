@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -12,6 +13,7 @@ class CreditCardForm extends StatefulWidget {
     this.expiryDate,
     this.cardHolderName,
     this.cvvCode,
+    this.postalCode,
     @required this.onCreditCardModelChange,
     this.themeColor,
     this.textColor = Colors.black,
@@ -22,6 +24,7 @@ class CreditCardForm extends StatefulWidget {
   final String expiryDate;
   final String cardHolderName;
   final String cvvCode;
+  final String postalCode;
   final void Function(CreditCardModel) onCreditCardModelChange;
   final Color themeColor;
   final Color textColor;
@@ -36,6 +39,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
   String expiryDate;
   String cardHolderName;
   String cvvCode;
+  String postalCode;
   bool isCvvFocused = false;
   Color themeColor;
 
@@ -50,6 +54,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
       TextEditingController();
   final TextEditingController _cvvCodeController =
       MaskedTextController(mask: '0000');
+  final TextEditingController _postalCodeController = TextEditingController();
 
   FocusNode cvvFocusNode = FocusNode();
 
@@ -63,9 +68,10 @@ class _CreditCardFormState extends State<CreditCardForm> {
     expiryDate = widget.expiryDate ?? '';
     cardHolderName = widget.cardHolderName ?? '';
     cvvCode = widget.cvvCode ?? '';
+    postalCode = widget.postalCode ?? '';
 
-    creditCardModel = CreditCardModel(
-        cardNumber, expiryDate, cardHolderName, cvvCode, isCvvFocused);
+    creditCardModel = CreditCardModel(cardNumber, expiryDate, cardHolderName,
+        cvvCode, postalCode, isCvvFocused);
   }
 
   @override
@@ -106,6 +112,15 @@ class _CreditCardFormState extends State<CreditCardForm> {
       setState(() {
         cvvCode = _cvvCodeController.text;
         creditCardModel.cvvCode = cvvCode;
+        onCreditCardModelChange(creditCardModel);
+      });
+    });
+
+    _postalCodeController.addListener(() {
+      setState(() {
+        postalCode = _postalCodeController.text.toUpperCase();
+
+        creditCardModel.postalCode = postalCode;
         onCreditCardModelChange(creditCardModel);
       });
     });
@@ -195,7 +210,6 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   ]),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
               margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
               child: TextFormField(
                 controller: _cardHolderNameController,
@@ -212,9 +226,42 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 textInputAction: TextInputAction.next,
               ),
             ),
+            Container(
+              // padding: const EdgeInsets.symmetric(vertical: 8.0),
+              margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+              child: TextFormField(
+                inputFormatters: <TextInputFormatter>[
+                  UpperCaseTextFormatter(),
+                  LengthLimitingTextInputFormatter(6)
+                ],
+                controller: _postalCodeController,
+                cursorColor: widget.cursorColor ?? themeColor,
+                style: TextStyle(
+                  color: widget.textColor,
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: Icon(EvaIcons.homeOutline),
+                  labelText: 'Postal Code',
+                ),
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.done,
+              ),
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text?.toUpperCase(),
+      selection: newValue.selection,
     );
   }
 }

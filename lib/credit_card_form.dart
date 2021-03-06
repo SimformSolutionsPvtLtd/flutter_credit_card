@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
@@ -14,7 +15,10 @@ class CreditCardForm extends StatefulWidget {
     this.cvvCode,
     this.obscureCvv = false,
     this.obscureNumber = false,
+    this.requireHolderName = false,
+    this.holderNameToUpperCase = false,
     required this.onCreditCardModelChange,
+    this.onFormComplete,
     this.themeColor,
     this.textColor = Colors.black,
     this.cursorColor,
@@ -37,6 +41,7 @@ class CreditCardForm extends StatefulWidget {
     this.cvvValidationMessage = 'Please input a valid CVV',
     this.dateValidationMessage = 'Please input a valid date',
     this.numberValidationMessage = 'Please input a valid number',
+    this.holderValidationMessage = 'Please input a holder name',
   }) : super(key: key);
 
   final String? cardNumber;
@@ -46,12 +51,16 @@ class CreditCardForm extends StatefulWidget {
   final String cvvValidationMessage;
   final String dateValidationMessage;
   final String numberValidationMessage;
+  final String holderValidationMessage;
   final void Function(CreditCardModel) onCreditCardModelChange;
+  final void Function()? onFormComplete;
   final Color? themeColor;
   final Color textColor;
   final Color? cursorColor;
   final bool obscureCvv;
   final bool obscureNumber;
+  final bool requireHolderName;
+  final bool holderNameToUpperCase;
   final GlobalKey<FormState> formKey;
 
   final InputDecoration cardNumberDecoration;
@@ -112,6 +121,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
 
     cvvFocusNode.addListener(textFieldFocusDidChange);
 
+    _cardNumberController.text = cardNumber!;
     _cardNumberController.addListener(() {
       setState(() {
         cardNumber = _cardNumberController.text;
@@ -120,6 +130,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
       });
     });
 
+    _expiryDateController.text = expiryDate!;
     _expiryDateController.addListener(() {
       setState(() {
         expiryDate = _expiryDateController.text;
@@ -128,6 +139,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
       });
     });
 
+    _cardHolderNameController.text = cardHolderName!;
     _cardHolderNameController.addListener(() {
       setState(() {
         cardHolderName = _cardHolderNameController.text;
@@ -136,6 +148,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
       });
     });
 
+    _cvvCodeController.text = cvvCode!;
     _cvvCodeController.addListener(() {
       setState(() {
         cvvCode = _cvvCodeController.text;
@@ -282,16 +295,43 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   color: widget.textColor,
                 ),
                 decoration: widget.cardHolderDecoration,
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.done,
+                inputFormatters: widget.holderNameToUpperCase
+                    ? [
+                        UpperCaseTextFormatter(),
+                      ]
+                    : null,
+                validator: (String? value) {
+                  if (widget.requireHolderName == true &&
+                      (value == null || value.isEmpty)) {
+                    return widget.holderValidationMessage;
+                  }
+                  return null;
+                },
                 onEditingComplete: () {
                   onCreditCardModelChange(creditCardModel);
+                  if (widget.onFormComplete != null &&
+                      widget.formKey.currentState?.validate() == true) {
+                    widget.onFormComplete!();
+                  }
                 },
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text.toUpperCase(),
+      selection: newValue.selection,
     );
   }
 }

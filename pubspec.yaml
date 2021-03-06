@@ -1,12 +1,12 @@
 name: flutter_credit_card
 description: A Credit Card widget package, support entering card details, card flip animation.
-version: 0.1.4
+version: 1.0.0-nullsafety.0
 author: Simform Solutions <developer@simform.com>
 homepage: https://github.com/simformsolutions/flutter_credit_card
 issue_tracker : https://github.com/simformsolutions/flutter_credit_card/issues
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:

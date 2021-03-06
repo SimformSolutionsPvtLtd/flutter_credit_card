@@ -1,4 +1,4 @@
-import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:flutter_credit_card/localized_text_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-const Map<CardType, String> CardTypeIconAsset = {
+const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
   CardType.visa: 'icons/visa.png',
   CardType.americanExpress: 'icons/amex.png',
   CardType.mastercard: 'icons/mastercard.png',
@@ -11,12 +11,12 @@ const Map<CardType, String> CardTypeIconAsset = {
 
 class CreditCardWidget extends StatefulWidget {
   const CreditCardWidget({
-    Key key,
-    @required this.cardNumber,
-    @required this.expiryDate,
-    @required this.cardHolderName,
-    @required this.cvvCode,
-    @required this.showBackView,
+    Key? key,
+    required this.cardNumber,
+    required this.expiryDate,
+    required this.cardHolderName,
+    required this.cvvCode,
+    required this.showBackView,
     this.animationDuration = const Duration(milliseconds: 500),
     this.height,
     this.width,
@@ -27,37 +27,36 @@ class CreditCardWidget extends StatefulWidget {
     this.labelCardHolder = 'CARD HOLDER',
     this.labelExpiredDate = 'MM/YY',
     this.cardType,
-  })  : assert(cardNumber != null),
-        assert(showBackView != null),
-        super(key: key);
+  }) : super(key: key);
 
   final String cardNumber;
   final String expiryDate;
   final String cardHolderName;
   final String cvvCode;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
   final Color cardBgColor;
   final bool showBackView;
   final Duration animationDuration;
-  final double height;
-  final double width;
+  final double? height;
+  final double? width;
   final bool obscureCardNumber;
   final bool obscureCardCvv;
 
   final String labelCardHolder;
   final String labelExpiredDate;
 
-  final CardType cardType;
+  final CardType? cardType;
 
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
 }
 
-class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> _frontRotation;
-  Animation<double> _backRotation;
-  Gradient backgroundGradientColor;
+class _CreditCardWidgetState extends State<CreditCardWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> _frontRotation;
+  late Animation<double> _backRotation;
+  late Gradient backgroundGradientColor;
 
   bool isAmex = false;
 
@@ -89,7 +88,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
     _frontRotation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: pi / 2).chain(CurveTween(curve: Curves.easeIn)),
+          tween: Tween<double>(begin: 0.0, end: pi / 2)
+              .chain(CurveTween(curve: Curves.easeIn)),
           weight: 50.0,
         ),
         TweenSequenceItem<double>(
@@ -106,7 +106,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
           weight: 50.0,
         ),
         TweenSequenceItem<double>(
-          tween: Tween<double>(begin: -pi / 2, end: 0.0).chain(CurveTween(curve: Curves.easeOut)),
+          tween: Tween<double>(begin: -pi / 2, end: 0.0)
+              .chain(CurveTween(curve: Curves.easeOut)),
           weight: 50.0,
         ),
       ],
@@ -159,9 +160,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
     BuildContext context,
     Orientation orientation,
   ) {
-    final TextStyle defaultTextStyle =
-        Theme.of(context).textTheme.headline6.merge(
-              TextStyle(
+    final TextStyle? defaultTextStyle =
+        Theme.of(context).textTheme.headline6?.merge(
+              const TextStyle(
                 color: Colors.black,
                 fontFamily: 'halter',
                 fontSize: 16,
@@ -180,7 +181,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
       ),
       margin: const EdgeInsets.all(16),
       width: widget.width ?? width,
-      height: widget.height ?? (orientation == Orientation.portrait ? height / 4 : height / 2),
+      height: widget.height ??
+          (orientation == Orientation.portrait ? height / 4 : height / 2),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,7 +217,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
                         padding: const EdgeInsets.all(5),
                         child: Text(
                           widget.cvvCode.isEmpty
-                              ? isAmex ? 'XXXX' : 'XXX'
+                              ? isAmex
+                                  ? 'XXXX'
+                                  : 'XXX'
                               : cvv,
                           maxLines: 1,
                           style: widget.textStyle ?? defaultTextStyle,
@@ -233,7 +237,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                child: widget.cardType != null ? getCardTypeImage(widget.cardType) : getCardTypeIcon(widget.cardNumber),
+                child: widget.cardType != null
+                    ? getCardTypeImage(widget.cardType!)
+                    : getCardTypeIcon(widget.cardNumber),
               ),
             ),
           ),
@@ -252,9 +258,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
     BuildContext context,
     Orientation orientation,
   ) {
-    final TextStyle defaultTextStyle =
-        Theme.of(context).textTheme.headline6.merge(
-              TextStyle(
+    final TextStyle? defaultTextStyle =
+        Theme.of(context).textTheme.headline6?.merge(
+              const TextStyle(
                 color: Colors.white,
                 fontFamily: 'halter',
                 fontSize: 16,
@@ -271,7 +277,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         gradient: backgroundGradientColor,
-        boxShadow: <BoxShadow>[
+        boxShadow: const <BoxShadow>[
           BoxShadow(
             color: Colors.grey,
             blurRadius: 5,
@@ -279,7 +285,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
         ],
       ),
       width: widget.width ?? width,
-      height: widget.height ?? (orientation == Orientation.portrait ? height / 4 : height / 2),
+      height: widget.height ??
+          (orientation == Orientation.portrait ? height / 4 : height / 2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -287,16 +294,16 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
             alignment: Alignment.topRight,
             child: Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
-              child: widget.cardType != null ? getCardTypeImage(widget.cardType) : getCardTypeIcon(widget.cardNumber),
+              child: widget.cardType != null
+                  ? getCardTypeImage(widget.cardType!)
+                  : getCardTypeIcon(widget.cardNumber),
             ),
           ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.cardNumber.isEmpty || widget.cardNumber == null
-                    ? 'XXXX XXXX XXXX XXXX'
-                    : number,
+                widget.cardNumber.isEmpty ? 'XXXX XXXX XXXX XXXX' : number,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
@@ -306,7 +313,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.expiryDate.isEmpty || widget.expiryDate == null ? widget.labelExpiredDate : widget.expiryDate,
+                widget.expiryDate.isEmpty
+                    ? widget.labelExpiredDate
+                    : widget.expiryDate,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
@@ -315,7 +324,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
             child: Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Text(
-                widget.cardHolderName.isEmpty || widget.cardHolderName == null ? widget.labelCardHolder : widget.cardHolderName,
+                widget.cardHolderName.isEmpty
+                    ? widget.labelCardHolder
+                    : widget.cardHolderName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: widget.textStyle ?? defaultTextStyle,
@@ -369,7 +380,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
       (CardType type, Set<List<String>> patterns) {
         for (List<String> patternRange in patterns) {
           // Remove any spaces
-          String ccPatternStr = cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
+          String ccPatternStr =
+              cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
           final int rangeLen = patternRange[0].length;
           // Trim the Credit Card number string to match the pattern prefix length
           if (rangeLen < cardNumber.length) {
@@ -383,7 +395,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
             final int ccPrefixAsInt = int.parse(ccPatternStr);
             final int startPatternPrefixAsInt = int.parse(patternRange[0]);
             final int endPatternPrefixAsInt = int.parse(patternRange[1]);
-            if (ccPrefixAsInt >= startPatternPrefixAsInt && ccPrefixAsInt <= endPatternPrefixAsInt) {
+            if (ccPrefixAsInt >= startPatternPrefixAsInt &&
+                ccPrefixAsInt <= endPatternPrefixAsInt) {
               // Found a match
               cardType = type;
               break;
@@ -404,7 +417,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
   }
 
   Widget getCardTypeImage(CardType cardType) => Image.asset(
-        CardTypeIconAsset[cardType],
+        CardTypeIconAsset[cardType]!,
         height: 48,
         width: 48,
         package: 'flutter_credit_card',
@@ -470,8 +483,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget> with SingleTickerPr
 
 class AnimationCard extends StatelessWidget {
   const AnimationCard({
-    @required this.child,
-    @required this.animation,
+    required this.child,
+    required this.animation,
   });
 
   final Widget child;
@@ -481,7 +494,7 @@ class AnimationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: animation,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         final Matrix4 transform = Matrix4.identity();
         transform.setEntry(3, 2, 0.001);
         transform.rotateY(animation.value);
@@ -497,8 +510,15 @@ class AnimationCard extends StatelessWidget {
 }
 
 class MaskedTextController extends TextEditingController {
-  MaskedTextController({String text, this.mask, Map<String, RegExp> translator}) : super(text: text) {
-    this.translator = translator ?? MaskedTextController.getDefaultTranslator();
+  Map<String, RegExp> _translator = MaskedTextController.getDefaultTranslator();
+  String mask;
+
+  MaskedTextController(
+      {String text = '', required this.mask, Map<String, RegExp>? translator})
+      : super(text: text) {
+    if (translator != null) {
+      _translator = translator;
+    }
 
     addListener(() {
       final String previous = _lastUpdatedText;
@@ -513,10 +533,6 @@ class MaskedTextController extends TextEditingController {
     updateText(this.text);
   }
 
-  String mask;
-
-  Map<String, RegExp> translator;
-
   Function afterChange = (String previous, String next) {};
   Function beforeChange = (String previous, String next) {
     return true;
@@ -525,12 +541,7 @@ class MaskedTextController extends TextEditingController {
   String _lastUpdatedText = '';
 
   void updateText(String text) {
-    if (text != null) {
-      this.text = _applyMask(mask, text);
-    } else {
-      this.text = '';
-    }
-
+    this.text = _applyMask(mask, text);
     _lastUpdatedText = this.text;
   }
 
@@ -545,7 +556,7 @@ class MaskedTextController extends TextEditingController {
 
   void moveCursorToEnd() {
     final String text = _lastUpdatedText;
-    selection = TextSelection.fromPosition(TextPosition(offset: (text ?? '').length));
+    selection = TextSelection.fromPosition(TextPosition(offset: text.length));
   }
 
   @override
@@ -557,7 +568,12 @@ class MaskedTextController extends TextEditingController {
   }
 
   static Map<String, RegExp> getDefaultTranslator() {
-    return <String, RegExp>{'A': RegExp(r'[A-Za-z]'), '0': RegExp(r'[0-9]'), '@': RegExp(r'[A-Za-z0-9]'), '*': RegExp(r'.*')};
+    return <String, RegExp>{
+      'A': RegExp(r'[A-Za-z]'),
+      '0': RegExp(r'[0-9]'),
+      '@': RegExp(r'[A-Za-z0-9]'),
+      '*': RegExp(r'.*')
+    };
   }
 
   String _applyMask(String mask, String value) {
@@ -589,8 +605,8 @@ class MaskedTextController extends TextEditingController {
       }
 
       // apply translator if match
-      if (translator.containsKey(maskChar)) {
-        if (translator[maskChar].hasMatch(valueChar)) {
+      if (_translator.containsKey(maskChar)) {
+        if (_translator[maskChar]!.hasMatch(valueChar)) {
           result += valueChar;
           maskCharIndex += 1;
         }

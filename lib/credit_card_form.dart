@@ -283,6 +283,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 textInputAction: TextInputAction.done,
                 onEditingComplete: () {
                   onCreditCardModelChange(creditCardModel);
+                  FocusScope.of(context).unfocus();
                 },
               ),
             ),

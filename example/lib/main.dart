@@ -45,7 +45,7 @@ class MySampleState extends State<MySample> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    children: [
+                    children: <Widget>[
                       CreditCardForm(
                         formKey: formKey,
                         obscureCvv: true,
@@ -71,9 +71,12 @@ class MySampleState extends State<MySample> {
                         ),
                         onCreditCardModelChange: onCreditCardModelChange,
                       ),
-                      RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          primary: const Color(0xff1b447b),
                         ),
                         child: Container(
                           margin: const EdgeInsets.all(8),
@@ -87,9 +90,8 @@ class MySampleState extends State<MySample> {
                             ),
                           ),
                         ),
-                        color: const Color(0xff1b447b),
                         onPressed: () {
-                          if (formKey.currentState.validate()) {
+                          if (formKey.currentState!.validate()) {
                             print('valid!');
                           } else {
                             print('invalid!');
@@ -107,9 +109,9 @@ class MySampleState extends State<MySample> {
     );
   }
 
-  void onCreditCardModelChange(CreditCardModel creditCardModel) {
+  void onCreditCardModelChange(CreditCardModel? creditCardModel) {
     setState(() {
-      cardNumber = creditCardModel.cardNumber;
+      cardNumber = creditCardModel!.cardNumber;
       expiryDate = creditCardModel.expiryDate;
       cardHolderName = creditCardModel.cardHolderName;
       cvvCode = creditCardModel.cvvCode;

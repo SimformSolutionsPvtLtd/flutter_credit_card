@@ -50,6 +50,11 @@ class MySampleState extends State<MySample> {
                         formKey: formKey,
                         obscureCvv: true,
                         obscureNumber: true,
+                        cardNumber: cardNumber,
+                        cvvCode: cvvCode,
+                        cardHolderName: cardHolderName,
+                        expiryDate: expiryDate,
+                        themeColor: Colors.blue,
                         cardNumberDecoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Number',

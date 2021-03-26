@@ -8,14 +8,14 @@ import 'flutter_credit_card.dart';
 class CreditCardForm extends StatefulWidget {
   const CreditCardForm({
     Key? key,
-    this.cardNumber,
-    this.expiryDate,
-    this.cardHolderName,
-    this.cvvCode,
+    required this.cardNumber,
+    required this.expiryDate,
+    required this.cardHolderName,
+    required this.cvvCode,
     this.obscureCvv = false,
     this.obscureNumber = false,
     required this.onCreditCardModelChange,
-    this.themeColor,
+    required this.themeColor,
     this.textColor = Colors.black,
     this.cursorColor,
     this.cardHolderDecoration = const InputDecoration(
@@ -39,15 +39,15 @@ class CreditCardForm extends StatefulWidget {
     this.numberValidationMessage = 'Please input a valid number',
   }) : super(key: key);
 
-  final String? cardNumber;
-  final String? expiryDate;
-  final String? cardHolderName;
-  final String? cvvCode;
+  final String cardNumber;
+  final String expiryDate;
+  final String cardHolderName;
+  final String cvvCode;
   final String cvvValidationMessage;
   final String dateValidationMessage;
   final String numberValidationMessage;
-  final void Function(CreditCardModel?) onCreditCardModelChange;
-  final Color? themeColor;
+  final void Function(CreditCardModel) onCreditCardModelChange;
+  final Color themeColor;
   final Color textColor;
   final Color? cursorColor;
   final bool obscureCvv;
@@ -64,15 +64,15 @@ class CreditCardForm extends StatefulWidget {
 }
 
 class _CreditCardFormState extends State<CreditCardForm> {
-  String? cardNumber;
-  String? expiryDate;
-  String? cardHolderName;
-  String? cvvCode;
+  late String cardNumber;
+  late String expiryDate;
+  late String cardHolderName;
+  late String cvvCode;
   bool isCvvFocused = false;
-  Color? themeColor;
+  late Color themeColor;
 
-  late void Function(CreditCardModel?) onCreditCardModelChange;
-  CreditCardModel? creditCardModel;
+  late void Function(CreditCardModel) onCreditCardModelChange;
+  late CreditCardModel creditCardModel;
 
   final MaskedTextController _cardNumberController =
       MaskedTextController(mask: '0000 0000 0000 0000');
@@ -89,18 +89,18 @@ class _CreditCardFormState extends State<CreditCardForm> {
   FocusNode cardHolderNode = FocusNode();
 
   void textFieldFocusDidChange() {
-    creditCardModel!.isCvvFocused = cvvFocusNode.hasFocus;
+    creditCardModel.isCvvFocused = cvvFocusNode.hasFocus;
     onCreditCardModelChange(creditCardModel);
   }
 
   void createCreditCardModel() {
-    cardNumber = widget.cardNumber ?? '';
-    expiryDate = widget.expiryDate ?? '';
-    cardHolderName = widget.cardHolderName ?? '';
-    cvvCode = widget.cvvCode ?? '';
+    cardNumber = widget.cardNumber;
+    expiryDate = widget.expiryDate;
+    cardHolderName = widget.cardHolderName;
+    cvvCode = widget.cvvCode;
 
     creditCardModel = CreditCardModel(
-        cardNumber!, expiryDate!, cardHolderName!, cvvCode!, isCvvFocused);
+        cardNumber, expiryDate, cardHolderName, cvvCode, isCvvFocused);
   }
 
   @override
@@ -116,7 +116,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     _cardNumberController.addListener(() {
       setState(() {
         cardNumber = _cardNumberController.text;
-        creditCardModel!.cardNumber = cardNumber!;
+        creditCardModel.cardNumber = cardNumber;
         onCreditCardModelChange(creditCardModel);
       });
     });
@@ -124,7 +124,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     _expiryDateController.addListener(() {
       setState(() {
         expiryDate = _expiryDateController.text;
-        creditCardModel!.expiryDate = expiryDate!;
+        creditCardModel.expiryDate = expiryDate;
         onCreditCardModelChange(creditCardModel);
       });
     });
@@ -132,7 +132,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     _cardHolderNameController.addListener(() {
       setState(() {
         cardHolderName = _cardHolderNameController.text;
-        creditCardModel!.cardHolderName = cardHolderName!;
+        creditCardModel.cardHolderName = cardHolderName;
         onCreditCardModelChange(creditCardModel);
       });
     });
@@ -140,7 +140,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     _cvvCodeController.addListener(() {
       setState(() {
         cvvCode = _cvvCodeController.text;
-        creditCardModel!.cvvCode = cvvCode!;
+        creditCardModel.cvvCode = cvvCode;
         onCreditCardModelChange(creditCardModel);
       });
     });
@@ -156,7 +156,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
 
   @override
   void didChangeDependencies() {
-    themeColor = widget.themeColor ?? Theme.of(context).primaryColor;
+    themeColor = widget.themeColor;
     super.didChangeDependencies();
   }
 
@@ -164,7 +164,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-        primaryColor: themeColor!.withOpacity(0.8),
+        primaryColor: themeColor.withOpacity(0.8),
         primaryColorDark: themeColor,
       ),
       child: Form(

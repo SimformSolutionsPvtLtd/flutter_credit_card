@@ -42,6 +42,7 @@ build/
 **/ios/**/*.mode2v3
 **/ios/**/*.moved-aside
 **/ios/**/*.pbxuser
+**/ios/**/flutter_export_environment.sh
 **/ios/**/*.perspectivev3
 **/ios/**/*sync/
 **/ios/**/.sconsign.dblite
@@ -63,6 +64,7 @@ build/
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
 ios/.generated/
+**/pubspec.lock
 
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3

@@ -54,9 +54,9 @@ class CreditCardWidget extends StatefulWidget {
 class _CreditCardWidgetState extends State<CreditCardWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
-  Animation<double>? _frontRotation;
-  Animation<double>? _backRotation;
-  Gradient? backgroundGradientColor;
+  late Animation<double> _frontRotation;
+  late Animation<double> _backRotation;
+  late Gradient backgroundGradientColor;
 
   bool isAmex = false;
 
@@ -488,16 +488,16 @@ class AnimationCard extends StatelessWidget {
   });
 
   final Widget child;
-  final Animation<double>? animation;
+  final Animation<double> animation;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: animation!,
+      animation: animation,
       builder: (BuildContext context, Widget? child) {
         final Matrix4 transform = Matrix4.identity();
         transform.setEntry(3, 2, 0.001);
-        transform.rotateY(animation!.value);
+        transform.rotateY(animation.value);
         return Transform(
           transform: transform,
           alignment: Alignment.center,
@@ -511,7 +511,7 @@ class AnimationCard extends StatelessWidget {
 
 class MaskedTextController extends TextEditingController {
   MaskedTextController(
-      {String? text, this.mask, Map<String, RegExp>? translator})
+      {String? text, required this.mask, Map<String, RegExp>? translator})
       : super(text: text) {
     this.translator = translator ?? MaskedTextController.getDefaultTranslator();
 
@@ -528,7 +528,7 @@ class MaskedTextController extends TextEditingController {
     updateText(this.text);
   }
 
-  String? mask;
+  String mask;
 
   late Map<String, RegExp> translator;
 
@@ -539,8 +539,8 @@ class MaskedTextController extends TextEditingController {
 
   String _lastUpdatedText = '';
 
-  void updateText(String? text) {
-    if (text != null) {
+  void updateText(String text) {
+    if (text.isNotEmpty) {
       this.text = _applyMask(mask, text);
     } else {
       this.text = '';

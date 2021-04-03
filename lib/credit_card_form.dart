@@ -108,6 +108,11 @@ class _CreditCardFormState extends State<CreditCardForm> {
     super.initState();
 
     createCreditCardModel();
+      
+    _cardNumberController.text = widget.cardNumber;
+    _expiryDateController.text = widget.expiryDate;
+    _cardHolderNameController.text = widget.cardHolderName;
+    _cvvCodeController.text = widget.cvvCode;
 
     onCreditCardModelChange = widget.onCreditCardModelChange;
 

@@ -284,6 +284,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.done,
                 onEditingComplete: () {
+                  FocusScope.of(context).unfocus();
                   onCreditCardModelChange(creditCardModel);
                 },
               ),

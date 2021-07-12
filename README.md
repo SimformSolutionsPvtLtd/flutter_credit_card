@@ -48,6 +48,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         cardbgColor: Colors.black,
         obscureCardNumber: true,
         obscureCardCvv: true,
+        isHolderNameVisible: false,
         height: 175,
         textStyle: TextStyle(color: Colors.yellowAccent),
         width: MediaQuery.of(context).size.width,
@@ -63,6 +64,9 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       themeColor: Colors.red,
       obscureCvv: true, 
       obscureNumber: true,
+      isHolderNameVisible: false,
+      isCardNumberVisible: false,
+      isExpiryDateVisible: false,
       cardNumberDecoration: const InputDecoration(
         border: OutlineInputBorder(),
         labelText: 'Number',

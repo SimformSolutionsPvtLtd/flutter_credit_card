@@ -27,6 +27,7 @@ class CreditCardWidget extends StatefulWidget {
     this.labelCardHolder = 'CARD HOLDER',
     this.labelExpiredDate = 'MM/YY',
     this.cardType,
+    this.isHolderNameVisible = false,
   }) : super(key: key);
 
   final String cardNumber;
@@ -41,6 +42,7 @@ class CreditCardWidget extends StatefulWidget {
   final double? width;
   final bool obscureCardNumber;
   final bool obscureCardCvv;
+  final bool isHolderNameVisible;
 
   final String labelCardHolder;
   final String labelExpiredDate;
@@ -320,16 +322,19 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               ),
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-              child: Text(
-                widget.cardHolderName.isEmpty
-                    ? widget.labelCardHolder
-                    : widget.cardHolderName,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: widget.textStyle ?? defaultTextStyle,
+          Visibility(
+            visible: widget.isHolderNameVisible,
+            child: Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                child: Text(
+                  widget.cardHolderName.isEmpty
+                      ? widget.labelCardHolder
+                      : widget.cardHolderName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: widget.textStyle ?? defaultTextStyle,
+                ),
               ),
             ),
           ),

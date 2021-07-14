@@ -268,9 +268,21 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               ),
             );
 
-    final String number = widget.obscureCardNumber
-        ? widget.cardNumber.replaceAll(RegExp(r'(?<=.{4})\d(?=.{4})'), '*')
-        : widget.cardNumber;
+    String number = widget.cardNumber;
+    if (widget.obscureCardNumber) {
+      final String stripped = number.replaceAll(RegExp(r'[^\d]'), '');
+      if (stripped.length > 8) {
+        final String middle = number
+            .substring(4, number.length - 5)
+            .trim()
+            .replaceAll(RegExp(r'\d'), '*');
+        number = stripped.substring(0, 4) +
+            ' ' +
+            middle +
+            ' ' +
+            stripped.substring(stripped.length - 4);
+      }
+    }
 
     return Container(
       margin: const EdgeInsets.all(16),

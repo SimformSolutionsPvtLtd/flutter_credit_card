@@ -174,7 +174,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         : widget.cvvCode;
 
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: widget.cardBgColor,
+      ),
       margin: const EdgeInsets.all(16),
       width: widget.width ?? width,
       height: widget.height ??

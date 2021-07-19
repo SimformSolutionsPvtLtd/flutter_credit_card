@@ -41,6 +41,7 @@ class MySampleState extends State<MySample> {
                 showBackView: isCvvFocused,
                 obscureCardNumber: true,
                 obscureCardCvv: true,
+                isHolderNameVisible: false,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -52,6 +53,9 @@ class MySampleState extends State<MySample> {
                         obscureNumber: true,
                         cardNumber: cardNumber,
                         cvvCode: cvvCode,
+                        isHolderNameVisible: false,
+                        isCardNumberVisible: true,
+                        isExpiryDateVisible: true,
                         cardHolderName: cardHolderName,
                         expiryDate: expiryDate,
                         themeColor: Colors.blue,

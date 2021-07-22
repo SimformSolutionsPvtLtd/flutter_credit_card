@@ -40,6 +40,7 @@ class CreditCardForm extends StatefulWidget {
     this.isHolderNameVisible = true,
     this.isCardNumberVisible = true,
     this.isExpiryDateVisible = true,
+    this.onFormComplete,
   }) : super(key: key);
 
   final String cardNumber;
@@ -59,6 +60,7 @@ class CreditCardForm extends StatefulWidget {
   final bool isCardNumberVisible;
   final bool isExpiryDateVisible;
   final GlobalKey<FormState> formKey;
+  final Function? onFormComplete;
 
   final InputDecoration cardNumberDecoration;
   final InputDecoration cardHolderDecoration;
@@ -266,6 +268,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                         else {
                           FocusScope.of(context).unfocus();
                           onCreditCardModelChange(creditCardModel);
+                          if (widget.onFormComplete != null) {
+                            widget.onFormComplete!();
+                          }
                         }
                       },
                       style: TextStyle(
@@ -312,6 +317,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   onEditingComplete: () {
                     FocusScope.of(context).unfocus();
                     onCreditCardModelChange(creditCardModel);
+                    if (widget.onFormComplete != null) {
+                      widget.onFormComplete!();
+                    }
                   },
                 ),
               ),

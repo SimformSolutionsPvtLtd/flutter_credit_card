@@ -1,6 +1,9 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
+import 'glassmorphism_config.dart';
 
 const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
   CardType.visa: 'icons/visa.png',
@@ -10,25 +13,27 @@ const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
 };
 
 class CreditCardWidget extends StatefulWidget {
-  const CreditCardWidget({
-    Key? key,
-    required this.cardNumber,
-    required this.expiryDate,
-    required this.cardHolderName,
-    required this.cvvCode,
-    required this.showBackView,
-    this.animationDuration = const Duration(milliseconds: 500),
-    this.height,
-    this.width,
-    this.textStyle,
-    this.cardBgColor = const Color(0xff1b447b),
-    this.obscureCardNumber = true,
-    this.obscureCardCvv = true,
-    this.labelCardHolder = 'CARD HOLDER',
-    this.labelExpiredDate = 'MM/YY',
-    this.cardType,
-    this.isHolderNameVisible = false,
-  }) : super(key: key);
+  const CreditCardWidget(
+      {Key? key,
+      required this.cardNumber,
+      required this.expiryDate,
+      required this.cardHolderName,
+      required this.cvvCode,
+      required this.showBackView,
+      this.animationDuration = const Duration(milliseconds: 500),
+      this.height,
+      this.width,
+      this.textStyle,
+      this.cardBgColor = const Color(0xff1b447b),
+      this.obscureCardNumber = true,
+      this.obscureCardCvv = true,
+      this.labelCardHolder = 'CARD HOLDER',
+      this.labelExpiredDate = 'MM/YY',
+      this.cardType,
+      this.isHolderNameVisible = false,
+      this.backgroundImage,
+      this.glassmorphismConfig})
+      : super(key: key);
 
   final String cardNumber;
   final String expiryDate;
@@ -43,6 +48,8 @@ class CreditCardWidget extends StatefulWidget {
   final bool obscureCardNumber;
   final bool obscureCardCvv;
   final bool isHolderNameVisible;
+  final String? backgroundImage;
+  final Glassmorphism? glassmorphismConfig;
 
   final String labelCardHolder;
   final String labelExpiredDate;
@@ -59,6 +66,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   late Animation<double> _frontRotation;
   late Animation<double> _backRotation;
   late Gradient backgroundGradientColor;
+  late bool isFrontVisible = true;
+  late bool isGestureUpdate = false;
 
   bool isAmex = false;
 
@@ -72,6 +81,11 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       vsync: this,
     );
 
+    _gradientSetup();
+    _updateRotations(false);
+  }
+
+  void _gradientSetup() {
     backgroundGradientColor = LinearGradient(
       // Where the linear gradient begins and ends
       begin: Alignment.topRight,
@@ -85,35 +99,6 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         widget.cardBgColor.withOpacity(0.86),
       ],
     );
-
-    ///Initialize the Front to back rotation tween sequence.
-    _frontRotation = TweenSequence<double>(
-      <TweenSequenceItem<double>>[
-        TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: pi / 2)
-              .chain(CurveTween(curve: Curves.easeIn)),
-          weight: 50.0,
-        ),
-        TweenSequenceItem<double>(
-          tween: ConstantTween<double>(pi / 2),
-          weight: 50.0,
-        ),
-      ],
-    ).animate(controller);
-
-    _backRotation = TweenSequence<double>(
-      <TweenSequenceItem<double>>[
-        TweenSequenceItem<double>(
-          tween: ConstantTween<double>(pi / 2),
-          weight: 50.0,
-        ),
-        TweenSequenceItem<double>(
-          tween: Tween<double>(begin: -pi / 2, end: 0.0)
-              .chain(CurveTween(curve: Curves.easeOut)),
-          weight: 50.0,
-        ),
-      ],
-    ).animate(controller);
   }
 
   @override
@@ -124,44 +109,103 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
-    final Orientation orientation = MediaQuery.of(context).orientation;
-
     ///
     /// If uer adds CVV then toggle the card from front to back..
     /// controller forward starts animation and shows back layout.
     /// controller reverse starts animation and shows front layout.
     ///
-    if (widget.showBackView) {
-      controller.forward();
+    if (!isGestureUpdate) {
+      _updateRotations(false);
+      if (widget.showBackView) {
+        controller.forward();
+      } else {
+        controller.reverse();
+      }
     } else {
-      controller.reverse();
+      isGestureUpdate = false;
     }
-
     return Stack(
       children: <Widget>[
-        AnimationCard(
-          animation: _frontRotation,
-          child: buildFrontContainer(width, height, context, orientation),
+        _cardGesture(
+          child: AnimationCard(
+            animation: _frontRotation,
+            child: _buildFrontContainer(),
+          ),
         ),
-        AnimationCard(
-          animation: _backRotation,
-          child: buildBackContainer(width, height, context, orientation),
+        _cardGesture(
+          child: AnimationCard(
+            animation: _backRotation,
+            child: _buildBackContainer(),
+          ),
         ),
       ],
     );
   }
 
+  void _leftRotation() {
+    _toggleSide(false);
+  }
+
+  void _rightRotation() {
+    _toggleSide(true);
+  }
+
+  void _toggleSide(bool isRightTap) {
+    _updateRotations(!isRightTap);
+    if (isFrontVisible) {
+      controller.forward();
+      isFrontVisible = false;
+    } else {
+      controller.reverse();
+      isFrontVisible = true;
+    }
+  }
+
+  void _updateRotations(bool isRightSwipe) {
+    setState(() {
+      final bool rotateToLeft =
+          (isFrontVisible && !isRightSwipe) || !isFrontVisible && isRightSwipe;
+
+      ///Initialize the Front to back rotation tween sequence.
+      _frontRotation = TweenSequence<double>(
+        <TweenSequenceItem<double>>[
+          TweenSequenceItem<double>(
+            tween: Tween<double>(
+                    begin: 0.0, end: rotateToLeft ? (pi / 2) : (-pi / 2))
+                .chain(CurveTween(curve: Curves.linear)),
+            weight: 50.0,
+          ),
+          TweenSequenceItem<double>(
+            tween: ConstantTween<double>(rotateToLeft ? (-pi / 2) : (pi / 2)),
+            weight: 50.0,
+          ),
+        ],
+      ).animate(controller);
+
+      ///Initialize the Back to Front rotation tween sequence.
+      _backRotation = TweenSequence<double>(
+        <TweenSequenceItem<double>>[
+          TweenSequenceItem<double>(
+            tween: ConstantTween<double>(rotateToLeft ? (pi / 2) : (-pi / 2)),
+            weight: 50.0,
+          ),
+          TweenSequenceItem<double>(
+            tween: Tween<double>(
+                    begin: rotateToLeft ? (-pi / 2) : (pi / 2), end: 0.0)
+                .chain(
+              CurveTween(curve: Curves.linear),
+            ),
+            weight: 50.0,
+          ),
+        ],
+      ).animate(controller);
+    });
+  }
+
   ///
   /// Builds a back container containing cvv
   ///
-  Container buildBackContainer(
-    double width,
-    double height,
-    BuildContext context,
-    Orientation orientation,
-  ) {
+  Widget _buildBackContainer() {
     final TextStyle defaultTextStyle =
         Theme.of(context).textTheme.headline6!.merge(
               const TextStyle(
@@ -176,15 +220,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         ? widget.cvvCode.replaceAll(RegExp(r'\d'), '*')
         : widget.cvvCode;
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        gradient: backgroundGradientColor,
-      ),
-      margin: const EdgeInsets.all(16),
-      width: widget.width ?? width,
-      height: widget.height ??
-          (orientation == Orientation.portrait ? height / 4 : height / 2),
+    return _CardBackground(
+      backgroundImage: widget.backgroundImage,
+      backgroundGradientColor: backgroundGradientColor,
+      glassmorphismConfig: widget.glassmorphismConfig,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,12 +293,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// Builds a front container containing
   /// Card number, Exp. year and Card holder name
   ///
-  Container buildFrontContainer(
-    double width,
-    double height,
-    BuildContext context,
-    Orientation orientation,
-  ) {
+  Widget _buildFrontContainer() {
     final TextStyle defaultTextStyle =
         Theme.of(context).textTheme.headline6!.merge(
               const TextStyle(
@@ -274,21 +308,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         ? widget.cardNumber.replaceAll(RegExp(r'(?<=.{4})\d(?=.{4})'), '*')
         : widget.cardNumber;
 
-    return Container(
-      margin: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        gradient: backgroundGradientColor,
-        boxShadow: const <BoxShadow>[
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 5,
-          ),
-        ],
-      ),
-      width: widget.width ?? width,
-      height: widget.height ??
-          (orientation == Orientation.portrait ? height / 4 : height / 2),
+    return _CardBackground(
+      backgroundImage: widget.backgroundImage,
+      backgroundGradientColor: backgroundGradientColor,
+      glassmorphismConfig: widget.glassmorphismConfig,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -340,6 +363,32 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           ),
         ],
       ),
+    );
+  }
+
+  Widget _cardGesture({required Widget child}) {
+    bool isRightSwipe = true;
+    return GestureDetector(
+      onPanEnd: (_) {
+        isGestureUpdate = true;
+        if (isRightSwipe) {
+          _leftRotation();
+        } else {
+          _rightRotation();
+        }
+      },
+      onPanUpdate: (DragUpdateDetails details) {
+        // Swiping in right direction.
+        if (details.delta.dx > 0) {
+          isRightSwipe = true;
+        }
+
+        // Swiping in left direction.
+        if (details.delta.dx < 0) {
+          isRightSwipe = false;
+        }
+      },
+      child: child,
     );
   }
 
@@ -483,6 +532,80 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     }
 
     return icon;
+  }
+}
+
+class _CardBackground extends StatelessWidget {
+  const _CardBackground({
+    Key? key,
+    required this.backgroundGradientColor,
+    required this.backgroundImage,
+    required this.child,
+    this.width,
+    this.height,
+    this.glassmorphismConfig,
+  }) : super(key: key);
+
+  final String? backgroundImage;
+  final Widget child;
+  final Gradient backgroundGradientColor;
+  final Glassmorphism? glassmorphismConfig;
+  final double? width;
+  final double? height;
+
+  @override
+  Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final Orientation orientation = MediaQuery.of(context).orientation;
+    return Stack(
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              gradient: glassmorphismConfig != null
+                  ? glassmorphismConfig!.gradient
+                  : backgroundGradientColor,
+              image: backgroundImage != null
+                  ? DecorationImage(
+                      image: ExactAssetImage(
+                        backgroundImage!,
+                      ),
+                      fit: BoxFit.fill)
+                  : null),
+          width: width ?? screenWidth,
+          height: height ??
+              (orientation == Orientation.portrait
+                  ? screenHeight / 4
+                  : screenHeight / 2),
+          child: ClipRRect(
+            clipBehavior: Clip.hardEdge,
+            borderRadius: BorderRadius.circular(8),
+            child: Container(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: glassmorphismConfig?.blurX ?? 0.0,
+                  sigmaY: glassmorphismConfig?.blurY ?? 0.0,
+                ),
+                child: child,
+              ),
+            ),
+          ),
+        ),
+        if (glassmorphismConfig != null)
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: _GlassmorphicBorder(
+              width: width ?? screenWidth,
+              height: height ??
+                  (orientation == Orientation.portrait
+                      ? screenHeight / 4
+                      : screenHeight / 2),
+            ),
+          ),
+      ],
+    );
   }
 }
 
@@ -632,6 +755,78 @@ class MaskedTextController extends TextEditingController {
 
     return result;
   }
+}
+
+class _GlassmorphicBorder extends StatelessWidget {
+  _GlassmorphicBorder({
+    required this.height,
+    required this.width,
+  }) : _painter = _GradientPainter(strokeWidth: 2, radius: 10);
+  final _GradientPainter _painter;
+  final double width;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _painter,
+      size: MediaQuery.of(context).size,
+      child: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        width: width,
+        height: height,
+      ),
+    );
+  }
+}
+
+class _GradientPainter extends CustomPainter {
+  _GradientPainter({required this.strokeWidth, required this.radius});
+
+  final double radius;
+  final double strokeWidth;
+  final Paint paintObject = Paint();
+  final Paint paintObject2 = Paint();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final LinearGradient gradient = LinearGradient(
+        begin: Alignment.bottomRight,
+        end: Alignment.topLeft,
+        colors: <Color>[
+          Colors.white.withAlpha(50),
+          Colors.white.withAlpha(55),
+          Colors.white.withAlpha(50),
+        ],
+        stops: const <double>[
+          0.06,
+          0.95,
+          1
+        ]);
+    final RRect innerRect2 = RRect.fromRectAndRadius(
+        Rect.fromLTRB(strokeWidth, strokeWidth, size.width - strokeWidth,
+            size.height - strokeWidth),
+        Radius.circular(radius - strokeWidth));
+
+    final RRect outerRect = RRect.fromRectAndRadius(
+        Rect.fromLTRB(0, 0, size.width, size.height), Radius.circular(radius));
+    paintObject.shader = gradient.createShader(Offset.zero & size);
+
+    final Path outerRectPath = Path()..addRRect(outerRect);
+    final Path innerRectPath2 = Path()..addRRect(innerRect2);
+    canvas.drawPath(
+        Path.combine(
+            PathOperation.difference,
+            outerRectPath,
+            Path.combine(
+                PathOperation.intersect, outerRectPath, innerRectPath2)),
+        paintObject);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
 
 enum CardType {

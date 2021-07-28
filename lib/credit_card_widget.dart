@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'credit_card_brand.dart';
+
 const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
   CardType.visa: 'icons/visa.png',
   CardType.americanExpress: 'icons/amex.png',
@@ -28,6 +30,7 @@ class CreditCardWidget extends StatefulWidget {
     this.labelExpiredDate = 'MM/YY',
     this.cardType,
     this.isHolderNameVisible = false,
+    required this.onCreditCardWidgetChange,
   }) : super(key: key);
 
   final String cardNumber;
@@ -42,6 +45,7 @@ class CreditCardWidget extends StatefulWidget {
   final double? width;
   final bool obscureCardNumber;
   final bool obscureCardCvv;
+  final void Function(CreditCardBrand) onCreditCardWidgetChange;
   final bool isHolderNameVisible;
 
   final String labelCardHolder;
@@ -138,6 +142,11 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     } else {
       controller.reverse();
     }
+
+    var cardType = widget.cardType != null
+        ? widget.cardType
+        : detectCCType(widget.cardNumber);
+    widget.onCreditCardWidgetChange(CreditCardBrand(cardType));
 
     return Stack(
       children: <Widget>[

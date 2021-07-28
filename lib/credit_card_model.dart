@@ -6,6 +6,5 @@ class CreditCardModel {
   String expiryDate = '';
   String cardHolderName = '';
   String cvvCode = '';
-  String brand = '';
   bool isCvvFocused = false;
 }

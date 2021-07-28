@@ -42,6 +42,7 @@ class MySampleState extends State<MySample> {
                 obscureCardNumber: true,
                 obscureCardCvv: true,
                 isHolderNameVisible: false,
+                onCreditCardWidgetChange: (creditCardBrand) {},
               ),
               Expanded(
                 child: SingleChildScrollView(

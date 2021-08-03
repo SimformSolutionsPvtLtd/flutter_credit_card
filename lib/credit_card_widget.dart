@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'glassmorphism_config.dart';
 
@@ -32,7 +33,8 @@ class CreditCardWidget extends StatefulWidget {
       this.cardType,
       this.isHolderNameVisible = false,
       this.backgroundImage,
-      this.glassmorphismConfig})
+      this.glassmorphismConfig,
+      this.allowOnCardEditing = true})
       : super(key: key);
 
   final String cardNumber;
@@ -50,6 +52,7 @@ class CreditCardWidget extends StatefulWidget {
   final bool isHolderNameVisible;
   final String? backgroundImage;
   final Glassmorphism? glassmorphismConfig;
+  final bool allowOnCardEditing;
 
   final String labelCardHolder;
   final String labelExpiredDate;
@@ -68,8 +71,21 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   late Gradient backgroundGradientColor;
   late bool isFrontVisible = true;
   late bool isGestureUpdate = false;
+  late String cardNumber;
 
   bool isAmex = false;
+
+  final TextEditingController _cardNumberController = TextEditingController();
+  final TextEditingController _expiryDateController =
+      MaskedTextController(mask: '00/00');
+  final TextEditingController _cardHolderNameController =
+      TextEditingController();
+  final TextEditingController _cvvCodeController = TextEditingController();
+
+  FocusNode cvvFocusNode = FocusNode();
+  FocusNode cardNumberNode = FocusNode();
+  FocusNode expiryDateNode = FocusNode();
+  FocusNode cardHolderNode = FocusNode();
 
   @override
   void initState() {
@@ -256,15 +272,39 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                       color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(5),
-                        child: Text(
-                          widget.cvvCode.isEmpty
-                              ? isAmex
-                                  ? 'XXXX'
-                                  : 'XXX'
-                              : cvv,
-                          maxLines: 1,
-                          style: widget.textStyle ?? defaultTextStyle,
-                        ),
+                        child: widget.allowOnCardEditing
+                            ? TextField(
+                                controller: _cvvCodeController,
+                                inputFormatters: [
+                                  CardNumberFormatter(
+                                    mask: '0000',
+                                    regExp: RegExp(r'\d'),
+                                  )
+                                ],
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                  contentPadding: EdgeInsets.zero,
+                                  isDense: true,
+                                  hintText: isAmex ? 'XXXX' : 'XXX',
+                                  hintStyle:
+                                      widget.textStyle ?? defaultTextStyle,
+                                ),
+                                maxLines: 1,
+                                style: widget.textStyle ?? defaultTextStyle,
+                              )
+                            : Text(
+                                widget.cvvCode.isEmpty
+                                    ? isAmex
+                                        ? 'XXXX'
+                                        : 'XXX'
+                                    : cvv,
+                                maxLines: 1,
+                                style: widget.textStyle ?? defaultTextStyle,
+                              ),
                       ),
                     ),
                   )
@@ -327,22 +367,62 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                widget.cardNumber.isEmpty ? 'XXXX XXXX XXXX XXXX' : number,
-                style: widget.textStyle ?? defaultTextStyle,
-              ),
+              child: widget.allowOnCardEditing
+                  ? TextField(
+                      controller: _cardNumberController,
+                      inputFormatters: [
+                        CardNumberFormatter(
+                          mask: '0000 0000 0000 0000',
+                          regExp: RegExp(r'(?<=.{4})\d(?=.{4})'),
+                        )
+                      ],
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.zero,
+                        isDense: true,
+                        hintText: 'XXXX XXXX XXXX XXXX',
+                        hintStyle: widget.textStyle ?? defaultTextStyle,
+                      ),
+                      style: widget.textStyle ?? defaultTextStyle,
+                    )
+                  : Text(
+                      widget.cardNumber.isEmpty
+                          ? 'XXXX XXXX XXXX XXXX'
+                          : number,
+                      style: widget.textStyle ?? defaultTextStyle,
+                    ),
             ),
           ),
           Expanded(
             flex: 1,
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                widget.expiryDate.isEmpty
-                    ? widget.labelExpiredDate
-                    : widget.expiryDate,
-                style: widget.textStyle ?? defaultTextStyle,
-              ),
+              child: widget.allowOnCardEditing
+                  ? TextField(
+                      controller: _expiryDateController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.zero,
+                        isDense: true,
+                        hintText: widget.labelExpiredDate,
+                        hintStyle: widget.textStyle ?? defaultTextStyle,
+                      ),
+                      style: widget.textStyle ?? defaultTextStyle,
+                    )
+                  : Text(
+                      widget.expiryDate.isEmpty
+                          ? widget.labelExpiredDate
+                          : widget.expiryDate,
+                      style: widget.textStyle ?? defaultTextStyle,
+                    ),
             ),
           ),
           Visibility(
@@ -350,14 +430,31 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                child: Text(
-                  widget.cardHolderName.isEmpty
-                      ? widget.labelCardHolder
-                      : widget.cardHolderName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: widget.textStyle ?? defaultTextStyle,
-                ),
+                child: widget.allowOnCardEditing
+                    ? TextField(
+                        controller: _cardHolderNameController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.zero,
+                          isDense: true,
+                          hintText: widget.labelCardHolder,
+                          hintStyle: widget.textStyle ?? defaultTextStyle,
+                        ),
+                        maxLines: 1,
+                        style: widget.textStyle ?? defaultTextStyle,
+                      )
+                    : Text(
+                        widget.cardHolderName.isEmpty
+                            ? widget.labelCardHolder
+                            : widget.cardHolderName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: widget.textStyle ?? defaultTextStyle,
+                      ),
               ),
             ),
           ),
@@ -724,7 +821,6 @@ class MaskedTextController extends TextEditingController {
       if (valueCharIndex == value.length) {
         break;
       }
-
       final String maskChar = mask[maskCharIndex];
       final String valueChar = value[valueCharIndex];
 
@@ -742,7 +838,6 @@ class MaskedTextController extends TextEditingController {
           result += valueChar;
           maskCharIndex += 1;
         }
-
         valueCharIndex += 1;
         continue;
       }
@@ -835,4 +930,92 @@ enum CardType {
   visa,
   americanExpress,
   discover,
+}
+
+class CardNumberFormatter extends TextInputFormatter {
+  CardNumberFormatter({required this.mask, required this.regExp});
+
+  String cardNumber = '';
+  String mask;
+  RegExp regExp;
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String txt = '';
+    if (newValue.text.isNotEmpty) {
+      if (newValue.text.length <= mask.length) {
+        if (oldValue.text.length < newValue.text.length) {
+          cardNumber += newValue.text[newValue.text.length - 1];
+        }
+      }
+      txt = _applyMask(mask, cardNumber);
+    }
+    if (oldValue.text.length > newValue.text.length) {
+      if (newValue.text.isEmpty) {
+        cardNumber = '';
+      } else {
+        if (oldValue.text[oldValue.text.length - 1] != ' ')
+          cardNumber = cardNumber.substring(0, cardNumber.length - 1);
+      }
+    }
+    if (oldValue.text.length > newValue.text.length) {
+      txt = newValue.text;
+    }
+
+    return TextEditingValue(
+        text: txt.replaceAll(regExp, '*'),
+        selection: TextSelection.collapsed(offset: txt.length));
+  }
+
+  String _applyMask(String? mask, String value) {
+    final Map<String, RegExp> translator = <String, RegExp>{
+      'A': RegExp(r'[A-Za-z]'),
+      '0': RegExp(r'[0-9]'),
+      '@': RegExp(r'[A-Za-z0-9]'),
+    };
+    String result = '';
+
+    int maskCharIndex = 0;
+    int valueCharIndex = 0;
+
+    while (true) {
+      // if mask is ended, break.
+      if (maskCharIndex == mask!.length) {
+        break;
+      }
+      // if value is ended, break.
+      if (valueCharIndex == value.length) {
+        break;
+      }
+      final String maskChar = mask[maskCharIndex];
+      final String valueChar = value[valueCharIndex];
+
+      // value equals mask, just set
+      if (maskChar == valueChar) {
+        result += maskChar;
+        valueCharIndex += 1;
+        maskCharIndex += 1;
+        continue;
+      }
+
+      // apply translator if match
+      if (translator.containsKey(maskChar)) {
+        if (translator[maskChar]!.hasMatch(valueChar)) {
+          result += valueChar;
+          maskCharIndex += 1;
+        }
+        valueCharIndex += 1;
+        continue;
+      }
+
+      // not masked value, fixed char on mask
+      result += maskChar;
+      maskCharIndex += 1;
+
+      continue;
+    }
+
+    return result;
+  }
 }

@@ -35,6 +35,7 @@ class CreditCardWidget extends StatefulWidget {
       this.isHolderNameVisible = false,
       this.backgroundImage,
       this.glassmorphismConfig,
+      this.isChipVisible = true,
         required this.onCreditCardWidgetChange})
       : super(key: key);
 
@@ -53,6 +54,7 @@ class CreditCardWidget extends StatefulWidget {
   final void Function(CreditCardBrand) onCreditCardWidgetChange;
   final bool isHolderNameVisible;
   final String? backgroundImage;
+  final bool isChipVisible;
   final Glassmorphism? glassmorphismConfig;
 
   final String labelCardHolder;
@@ -213,6 +215,118 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   }
 
   ///
+  /// Builds a front container containing
+  /// Card number, Exp. year and Card holder name
+  ///
+  Widget _buildFrontContainer() {
+    final TextStyle defaultTextStyle =
+        Theme.of(context).textTheme.headline6!.merge(
+              const TextStyle(
+                color: Colors.white,
+                fontFamily: 'halter',
+                fontSize: 16,
+                package: 'flutter_credit_card',
+              ),
+            );
+
+    final String number = widget.obscureCardNumber
+        ? widget.cardNumber.replaceAll(RegExp(r'(?<=.{4})\d(?=.{4})'), '*')
+        : widget.cardNumber;
+    return _CardBackground(
+      backgroundImage: widget.backgroundImage,
+      backgroundGradientColor: backgroundGradientColor,
+      glassmorphismConfig: widget.glassmorphismConfig,
+      height: widget.height,
+      width: widget.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            flex: widget.isChipVisible ? 2 : 0,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                if (widget.isChipVisible)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Image.asset(
+                      'icons/chip.png',
+                      package: 'flutter_credit_card',
+                      scale: 1,
+                    ),
+                  ),
+                const Spacer(),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+                    child: widget.cardType != null
+                        ? getCardTypeImage(widget.cardType)
+                        : getCardTypeIcon(widget.cardNumber),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Text(
+                widget.cardNumber.isEmpty ? 'XXXX XXXX XXXX XXXX' : number,
+                style: widget.textStyle ?? defaultTextStyle,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'VALID\nTHRU',
+                    style: widget.textStyle ??
+                        defaultTextStyle.copyWith(fontSize: 7),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    widget.expiryDate.isEmpty
+                        ? widget.labelExpiredDate
+                        : widget.expiryDate,
+                    style: widget.textStyle ?? defaultTextStyle,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Visibility(
+            visible: widget.isHolderNameVisible,
+            child: Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                child: Text(
+                  widget.cardHolderName.isEmpty
+                      ? widget.labelCardHolder
+                      : widget.cardHolderName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: widget.textStyle ?? defaultTextStyle,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ///
   /// Builds a back container containing cvv
   ///
   Widget _buildBackContainer() {
@@ -293,84 +407,6 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                 child: widget.cardType != null
                     ? getCardTypeImage(widget.cardType)
                     : getCardTypeIcon(widget.cardNumber),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  ///
-  /// Builds a front container containing
-  /// Card number, Exp. year and Card holder name
-  ///
-  Widget _buildFrontContainer() {
-    final TextStyle defaultTextStyle =
-        Theme.of(context).textTheme.headline6!.merge(
-              const TextStyle(
-                color: Colors.white,
-                fontFamily: 'halter',
-                fontSize: 16,
-                package: 'flutter_credit_card',
-              ),
-            );
-
-    final String number = widget.obscureCardNumber
-        ? widget.cardNumber.replaceAll(RegExp(r'(?<=.{4})\d(?=.{4})'), '*')
-        : widget.cardNumber;
-    return _CardBackground(
-      backgroundImage: widget.backgroundImage,
-      backgroundGradientColor: backgroundGradientColor,
-      glassmorphismConfig: widget.glassmorphismConfig,
-      height: widget.height,
-      width: widget.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
-              child: widget.cardType != null
-                  ? getCardTypeImage(widget.cardType)
-                  : getCardTypeIcon(widget.cardNumber),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                widget.cardNumber.isEmpty ? 'XXXX XXXX XXXX XXXX' : number,
-                style: widget.textStyle ?? defaultTextStyle,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Text(
-                widget.expiryDate.isEmpty
-                    ? widget.labelExpiredDate
-                    : widget.expiryDate,
-                style: widget.textStyle ?? defaultTextStyle,
-              ),
-            ),
-          ),
-          Visibility(
-            visible: widget.isHolderNameVisible,
-            child: Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                child: Text(
-                  widget.cardHolderName.isEmpty
-                      ? widget.labelCardHolder
-                      : widget.cardHolderName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: widget.textStyle ?? defaultTextStyle,
-                ),
               ),
             ),
           ),
@@ -585,12 +621,12 @@ class _CardBackground extends StatelessWidget {
                       image: ExactAssetImage(
                         backgroundImage!,
                       ),
-                      fit: BoxFit.fill)
+                      fit: BoxFit.cover)
                   : null),
           width: width ?? screenWidth,
           height: height ??
               (orientation == Orientation.portrait
-                  ? screenHeight / 4
+                  ? ((screenWidth - 32) * 0.5714)
                   : screenHeight / 2),
           child: ClipRRect(
             clipBehavior: Clip.hardEdge,
@@ -613,7 +649,7 @@ class _CardBackground extends StatelessWidget {
               width: width ?? screenWidth,
               height: height ??
                   (orientation == Orientation.portrait
-                      ? screenHeight / 4
+                      ? ((screenWidth - 32) * 0.5714)
                       : screenHeight / 2),
             ),
           ),

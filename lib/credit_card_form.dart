@@ -195,7 +195,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   decoration: widget.cardNumberDecoration,
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
-                  autofillHints: [AutofillHints.creditCardNumber],
+                  autofillHints: const <String>[AutofillHints.creditCardNumber],
                   validator: (String? value) {
                     // Validate less that 13 digits +3 white spaces
                     if (value!.isEmpty || value.length < 16) {
@@ -228,12 +228,13 @@ class _CreditCardFormState extends State<CreditCardForm> {
                         decoration: widget.expiryDateDecoration,
                         keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.next,
-                        autofillHints: [AutofillHints.creditCardExpirationDate],
+                        autofillHints: const <String>[
+                          AutofillHints.creditCardExpirationDate
+                        ],
                         validator: (String? value) {
                           if (value!.isEmpty) {
                             return widget.dateValidationMessage;
                           }
-
                           final DateTime now = DateTime.now();
                           final List<String> date = value.split(RegExp(r'/'));
                           final int month = int.parse(date.first);
@@ -276,7 +277,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       textInputAction: widget.isHolderNameVisible
                           ? TextInputAction.next
                           : TextInputAction.done,
-                      autofillHints: [AutofillHints.creditCardSecurityCode],
+                      autofillHints: const <String>[
+                        AutofillHints.creditCardSecurityCode
+                      ],
                       onChanged: (String text) {
                         setState(() {
                           cvvCode = text;
@@ -308,7 +311,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   decoration: widget.cardHolderDecoration,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.done,
-                  autofillHints: [AutofillHints.creditCardName],
+                  autofillHints: const <String>[AutofillHints.creditCardName],
                   onEditingComplete: () {
                     FocusScope.of(context).unfocus();
                     onCreditCardModelChange(creditCardModel);

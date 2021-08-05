@@ -24,6 +24,12 @@ class MySampleState extends State<MySample> {
 
   @override
   Widget build(BuildContext context) {
+    final OutlineInputBorder border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.grey.withOpacity(0.7),
+        width: 2.0,
+      ),
+    );
     return MaterialApp(
       title: 'Flutter Credit Card View Demo',
       debugShowCheckedModeBanner: false,
@@ -33,17 +39,20 @@ class MySampleState extends State<MySample> {
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: ExactAssetImage('assets/bg.png'),
-              fit: BoxFit.fill,
-            ),
+          decoration: BoxDecoration(
+            image: !useBackgroundImage
+                ? const DecorationImage(
+                    image: ExactAssetImage('assets/bg.png'),
+                    fit: BoxFit.fill,
+                  )
+                : null,
+            color: Colors.black,
           ),
           child: SafeArea(
             child: Column(
               children: <Widget>[
                 const SizedBox(
-                  height: 50,
+                  height: 30,
                 ),
                 CreditCardWidget(
                   glassmorphismConfig:
@@ -55,9 +64,10 @@ class MySampleState extends State<MySample> {
                   showBackView: isCvvFocused,
                   obscureCardNumber: true,
                   obscureCardCvv: true,
-                  isHolderNameVisible: false,
+                  isHolderNameVisible: true,
                   cardBgColor: Colors.red,
-                  backgroundImage: useBackgroundImage ? 'assets/bg.png' : null,
+                  backgroundImage:
+                      useBackgroundImage ? 'assets/card_bg.png' : null,
                 onCreditCardWidgetChange: (creditCardBrand) {},),
                 Expanded(
                   child: SingleChildScrollView(
@@ -69,7 +79,7 @@ class MySampleState extends State<MySample> {
                           obscureNumber: true,
                           cardNumber: cardNumber,
                           cvvCode: cvvCode,
-                          isHolderNameVisible: false,
+                          isHolderNameVisible: true,
                           isCardNumberVisible: true,
                           isExpiryDateVisible: true,
                           cardHolderName: cardHolderName,
@@ -79,82 +89,42 @@ class MySampleState extends State<MySample> {
                           cardNumberDecoration: InputDecoration(
                             labelText: 'Number',
                             hintText: 'XXXX XXXX XXXX XXXX',
-                            hintStyle: TextStyle(color: Colors.white),
-                            labelStyle: TextStyle(color: Colors.white),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.7),
-                                width: 2.0,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.7),
-                                width: 2.0,
-                              ),
-                            ),
+                            hintStyle: const TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: Colors.white),
+                            focusedBorder: border,
+                            enabledBorder: border,
                           ),
                           expiryDateDecoration: InputDecoration(
-                            hintStyle: TextStyle(color: Colors.white),
-                            labelStyle: TextStyle(color: Colors.white),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.7),
-                                width: 2.0,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.7),
-                                width: 2.0,
-                              ),
-                            ),
+                            hintStyle: const TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: Colors.white),
+                            focusedBorder: border,
+                            enabledBorder: border,
                             labelText: 'Expired Date',
                             hintText: 'XX/XX',
                           ),
                           cvvCodeDecoration: InputDecoration(
-                            hintStyle: TextStyle(color: Colors.white),
-                            labelStyle: TextStyle(color: Colors.white),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.7),
-                                width: 2.0,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.7),
-                                width: 2.0,
-                              ),
-                            ),
+                            hintStyle: const TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: Colors.white),
+                            focusedBorder: border,
+                            enabledBorder: border,
                             labelText: 'CVV',
                             hintText: 'XXX',
                           ),
                           cardHolderDecoration: InputDecoration(
-                            hintStyle: TextStyle(color: Colors.white),
-                            labelStyle: TextStyle(color: Colors.white),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.7),
-                                width: 2.0,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey.withOpacity(0.7),
-                                width: 2.0,
-                              ),
-                            ),
+                            hintStyle: const TextStyle(color: Colors.white),
+                            labelStyle: const TextStyle(color: Colors.white),
+                            focusedBorder: border,
+                            enabledBorder: border,
                             labelText: 'Card Holder',
                           ),
                           onCreditCardModelChange: onCreditCardModelChange,
                         ),
                         const SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             const Text(
                               'Glassmorphism',
                               style: TextStyle(
@@ -167,20 +137,17 @@ class MySampleState extends State<MySample> {
                               inactiveTrackColor: Colors.grey,
                               activeColor: Colors.white,
                               activeTrackColor: Colors.green,
-                              onChanged: (value) => setState(() {
+                              onChanged: (bool value) => setState(() {
                                 useGlassMorphism = value;
                               }),
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             const Text(
-                              'Background image',
+                              'Card Image',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
@@ -191,14 +158,14 @@ class MySampleState extends State<MySample> {
                               inactiveTrackColor: Colors.grey,
                               activeColor: Colors.white,
                               activeTrackColor: Colors.green,
-                              onChanged: (value) => setState(() {
+                              onChanged: (bool value) => setState(() {
                                 useBackgroundImage = value;
                               }),
                             ),
                           ],
                         ),
                         const SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(

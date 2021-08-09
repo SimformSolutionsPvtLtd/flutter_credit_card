@@ -1,3 +1,11 @@
+## 3.0.0 [Unreleased]
+
+- Glassmorphism UI.
+- Image background for card.
+- Chip option for card.
+- Card rotation on swipe gesture.
+- Example with new changes
+
 ## 2.0.0
 
 - Migrated to null safety.

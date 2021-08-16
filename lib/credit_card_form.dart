@@ -175,7 +175,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               margin: const EdgeInsets.only(left: 16, top: 16, right: 16),
               child: TextFormField(
-                autofillHints: [AutofillHints.creditCardNumber],
+//                 autofillHints: [AutofillHints.creditCardNumber],
                 obscureText: widget.obscureNumber,
                 controller: _cardNumberController,
                 cursorColor: widget.cursorColor ?? themeColor,
@@ -204,7 +204,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
                     child: TextFormField(
-                      autofillHints: [AutofillHints.creditCardExpirationDate],
+//                       autofillHints: [AutofillHints.creditCardExpirationDate],
                       controller: _expiryDateController,
                       cursorColor: widget.cursorColor ?? themeColor,
                       focusNode: expiryDateNode,
@@ -243,7 +243,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
                     child: TextFormField(
-                      autofillHints: [AutofillHints.creditCardSecurityCode],
+//                       autofillHints: [AutofillHints.creditCardSecurityCode],
                       obscureText: widget.obscureCvv,
                       focusNode: cvvFocusNode,
                       controller: _cvvCodeController,
@@ -277,7 +277,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
               child: TextFormField(
-                autofillHints: [AutofillHints.creditCardName],
+//                 autofillHints: [AutofillHints.creditCardName],
                 controller: _cardHolderNameController,
                 cursorColor: widget.cursorColor ?? themeColor,
                 focusNode: cardHolderNode,

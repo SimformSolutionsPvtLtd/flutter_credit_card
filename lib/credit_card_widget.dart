@@ -305,9 +305,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       height: widget.height ??
           (orientation == Orientation.portrait ? height / 4 : height / 2),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          SizedBox(height: 10),
           SizedBox(
             width: widget.width,
             child: Row(
@@ -340,7 +341,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 20),
+            padding: const EdgeInsets.only(left: 16, bottom: 20, top: 30),
             child: Text(
               widget.cardNumber.isEmpty ? 'XXXX XXXX XXXX XXXX' : number,
               style: const TextStyle(

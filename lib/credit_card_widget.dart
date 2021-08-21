@@ -308,13 +308,35 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 18),
-              child: widget.cardType != null
-                  ? getCardTypeImage(widget.cardType)
-                  : getCardTypeIcon(widget.cardNumber),
+          SizedBox(
+            width: widget.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16, top: 0),
+                    child: widget.cardType != null
+                        ? getCardTypeImage(widget.cardType)
+                        : getCardTypeIcon(widget.cardNumber),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16, top: 0),
+                    child: Image.asset(
+                      'icons/contactless_icon.png',
+                      fit: BoxFit.fitHeight,
+                      width: 30.0,
+                      height: 30.0,
+                      color: Colors.white,
+                      package: 'flutter_credit_card',
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Padding(

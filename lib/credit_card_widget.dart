@@ -36,6 +36,7 @@ class CreditCardWidget extends StatefulWidget {
       this.backgroundImage,
       this.glassmorphismConfig,
       this.isChipVisible = true,
+      this.isSwipeGestureEnabled = true,
         required this.onCreditCardWidgetChange})
       : super(key: key);
 
@@ -56,6 +57,7 @@ class CreditCardWidget extends StatefulWidget {
   final String? backgroundImage;
   final bool isChipVisible;
   final Glassmorphism? glassmorphismConfig;
+  final bool isSwipeGestureEnabled;
 
   final String labelCardHolder;
   final String labelExpiredDate;
@@ -417,28 +419,30 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
 
   Widget _cardGesture({required Widget child}) {
     bool isRightSwipe = true;
-    return GestureDetector(
-      onPanEnd: (_) {
-        isGestureUpdate = true;
-        if (isRightSwipe) {
-          _leftRotation();
-        } else {
-          _rightRotation();
-        }
-      },
-      onPanUpdate: (DragUpdateDetails details) {
-        // Swiping in right direction.
-        if (details.delta.dx > 0) {
-          isRightSwipe = true;
-        }
+    return widget.isSwipeGestureEnabled
+        ? GestureDetector(
+            onPanEnd: (_) {
+              isGestureUpdate = true;
+              if (isRightSwipe) {
+                _leftRotation();
+              } else {
+                _rightRotation();
+              }
+            },
+            onPanUpdate: (DragUpdateDetails details) {
+              // Swiping in right direction.
+              if (details.delta.dx > 0) {
+                isRightSwipe = true;
+              }
 
-        // Swiping in left direction.
-        if (details.delta.dx < 0) {
-          isRightSwipe = false;
-        }
-      },
-      child: child,
-    );
+              // Swiping in left direction.
+              if (details.delta.dx < 0) {
+                isRightSwipe = false;
+              }
+            },
+            child: child,
+          )
+        : child;
   }
 
   /// Credit Card prefix patterns as of March 2019

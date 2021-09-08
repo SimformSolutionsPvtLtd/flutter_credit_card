@@ -68,7 +68,9 @@ class MySampleState extends State<MySample> {
                   cardBgColor: Colors.red,
                   backgroundImage:
                       useBackgroundImage ? 'assets/card_bg.png' : null,
-                onCreditCardWidgetChange: (creditCardBrand) {},),
+                  isSwipeGestureEnabled: true,
+                  onCreditCardWidgetChange: (creditCardBrand) {},
+                ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(

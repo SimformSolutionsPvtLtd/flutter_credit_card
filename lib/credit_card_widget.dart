@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'dart:ui';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
@@ -37,7 +37,7 @@ class CreditCardWidget extends StatefulWidget {
       this.glassmorphismConfig,
       this.isChipVisible = true,
       this.isSwipeGestureEnabled = true,
-        required this.onCreditCardWidgetChange})
+      required this.onCreditCardWidgetChange})
       : super(key: key);
 
   final String cardNumber;
@@ -616,17 +616,19 @@ class _CardBackground extends StatelessWidget {
         Container(
           margin: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              gradient: glassmorphismConfig != null
-                  ? glassmorphismConfig!.gradient
-                  : backgroundGradientColor,
-              image: backgroundImage != null
-                  ? DecorationImage(
-                      image: ExactAssetImage(
-                        backgroundImage!,
-                      ),
-                      fit: BoxFit.cover)
-                  : null),
+            borderRadius: BorderRadius.circular(8),
+            gradient: glassmorphismConfig != null
+                ? glassmorphismConfig!.gradient
+                : backgroundGradientColor,
+            image: backgroundImage != null
+                ? DecorationImage(
+                    image: ExactAssetImage(
+                      backgroundImage!,
+                    ),
+                    fit: BoxFit.fill,
+                  )
+                : null,
+          ),
           width: width ?? screenWidth,
           height: height ??
               (orientation == Orientation.portrait
@@ -636,13 +638,15 @@ class _CardBackground extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             borderRadius: BorderRadius.circular(8),
             child: Container(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: glassmorphismConfig?.blurX ?? 0.0,
-                  sigmaY: glassmorphismConfig?.blurY ?? 0.0,
-                ),
-                child: child,
-              ),
+              child: glassmorphismConfig != null
+                  ? BackdropFilter(
+                      filter: ui.ImageFilter.blur(
+                        sigmaX: glassmorphismConfig?.blurX ?? 0.0,
+                        sigmaY: glassmorphismConfig?.blurY ?? 0.0,
+                      ),
+                      child: child,
+                    )
+                  : child,
             ),
           ),
         ),

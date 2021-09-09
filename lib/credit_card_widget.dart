@@ -1,11 +1,11 @@
 import 'dart:math';
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
-import 'glassmorphism_config.dart';
-
+import 'credit_card_animation.dart';
+import 'credit_card_background.dart';
 import 'credit_card_brand.dart';
+import 'glassmorphism_config.dart';
 
 const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
   CardType.visa: 'icons/visa.png',
@@ -133,7 +133,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       isGestureUpdate = false;
     }
 
-    var cardType = widget.cardType != null
+    final CardType? cardType = widget.cardType != null
         ? widget.cardType
         : detectCCType(widget.cardNumber);
     widget.onCreditCardWidgetChange(CreditCardBrand(cardType));
@@ -234,7 +234,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     final String number = widget.obscureCardNumber
         ? widget.cardNumber.replaceAll(RegExp(r'(?<=.{4})\d(?=.{4})'), '*')
         : widget.cardNumber;
-    return _CardBackground(
+    return CardBackground(
       backgroundImage: widget.backgroundImage,
       backgroundGradientColor: backgroundGradientColor,
       glassmorphismConfig: widget.glassmorphismConfig,
@@ -346,7 +346,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         ? widget.cvvCode.replaceAll(RegExp(r'\d'), '*')
         : widget.cvvCode;
 
-    return _CardBackground(
+    return CardBackground(
       backgroundImage: widget.backgroundImage,
       backgroundGradientColor: backgroundGradientColor,
       glassmorphismConfig: widget.glassmorphismConfig,
@@ -588,112 +588,6 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   }
 }
 
-class _CardBackground extends StatelessWidget {
-  const _CardBackground({
-    Key? key,
-    required this.backgroundGradientColor,
-    required this.backgroundImage,
-    required this.child,
-    this.width,
-    this.height,
-    this.glassmorphismConfig,
-  }) : super(key: key);
-
-  final String? backgroundImage;
-  final Widget child;
-  final Gradient backgroundGradientColor;
-  final Glassmorphism? glassmorphismConfig;
-  final double? width;
-  final double? height;
-
-  @override
-  Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final Orientation orientation = MediaQuery.of(context).orientation;
-    return Stack(
-      children: <Widget>[
-        Container(
-          margin: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            gradient: glassmorphismConfig != null
-                ? glassmorphismConfig!.gradient
-                : backgroundGradientColor,
-            image: backgroundImage != null
-                ? DecorationImage(
-                    image: ExactAssetImage(
-                      backgroundImage!,
-                    ),
-                    fit: BoxFit.fill,
-                  )
-                : null,
-          ),
-          width: width ?? screenWidth,
-          height: height ??
-              (orientation == Orientation.portrait
-                  ? ((screenWidth - 32) * 0.5714)
-                  : screenHeight / 2),
-          child: ClipRRect(
-            clipBehavior: Clip.hardEdge,
-            borderRadius: BorderRadius.circular(8),
-            child: Container(
-              child: glassmorphismConfig != null
-                  ? BackdropFilter(
-                      filter: ui.ImageFilter.blur(
-                        sigmaX: glassmorphismConfig?.blurX ?? 0.0,
-                        sigmaY: glassmorphismConfig?.blurY ?? 0.0,
-                      ),
-                      child: child,
-                    )
-                  : child,
-            ),
-          ),
-        ),
-        if (glassmorphismConfig != null)
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: _GlassmorphicBorder(
-              width: width ?? screenWidth,
-              height: height ??
-                  (orientation == Orientation.portrait
-                      ? ((screenWidth - 32) * 0.5714)
-                      : screenHeight / 2),
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-class AnimationCard extends StatelessWidget {
-  const AnimationCard({
-    required this.child,
-    required this.animation,
-  });
-
-  final Widget child;
-  final Animation<double> animation;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (BuildContext context, Widget? child) {
-        final Matrix4 transform = Matrix4.identity();
-        transform.setEntry(3, 2, 0.001);
-        transform.rotateY(animation.value);
-        return Transform(
-          transform: transform,
-          alignment: Alignment.center,
-          child: child,
-        );
-      },
-      child: child,
-    );
-  }
-}
-
 class MaskedTextController extends TextEditingController {
   MaskedTextController(
       {String? text, required this.mask, Map<String, RegExp>? translator})
@@ -812,78 +706,6 @@ class MaskedTextController extends TextEditingController {
 
     return result;
   }
-}
-
-class _GlassmorphicBorder extends StatelessWidget {
-  _GlassmorphicBorder({
-    required this.height,
-    required this.width,
-  }) : _painter = _GradientPainter(strokeWidth: 2, radius: 10);
-  final _GradientPainter _painter;
-  final double width;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _painter,
-      size: MediaQuery.of(context).size,
-      child: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        width: width,
-        height: height,
-      ),
-    );
-  }
-}
-
-class _GradientPainter extends CustomPainter {
-  _GradientPainter({required this.strokeWidth, required this.radius});
-
-  final double radius;
-  final double strokeWidth;
-  final Paint paintObject = Paint();
-  final Paint paintObject2 = Paint();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final LinearGradient gradient = LinearGradient(
-        begin: Alignment.bottomRight,
-        end: Alignment.topLeft,
-        colors: <Color>[
-          Colors.white.withAlpha(50),
-          Colors.white.withAlpha(55),
-          Colors.white.withAlpha(50),
-        ],
-        stops: const <double>[
-          0.06,
-          0.95,
-          1
-        ]);
-    final RRect innerRect2 = RRect.fromRectAndRadius(
-        Rect.fromLTRB(strokeWidth, strokeWidth, size.width - strokeWidth,
-            size.height - strokeWidth),
-        Radius.circular(radius - strokeWidth));
-
-    final RRect outerRect = RRect.fromRectAndRadius(
-        Rect.fromLTRB(0, 0, size.width, size.height), Radius.circular(radius));
-    paintObject.shader = gradient.createShader(Offset.zero & size);
-
-    final Path outerRectPath = Path()..addRRect(outerRect);
-    final Path innerRectPath2 = Path()..addRRect(innerRect2);
-    canvas.drawPath(
-        Path.combine(
-            PathOperation.difference,
-            outerRectPath,
-            Path.combine(
-                PathOperation.intersect, outerRectPath, innerRectPath2)),
-        paintObject);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
 
 enum CardType {

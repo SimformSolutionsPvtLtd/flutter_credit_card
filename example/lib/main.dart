@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
@@ -20,16 +21,22 @@ class MySampleState extends State<MySample> {
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
   bool useBackgroundImage = false;
+  OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
-    final OutlineInputBorder border = OutlineInputBorder(
+  void initState() {
+    border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.grey.withOpacity(0.7),
         width: 2.0,
       ),
     );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Credit Card View Demo',
       debugShowCheckedModeBanner: false,
@@ -69,7 +76,7 @@ class MySampleState extends State<MySample> {
                   backgroundImage:
                       useBackgroundImage ? 'assets/card_bg.png' : null,
                   isSwipeGestureEnabled: true,
-                  onCreditCardWidgetChange: (creditCardBrand) {},
+                  onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
                 ),
                 Expanded(
                   child: SingleChildScrollView(

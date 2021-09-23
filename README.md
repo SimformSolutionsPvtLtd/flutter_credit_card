@@ -1,3 +1,5 @@
+![alt text](https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/banner.png?raw=true)
+
 # Flutter Credit Card
 
 A Flutter package allows you to easily implement the Credit card's UI easily with the Card detection.
@@ -6,7 +8,7 @@ A Flutter package allows you to easily implement the Credit card's UI easily wit
 
 ## Preview
 
-![The example app running in Android](https://github.com/simformsolutions/flutter_credit_card/blob/master/preview/preview.gif)
+![The example app running in Android](https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/preview.gif)
 
 ## Installing
 
@@ -28,7 +30,6 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 *With required parameters*
 ```dart
-
     CreditCardWidget(
         cardNumber: cardNumber,
         expiryDate: expiryDate, 
@@ -37,6 +38,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         showBackView: isCvvFocused, //true when you want to show cvv(back) view
     ),
 ```    
+
 *With optional parameters*
 ```dart   
     CreditCardWidget(
@@ -59,7 +61,39 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         animationDuration: Duration(milliseconds: 1000),
     ),
 ``` 
-3.  Adding CreditCardForm
+
+*Glassmorphism UI*
+
+ + Default configuration
+```dart
+    CreditCardWidget(
+        glassmorphismConfig: Glassmorphism.defaultConfig(),
+    ),
+```    
+
+ + Custom configuration
+```dart
+    CreditCardWidget(
+        glassmorphismConfig: Glassmorphism(
+          blurX: 10.0,
+          blurY: 10.0,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[
+              Colors.grey.withAlpha(20),
+              Colors.white.withAlpha(20),
+            ],
+            stops: const <double>[
+              0.3,
+              0,
+            ],
+          ),
+        ),
+    ),
+```    
+
+4.  Adding CreditCardForm
 
 ```dart
     CreditCardForm(

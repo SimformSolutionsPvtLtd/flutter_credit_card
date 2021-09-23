@@ -1,4 +1,4 @@
-## 3.0.0 [Unreleased]
+## 3.0.0 - Sep 23, 2021
 
 - Glassmorphism UI.
 - Image background for card.

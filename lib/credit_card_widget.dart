@@ -604,13 +604,11 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     return icon;
   }
 
-  List<CustomCardTypeImage> getCustomCardTypeIcon(CardType currentCardType) {
-    final List<CustomCardTypeImage> customCardTypeIcon = widget.customCardIcons
-        .where((CustomCardTypeImage element) =>
-            element.cardType == currentCardType)
-        .toList();
-    return customCardTypeIcon;
-  }
+  List<CustomCardTypeImage> getCustomCardTypeIcon(CardType currentCardType) =>
+      widget.customCardIcons
+          .where((CustomCardTypeImage element) =>
+      element.cardType == currentCardType)
+          .toList();
 }
 
 class MaskedTextController extends TextEditingController {

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'credit_card_animation.dart';
 import 'credit_card_background.dart';
 import 'credit_card_brand.dart';
-import 'custom_card_type_image.dart';
+import 'custom_card_type_icon.dart';
 import 'glassmorphism_config.dart';
 
 const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
@@ -38,7 +38,7 @@ class CreditCardWidget extends StatefulWidget {
       this.glassmorphismConfig,
       this.isChipVisible = true,
       this.isSwipeGestureEnabled = true,
-      this.customCardIcons = const <CustomCardTypeImage>[],
+      this.customCardTypeIcons = const <CustomCardTypeIcon>[],
       required this.onCreditCardWidgetChange})
       : super(key: key);
 
@@ -65,7 +65,7 @@ class CreditCardWidget extends StatefulWidget {
   final String labelExpiredDate;
 
   final CardType? cardType;
-  final List<CustomCardTypeImage> customCardIcons;
+  final List<CustomCardTypeIcon> customCardTypeIcons;
 
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
@@ -527,9 +527,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   }
 
   Widget getCardTypeImage(CardType? cardType) {
-    final List<CustomCardTypeImage> customCardImage = getCustomCardTypeIcon(cardType!);
-    if(customCardImage.isNotEmpty){
-      return customCardImage.first.cardImage;
+    final List<CustomCardTypeIcon> customCardTypeIcon = getCustomCardTypeIcon(cardType!);
+    if(customCardTypeIcon.isNotEmpty){
+      return customCardTypeIcon.first.cardImage;
     } else {
       return Image.asset(
         CardTypeIconAsset[cardType]!,
@@ -545,7 +545,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   Widget getCardTypeIcon(String cardNumber) {
     Widget icon;
     final CardType ccType = detectCCType(cardNumber);
-    final List<CustomCardTypeImage> customCardTypeIcon = getCustomCardTypeIcon(ccType);
+    final List<CustomCardTypeIcon> customCardTypeIcon = getCustomCardTypeIcon(ccType);
     if (customCardTypeIcon.isNotEmpty) {
       icon = customCardTypeIcon.first.cardImage;
       isAmex = ccType == CardType.americanExpress;
@@ -604,10 +604,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     return icon;
   }
 
-  List<CustomCardTypeImage> getCustomCardTypeIcon(CardType currentCardType) =>
-      widget.customCardIcons
-          .where((CustomCardTypeImage element) =>
-      element.cardType == currentCardType)
+  List<CustomCardTypeIcon> getCustomCardTypeIcon(CardType currentCardType) =>
+      widget.customCardTypeIcons
+          .where((CustomCardTypeIcon element) =>
+              element.cardType == currentCardType)
           .toList();
 }
 

@@ -59,6 +59,16 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         isChipVisible: true,
         isSwipeGestureEnabled: true,
         animationDuration: Duration(milliseconds: 1000),
+        customCardIcons: <CustomCardTypeImage>[
+                    CustomCardTypeImage(
+                      cardType: CardType.mastercard,
+                      cardImage: Image.asset(
+                        'assets/mastercard.png',
+                        height: 48,
+                        width: 48,
+                      ),
+                    ),
+                  ],
     ),
 ``` 
 

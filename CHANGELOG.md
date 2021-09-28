@@ -1,3 +1,6 @@
+## 3.0.1 - Sep 28, 2021 [Unreleased]
+- Fixed [#57](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/57) - Can we specify a custom card type logos
+
 ## 3.0.0 - Sep 23, 2021
 
 - Glassmorphism UI.

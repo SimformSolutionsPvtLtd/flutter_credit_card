@@ -77,6 +77,16 @@ class MySampleState extends State<MySample> {
                       useBackgroundImage ? 'assets/card_bg.png' : null,
                   isSwipeGestureEnabled: true,
                   onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
+                  customCardIcons: <CustomCardTypeImage>[
+                    CustomCardTypeImage(
+                      cardType: CardType.mastercard,
+                      cardImage: Image.asset(
+                        'assets/mastercard.png',
+                        height: 48,
+                        width: 48,
+                      ),
+                    ),
+                  ],
                 ),
                 Expanded(
                   child: SingleChildScrollView(

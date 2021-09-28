@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'credit_card_animation.dart';
 import 'credit_card_background.dart';
 import 'credit_card_brand.dart';
+import 'custom_card_type_image.dart';
 import 'glassmorphism_config.dart';
 
 const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
@@ -37,6 +38,7 @@ class CreditCardWidget extends StatefulWidget {
       this.glassmorphismConfig,
       this.isChipVisible = true,
       this.isSwipeGestureEnabled = true,
+      this.customCardIcons = const <CustomCardTypeImage>[],
       required this.onCreditCardWidgetChange})
       : super(key: key);
 
@@ -63,6 +65,7 @@ class CreditCardWidget extends StatefulWidget {
   final String labelExpiredDate;
 
   final CardType? cardType;
+  final List<CustomCardTypeImage> customCardIcons;
 
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
@@ -523,69 +526,89 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     return cardType;
   }
 
-  Widget getCardTypeImage(CardType? cardType) => Image.asset(
+  Widget getCardTypeImage(CardType? cardType) {
+    final List<CustomCardTypeImage> customCardImage = getCustomCardTypeIcon(cardType!);
+    if(customCardImage.isNotEmpty){
+      return customCardImage.first.cardImage;
+    } else {
+      return Image.asset(
         CardTypeIconAsset[cardType]!,
         height: 48,
         width: 48,
         package: 'flutter_credit_card',
       );
+    }
+  }
 
-  // This method returns the icon for the visa card type if found
-  // else will return the empty container
+    // This method returns the icon for the visa card type if found
+    // else will return the empty container
   Widget getCardTypeIcon(String cardNumber) {
     Widget icon;
-    switch (detectCCType(cardNumber)) {
-      case CardType.visa:
-        icon = Image.asset(
-          'icons/visa.png',
-          height: 48,
-          width: 48,
-          package: 'flutter_credit_card',
-        );
-        isAmex = false;
-        break;
+    final CardType ccType = detectCCType(cardNumber);
+    final List<CustomCardTypeImage> customCardTypeIcon = getCustomCardTypeIcon(ccType);
+    if (customCardTypeIcon.isNotEmpty) {
+      icon = customCardTypeIcon.first.cardImage;
+      isAmex = ccType == CardType.americanExpress;
+    } else {
+      switch (ccType) {
+        case CardType.visa:
+          icon = Image.asset(
+            CardTypeIconAsset[ccType]!,
+            height: 48,
+            width: 48,
+            package: 'flutter_credit_card',
+          );
+          isAmex = false;
+          break;
 
-      case CardType.americanExpress:
-        icon = Image.asset(
-          'icons/amex.png',
-          height: 48,
-          width: 48,
-          package: 'flutter_credit_card',
-        );
-        isAmex = true;
-        break;
+        case CardType.americanExpress:
+          icon = Image.asset(
+            CardTypeIconAsset[ccType]!,
+            height: 48,
+            width: 48,
+            package: 'flutter_credit_card',
+          );
+          isAmex = true;
+          break;
 
-      case CardType.mastercard:
-        icon = Image.asset(
-          'icons/mastercard.png',
-          height: 48,
-          width: 48,
-          package: 'flutter_credit_card',
-        );
-        isAmex = false;
-        break;
+        case CardType.mastercard:
+          icon = Image.asset(
+            CardTypeIconAsset[ccType]!,
+            height: 48,
+            width: 48,
+            package: 'flutter_credit_card',
+          );
+          isAmex = false;
+          break;
 
-      case CardType.discover:
-        icon = Image.asset(
-          'icons/discover.png',
-          height: 48,
-          width: 48,
-          package: 'flutter_credit_card',
-        );
-        isAmex = false;
-        break;
+        case CardType.discover:
+          icon = Image.asset(
+            CardTypeIconAsset[ccType]!,
+            height: 48,
+            width: 48,
+            package: 'flutter_credit_card',
+          );
+          isAmex = false;
+          break;
 
-      default:
-        icon = Container(
-          height: 48,
-          width: 48,
-        );
-        isAmex = false;
-        break;
+        default:
+          icon = Container(
+            height: 48,
+            width: 48,
+          );
+          isAmex = false;
+          break;
+      }
     }
 
     return icon;
   }
+
+  List<CustomCardTypeImage> getCustomCardTypeIcon(CardType currentCardType) =>
+      widget.customCardIcons
+          .where((CustomCardTypeImage element) =>
+      element.cardType == currentCardType)
+          .toList();
 }
 
 class MaskedTextController extends TextEditingController {

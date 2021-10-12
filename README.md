@@ -145,6 +145,21 @@ Check out the **example** app in the [example](example) directory or the 'Exampl
 
 This package's animation is inspired from from this [Dribbble](https://dribbble.com/shots/2187649-Credit-card-Checkout-flow-AMEX) art.
 
+<br/>
+
+## Main Contributors
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/vatsaltanna"><img src="https://avatars.githubusercontent.com/u/25323183?s=100" width="100px;" alt=""/><br /><sub><b>Vatsal Tanna</b></sub></a></td>
+    <td align="center"><a href="https://github.com/DevarshRanpara"><img src="https://avatars.githubusercontent.com/u/26064415?s=100" width="100px;" alt=""/><br /><sub><b>Devarsh Ranpara</b></sub></a></td>
+    <td align="center"><a href="https://github.com/Kashifalaliwala"><img src="https://avatars.githubusercontent.com/u/30998350?s=100" width="100px;" alt=""/><br /><sub><b>Kashifa Laliwala</b></sub></a></td>
+    <td align="center"><a href="https://github.com/SanketKachhela"><img src="https://avatars.githubusercontent.com/u/20923896?s=100" width="100px;" alt=""/><br /><sub><b>Sanket Kachchela</b></sub></a></td>
+    <td align="center"><a href="https://github.com/meetjanani"><img src="https://avatars.githubusercontent.com/u/32095359?s=100" width="100px;" alt=""/><br /><sub><b>Meet Janani</b></sub></a></td>
+  </tr>
+</table>
+<br/>
+
 ## Note
 We have updated license of flutter_credit_card from BSD 2-Clause "Simplified" to MIT.
 

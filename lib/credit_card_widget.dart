@@ -341,7 +341,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 20, top: 30),
+            padding: const EdgeInsets.only(left: 16, bottom: 15, top: 15),
             child: Text(
               widget.cardNumber.isEmpty ? 'XXXX XXXX XXXX XXXX' : number,
               style: const TextStyle(
@@ -353,7 +353,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 20),
+            padding: const EdgeInsets.only(left: 16, bottom: 15),
             child: Row(
               children: [
                 const Text(

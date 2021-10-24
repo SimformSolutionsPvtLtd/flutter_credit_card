@@ -127,6 +127,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
     });
 
     _expiryDateController.addListener(() {
+      if (_expiryDateController.text.startsWith(RegExp('[2-9]'))) {
+        _expiryDateController.text = '0' + _expiryDateController.text;
+      }
       setState(() {
         expiryDate = _expiryDateController.text;
         creditCardModel.expiryDate = expiryDate;

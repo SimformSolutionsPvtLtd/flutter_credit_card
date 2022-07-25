@@ -9,14 +9,21 @@ class CardBackground extends StatelessWidget {
   const CardBackground({
     Key? key,
     required this.backgroundGradientColor,
-    required this.backgroundImage,
+    this.backgroundImage,
+    this.backgroundNetworkImage,
     required this.child,
     this.width,
     this.height,
     this.glassmorphismConfig,
-  }) : super(key: key);
+  })  : assert(
+            (backgroundImage == null && backgroundNetworkImage == null) ||
+                (backgroundImage == null && backgroundNetworkImage != null) ||
+                (backgroundImage != null && backgroundNetworkImage == null),
+            "You can't use network image & asset image at same time for card background"),
+        super(key: key);
 
   final String? backgroundImage;
+  final String? backgroundNetworkImage;
   final Widget child;
   final Gradient backgroundGradientColor;
   final Glassmorphism? glassmorphismConfig;
@@ -42,14 +49,22 @@ class CardBackground extends StatelessWidget {
               gradient: glassmorphismConfig != null
                   ? glassmorphismConfig!.gradient
                   : backgroundGradientColor,
-              image: backgroundImage != null
+              image: backgroundImage != null && backgroundImage!.isNotEmpty
                   ? DecorationImage(
                       image: ExactAssetImage(
                         backgroundImage!,
                       ),
                       fit: BoxFit.fill,
                     )
-                  : null,
+                  : backgroundNetworkImage != null &&
+                          backgroundNetworkImage!.isNotEmpty
+                      ? DecorationImage(
+                          image: NetworkImage(
+                            backgroundNetworkImage!,
+                          ),
+                          fit: BoxFit.fill,
+                        )
+                      : null,
             ),
             width: width ?? screenWidth,
             height: height ??

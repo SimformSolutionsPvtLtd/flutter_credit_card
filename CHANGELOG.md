@@ -1,6 +1,7 @@
 ## 3.0.2 - Jul 25, 2022
 
 - Fixed [#73](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/73) - Pass AutovalidateMode to CreditCardForm
+- Fixed [#82](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/82) - Added support to add network image as card background
 
 ## 3.0.1 - Oct 12, 2021
 

@@ -539,8 +539,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   }
 
   Widget getCardTypeImage(CardType? cardType) {
-    final List<CustomCardTypeIcon> customCardTypeIcon = getCustomCardTypeIcon(cardType!);
-    if(customCardTypeIcon.isNotEmpty){
+    final List<CustomCardTypeIcon> customCardTypeIcon =
+        getCustomCardTypeIcon(cardType!);
+    if (customCardTypeIcon.isNotEmpty) {
       return customCardTypeIcon.first.cardImage;
     } else {
       return Image.asset(
@@ -552,12 +553,13 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     }
   }
 
-    // This method returns the icon for the visa card type if found
-    // else will return the empty container
+  // This method returns the icon for the visa card type if found
+  // else will return the empty container
   Widget getCardTypeIcon(String cardNumber) {
     Widget icon;
     final CardType ccType = detectCCType(cardNumber);
-    final List<CustomCardTypeIcon> customCardTypeIcon = getCustomCardTypeIcon(ccType);
+    final List<CustomCardTypeIcon> customCardTypeIcon =
+        getCustomCardTypeIcon(ccType);
     if (customCardTypeIcon.isNotEmpty) {
       icon = customCardTypeIcon.first.cardImage;
       isAmex = ccType == CardType.americanExpress;

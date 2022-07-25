@@ -50,6 +50,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         cardBgColor: Colors.black,
         glassmorphismConfig: Glassmorphism.defaultConfig(),
         backgroundImage: 'assets/card_bg.png',
+        backgroundNetworkImage: 'image-url'
         obscureCardNumber: true,
         obscureCardCvv: true,
         isHolderNameVisible: false,

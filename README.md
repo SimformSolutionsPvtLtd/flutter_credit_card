@@ -47,7 +47,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         cardHolderName: cardHolderName,
         cvvCode: cvvCode,
         showBackView: isCvvFocused,
-        cardbgColor: Colors.black,
+        cardBgColor: Colors.black,
         glassmorphismConfig: Glassmorphism.defaultConfig(),
         backgroundImage: 'assets/card_bg.png',
         obscureCardNumber: true,
@@ -59,8 +59,8 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         isChipVisible: true,
         isSwipeGestureEnabled: true,
         animationDuration: Duration(milliseconds: 1000),
-        customCardIcons: <CustomCardTypeImage>[
-                    CustomCardTypeImage(
+        customCardTypeIcons: <CustomCardTypeIcon>[
+                    CustomCardTypeIcon(
                       cardType: CardType.mastercard,
                       cardImage: Image.asset(
                         'assets/mastercard.png',

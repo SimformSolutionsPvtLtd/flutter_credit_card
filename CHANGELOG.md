@@ -1,3 +1,7 @@
+## 3.0.2 - Jul 25, 2022
+
+- Fixed [#73](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/73) - Pass AutovalidateMode to CreditCardForm
+
 ## 3.0.1 - Oct 12, 2021
 
 - Fixed [#40](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/40) - Absence of focus node in credit_card_form.dart

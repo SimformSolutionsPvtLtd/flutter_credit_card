@@ -66,6 +66,7 @@ class MySampleState extends State<MySample> {
                   expiryDate: expiryDate,
                   cardHolderName: cardHolderName,
                   cvvCode: cvvCode,
+                  bankName: 'Axis Bank',
                   showBackView: isCvvFocused,
                   obscureCardNumber: true,
                   obscureCardCvv: true,

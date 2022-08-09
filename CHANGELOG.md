@@ -1,3 +1,8 @@
+## 3.0.3 - Aug 10, 2022
+
+- Fixed [#47](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/47) - Added Bank name above card number
+- Fixed [#6](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/6) - Initialize values
+
 ## 3.0.2 - Jul 25, 2022
 
 - Fixed [#73](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/73) - Pass AutovalidateMode to CreditCardForm

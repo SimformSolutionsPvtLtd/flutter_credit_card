@@ -23,6 +23,7 @@ class CreditCardWidget extends StatefulWidget {
       required this.cardHolderName,
       required this.cvvCode,
       required this.showBackView,
+      this.bankName,
       this.animationDuration = const Duration(milliseconds: 500),
       this.height,
       this.width,
@@ -35,6 +36,7 @@ class CreditCardWidget extends StatefulWidget {
       this.cardType,
       this.isHolderNameVisible = false,
       this.backgroundImage,
+      this.backgroundNetworkImage,
       this.glassmorphismConfig,
       this.isChipVisible = true,
       this.isSwipeGestureEnabled = true,
@@ -49,6 +51,7 @@ class CreditCardWidget extends StatefulWidget {
   final TextStyle? textStyle;
   final Color cardBgColor;
   final bool showBackView;
+  final String? bankName;
   final Duration animationDuration;
   final double? height;
   final double? width;
@@ -57,6 +60,7 @@ class CreditCardWidget extends StatefulWidget {
   final void Function(CreditCardBrand) onCreditCardWidgetChange;
   final bool isHolderNameVisible;
   final String? backgroundImage;
+  final String? backgroundNetworkImage;
   final bool isChipVisible;
   final Glassmorphism? glassmorphismConfig;
   final bool isSwipeGestureEnabled;
@@ -251,6 +255,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     }
     return CardBackground(
       backgroundImage: widget.backgroundImage,
+      backgroundNetworkImage: widget.backgroundNetworkImage,
       backgroundGradientColor: backgroundGradientColor,
       glassmorphismConfig: widget.glassmorphismConfig,
       height: widget.height,
@@ -258,8 +263,18 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          if (widget.bankName != null && widget.bankName!.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 16),
+              child: Text(
+                widget.bankName!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: defaultTextStyle,
+              ),
+            ),
           Expanded(
-            flex: widget.isChipVisible ? 2 : 0,
+            flex: widget.isChipVisible ? 1 : 0,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
@@ -363,6 +378,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
 
     return CardBackground(
       backgroundImage: widget.backgroundImage,
+      backgroundNetworkImage: widget.backgroundNetworkImage,
       backgroundGradientColor: backgroundGradientColor,
       glassmorphismConfig: widget.glassmorphismConfig,
       height: widget.height,

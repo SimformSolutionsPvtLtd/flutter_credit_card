@@ -46,6 +46,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         expiryDate: expiryDate,
         cardHolderName: cardHolderName,
         cvvCode: cvvCode,
+        bankName: 'Axis Bank',
         showBackView: isCvvFocused,
         cardBgColor: Colors.black,
         glassmorphismConfig: Glassmorphism.defaultConfig(),

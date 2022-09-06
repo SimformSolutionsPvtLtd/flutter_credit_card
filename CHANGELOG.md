@@ -1,3 +1,6 @@
+## 3.0.4 - Sept 06, 2022
+- Autovalidating expiry date while entering it
+
 ## 3.0.3 - Aug 10, 2022
 
 - Fixed [#47](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/47) - Added Bank name above card number

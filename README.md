@@ -162,6 +162,8 @@ This package's animation is inspired from from this [Dribbble](https://dribbble.
 </table>
 <br/>
 
+## Awesome Mobile Libraries
+- Check out our other available [awesome mobile libraries](https://github.com/SimformSolutionsPvtLtd/Awesome-Mobile-Libraries)
 ## Note
 We have updated license of flutter_credit_card from BSD 2-Clause "Simplified" to MIT.
 

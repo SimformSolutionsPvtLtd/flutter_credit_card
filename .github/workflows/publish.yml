@@ -1,0 +1,28 @@
+
+
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1
+      - name: Install dependencies
+        run: flutter packages get
+      - name: Code Formatting
+        run: dart format --fix .
+      - name: Check Publish Warnings
+        run: flutter pub publish --dry-run
+      - name: Publish
+        uses: sakebook/actions-flutter-pub-publisher@v1.3.1
+        with:
+          credential: ${{ secrets.CREDENTIAL_JSON }}
+          flutter_package: true
+          skip_test: true
+          dry_run: false

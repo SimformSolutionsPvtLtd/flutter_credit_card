@@ -32,6 +32,10 @@ class CreditCardForm extends StatefulWidget {
       hintText: 'XXX',
     ),
     required this.formKey,
+    this.cardNumberKey,
+    this.cardHolderKey,
+    this.expiryDateKey,
+    this.cvvCodeKey,
     this.cvvValidationMessage = 'Please input a valid CVV',
     this.dateValidationMessage = 'Please input a valid date',
     this.numberValidationMessage = 'Please input a valid number',
@@ -58,6 +62,11 @@ class CreditCardForm extends StatefulWidget {
   final bool isCardNumberVisible;
   final bool isExpiryDateVisible;
   final GlobalKey<FormState> formKey;
+
+  final GlobalKey<FormFieldState<String>>? cardNumberKey;
+  final GlobalKey<FormFieldState<String>>? cardHolderKey;
+  final GlobalKey<FormFieldState<String>>? expiryDateKey;
+  final GlobalKey<FormFieldState<String>>? cvvCodeKey;
 
   final InputDecoration cardNumberDecoration;
   final InputDecoration cardHolderDecoration;
@@ -190,6 +199,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 margin: const EdgeInsets.only(left: 16, top: 16, right: 16),
                 child: TextFormField(
+                  key: widget.cardNumberKey,
                   obscureText: widget.obscureNumber,
                   controller: _cardNumberController,
                   cursorColor: widget.cursorColor ?? themeColor,
@@ -224,6 +234,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       margin:
                           const EdgeInsets.only(left: 16, top: 8, right: 16),
                       child: TextFormField(
+                        key: widget.expiryDateKey,
                         controller: _expiryDateController,
                         cursorColor: widget.cursorColor ?? themeColor,
                         focusNode: expiryDateNode,
@@ -265,6 +276,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
                     child: TextFormField(
+                      key: widget.cvvCodeKey,
                       obscureText: widget.obscureCvv,
                       focusNode: cvvFocusNode,
                       controller: _cvvCodeController,
@@ -310,6 +322,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
                 child: TextFormField(
+                  key: widget.cardHolderKey,
                   controller: _cardHolderNameController,
                   cursorColor: widget.cursorColor ?? themeColor,
                   focusNode: cardHolderNode,

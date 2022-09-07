@@ -131,41 +131,6 @@ class _CreditCardFormState extends State<CreditCardForm> {
     onCreditCardModelChange = widget.onCreditCardModelChange;
 
     cvvFocusNode.addListener(textFieldFocusDidChange);
-
-    _cardNumberController.addListener(() {
-      setState(() {
-        cardNumber = _cardNumberController.text;
-        creditCardModel.cardNumber = cardNumber;
-        onCreditCardModelChange(creditCardModel);
-      });
-    });
-
-    _expiryDateController.addListener(() {
-      if (_expiryDateController.text.startsWith(RegExp('[2-9]'))) {
-        _expiryDateController.text = '0' + _expiryDateController.text;
-      }
-      setState(() {
-        expiryDate = _expiryDateController.text;
-        creditCardModel.expiryDate = expiryDate;
-        onCreditCardModelChange(creditCardModel);
-      });
-    });
-
-    _cardHolderNameController.addListener(() {
-      setState(() {
-        cardHolderName = _cardHolderNameController.text;
-        creditCardModel.cardHolderName = cardHolderName;
-        onCreditCardModelChange(creditCardModel);
-      });
-    });
-
-    _cvvCodeController.addListener(() {
-      setState(() {
-        cvvCode = _cvvCodeController.text;
-        creditCardModel.cvvCode = cvvCode;
-        onCreditCardModelChange(creditCardModel);
-      });
-    });
   }
 
   @override
@@ -202,6 +167,13 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   key: widget.cardNumberKey,
                   obscureText: widget.obscureNumber,
                   controller: _cardNumberController,
+                  onChanged: (String value) {
+                    setState(() {
+                      cardNumber = _cardNumberController.text;
+                      creditCardModel.cardNumber = cardNumber;
+                      onCreditCardModelChange(creditCardModel);
+                    });
+                  },
                   cursorColor: widget.cursorColor ?? themeColor,
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(expiryDateNode);
@@ -236,6 +208,16 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       child: TextFormField(
                         key: widget.expiryDateKey,
                         controller: _expiryDateController,
+                        onChanged: (String value) {
+                          if (_expiryDateController.text.startsWith(RegExp('[2-9]'))) {
+                            _expiryDateController.text = '0' + _expiryDateController.text;
+                          }
+                          setState(() {
+                            expiryDate = _expiryDateController.text;
+                            creditCardModel.expiryDate = expiryDate;
+                            onCreditCardModelChange(creditCardModel);
+                          });
+                        },
                         cursorColor: widget.cursorColor ?? themeColor,
                         focusNode: expiryDateNode,
                         onEditingComplete: () {
@@ -303,6 +285,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       onChanged: (String text) {
                         setState(() {
                           cvvCode = text;
+                          creditCardModel.cvvCode = cvvCode;
+                          onCreditCardModelChange(creditCardModel);
                         });
                       },
                       validator: (String? value) {
@@ -324,6 +308,13 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 child: TextFormField(
                   key: widget.cardHolderKey,
                   controller: _cardHolderNameController,
+                  onChanged: (String value) {
+                    setState(() {
+                      cardHolderName = _cardHolderNameController.text;
+                      creditCardModel.cardHolderName = cardHolderName;
+                      onCreditCardModelChange(creditCardModel);
+                    });
+                  },
                   cursorColor: widget.cursorColor ?? themeColor,
                   focusNode: cardHolderNode,
                   style: TextStyle(

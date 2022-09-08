@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
-import 'credit_card_model.dart';
 import 'flutter_credit_card.dart';
 
 class CreditCardForm extends StatefulWidget {
@@ -40,6 +38,7 @@ class CreditCardForm extends StatefulWidget {
     this.isHolderNameVisible = true,
     this.isCardNumberVisible = true,
     this.isExpiryDateVisible = true,
+    this.autovalidateMode,
   }) : super(key: key);
 
   final String cardNumber;
@@ -64,6 +63,7 @@ class CreditCardForm extends StatefulWidget {
   final InputDecoration cardHolderDecoration;
   final InputDecoration expiryDateDecoration;
   final InputDecoration cvvCodeDecoration;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   _CreditCardFormState createState() => _CreditCardFormState();
@@ -90,7 +90,6 @@ class _CreditCardFormState extends State<CreditCardForm> {
       MaskedTextController(mask: '0000');
 
   FocusNode cvvFocusNode = FocusNode();
-  FocusNode cardNumberNode = FocusNode();
   FocusNode expiryDateNode = FocusNode();
   FocusNode cardHolderNode = FocusNode();
 
@@ -114,6 +113,11 @@ class _CreditCardFormState extends State<CreditCardForm> {
     super.initState();
 
     createCreditCardModel();
+      
+    _cardNumberController.text = widget.cardNumber;
+    _expiryDateController.text = widget.expiryDate;
+    _cardHolderNameController.text = widget.cardHolderName;
+    _cvvCodeController.text = widget.cvvCode;
 
     onCreditCardModelChange = widget.onCreditCardModelChange;
 
@@ -128,6 +132,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
     });
 
     _expiryDateController.addListener(() {
+      if (_expiryDateController.text.startsWith(RegExp('[2-9]'))) {
+        _expiryDateController.text = '0' + _expiryDateController.text;
+      }
       setState(() {
         expiryDate = _expiryDateController.text;
         creditCardModel.expiryDate = expiryDate;
@@ -196,6 +203,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
                   autofillHints: const <String>[AutofillHints.creditCardNumber],
+                  autovalidateMode: widget.autovalidateMode,
                   validator: (String? value) {
                     // Validate less that 13 digits +3 white spaces
                     if (value!.isEmpty || value.length < 16) {

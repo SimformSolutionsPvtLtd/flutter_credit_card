@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'credit_card_animation.dart';
 import 'credit_card_background.dart';
 import 'credit_card_brand.dart';
+import 'custom_card_type_icon.dart';
 import 'glassmorphism_config.dart';
 
 const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
@@ -22,6 +23,7 @@ class CreditCardWidget extends StatefulWidget {
       required this.cardHolderName,
       required this.cvvCode,
       required this.showBackView,
+      this.bankName,
       this.animationDuration = const Duration(milliseconds: 500),
       this.height,
       this.width,
@@ -34,9 +36,11 @@ class CreditCardWidget extends StatefulWidget {
       this.cardType,
       this.isHolderNameVisible = false,
       this.backgroundImage,
+      this.backgroundNetworkImage,
       this.glassmorphismConfig,
       this.isChipVisible = true,
       this.isSwipeGestureEnabled = true,
+      this.customCardTypeIcons = const <CustomCardTypeIcon>[],
       required this.onCreditCardWidgetChange})
       : super(key: key);
 
@@ -47,6 +51,7 @@ class CreditCardWidget extends StatefulWidget {
   final TextStyle? textStyle;
   final Color cardBgColor;
   final bool showBackView;
+  final String? bankName;
   final Duration animationDuration;
   final double? height;
   final double? width;
@@ -55,6 +60,7 @@ class CreditCardWidget extends StatefulWidget {
   final void Function(CreditCardBrand) onCreditCardWidgetChange;
   final bool isHolderNameVisible;
   final String? backgroundImage;
+  final String? backgroundNetworkImage;
   final bool isChipVisible;
   final Glassmorphism? glassmorphismConfig;
   final bool isSwipeGestureEnabled;
@@ -63,6 +69,7 @@ class CreditCardWidget extends StatefulWidget {
   final String labelExpiredDate;
 
   final CardType? cardType;
+  final List<CustomCardTypeIcon> customCardTypeIcons;
 
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
@@ -231,11 +238,24 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               ),
             );
 
-    final String number = widget.obscureCardNumber
-        ? widget.cardNumber.replaceAll(RegExp(r'(?<=.{4})\d(?=.{4})'), '*')
-        : widget.cardNumber;
+    String number = widget.cardNumber;
+    if (widget.obscureCardNumber) {
+      final String stripped = number.replaceAll(RegExp(r'[^\d]'), '');
+      if (stripped.length > 8) {
+        final String middle = number
+            .substring(4, number.length - 5)
+            .trim()
+            .replaceAll(RegExp(r'\d'), '*');
+        number = stripped.substring(0, 4) +
+            ' ' +
+            middle +
+            ' ' +
+            stripped.substring(stripped.length - 4);
+      }
+    }
     return CardBackground(
       backgroundImage: widget.backgroundImage,
+      backgroundNetworkImage: widget.backgroundNetworkImage,
       backgroundGradientColor: backgroundGradientColor,
       glassmorphismConfig: widget.glassmorphismConfig,
       height: widget.height,
@@ -243,8 +263,18 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          if (widget.bankName != null && widget.bankName!.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 16),
+              child: Text(
+                widget.bankName!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: defaultTextStyle,
+              ),
+            ),
           Expanded(
-            flex: widget.isChipVisible ? 2 : 0,
+            flex: widget.isChipVisible ? 1 : 0,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
@@ -348,6 +378,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
 
     return CardBackground(
       backgroundImage: widget.backgroundImage,
+      backgroundNetworkImage: widget.backgroundNetworkImage,
       backgroundGradientColor: backgroundGradientColor,
       glassmorphismConfig: widget.glassmorphismConfig,
       height: widget.height,
@@ -523,69 +554,91 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     return cardType;
   }
 
-  Widget getCardTypeImage(CardType? cardType) => Image.asset(
+  Widget getCardTypeImage(CardType? cardType) {
+    final List<CustomCardTypeIcon> customCardTypeIcon =
+        getCustomCardTypeIcon(cardType!);
+    if (customCardTypeIcon.isNotEmpty) {
+      return customCardTypeIcon.first.cardImage;
+    } else {
+      return Image.asset(
         CardTypeIconAsset[cardType]!,
         height: 48,
         width: 48,
         package: 'flutter_credit_card',
       );
+    }
+  }
 
   // This method returns the icon for the visa card type if found
   // else will return the empty container
   Widget getCardTypeIcon(String cardNumber) {
     Widget icon;
-    switch (detectCCType(cardNumber)) {
-      case CardType.visa:
-        icon = Image.asset(
-          'icons/visa.png',
-          height: 48,
-          width: 48,
-          package: 'flutter_credit_card',
-        );
-        isAmex = false;
-        break;
+    final CardType ccType = detectCCType(cardNumber);
+    final List<CustomCardTypeIcon> customCardTypeIcon =
+        getCustomCardTypeIcon(ccType);
+    if (customCardTypeIcon.isNotEmpty) {
+      icon = customCardTypeIcon.first.cardImage;
+      isAmex = ccType == CardType.americanExpress;
+    } else {
+      switch (ccType) {
+        case CardType.visa:
+          icon = Image.asset(
+            CardTypeIconAsset[ccType]!,
+            height: 48,
+            width: 48,
+            package: 'flutter_credit_card',
+          );
+          isAmex = false;
+          break;
 
-      case CardType.americanExpress:
-        icon = Image.asset(
-          'icons/amex.png',
-          height: 48,
-          width: 48,
-          package: 'flutter_credit_card',
-        );
-        isAmex = true;
-        break;
+        case CardType.americanExpress:
+          icon = Image.asset(
+            CardTypeIconAsset[ccType]!,
+            height: 48,
+            width: 48,
+            package: 'flutter_credit_card',
+          );
+          isAmex = true;
+          break;
 
-      case CardType.mastercard:
-        icon = Image.asset(
-          'icons/mastercard.png',
-          height: 48,
-          width: 48,
-          package: 'flutter_credit_card',
-        );
-        isAmex = false;
-        break;
+        case CardType.mastercard:
+          icon = Image.asset(
+            CardTypeIconAsset[ccType]!,
+            height: 48,
+            width: 48,
+            package: 'flutter_credit_card',
+          );
+          isAmex = false;
+          break;
 
-      case CardType.discover:
-        icon = Image.asset(
-          'icons/discover.png',
-          height: 48,
-          width: 48,
-          package: 'flutter_credit_card',
-        );
-        isAmex = false;
-        break;
+        case CardType.discover:
+          icon = Image.asset(
+            CardTypeIconAsset[ccType]!,
+            height: 48,
+            width: 48,
+            package: 'flutter_credit_card',
+          );
+          isAmex = false;
+          break;
 
-      default:
-        icon = Container(
-          height: 48,
-          width: 48,
-        );
-        isAmex = false;
-        break;
+        default:
+          icon = Container(
+            height: 48,
+            width: 48,
+          );
+          isAmex = false;
+          break;
+      }
     }
 
     return icon;
   }
+
+  List<CustomCardTypeIcon> getCustomCardTypeIcon(CardType currentCardType) =>
+      widget.customCardTypeIcons
+          .where((CustomCardTypeIcon element) =>
+              element.cardType == currentCardType)
+          .toList();
 }
 
 class MaskedTextController extends TextEditingController {

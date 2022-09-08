@@ -75,4 +75,4 @@ ios/.generated/
 
 .idea/instapk.xml
 instapk.log*
-/pubspec.lock
+pubspec.lock

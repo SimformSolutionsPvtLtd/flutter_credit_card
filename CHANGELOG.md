@@ -1,3 +1,20 @@
+## 3.0.3 - Aug 10, 2022
+
+- Fixed [#47](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/47) - Added Bank name above card number
+- Fixed [#6](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/6) - Initialize values
+
+## 3.0.2 - Jul 25, 2022
+
+- Fixed [#73](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/73) - Pass AutovalidateMode to CreditCardForm
+- Fixed [#82](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/82) - Added support to add network image as card background
+- Fixed [#46](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/46) - Card number Regex issue for safari and web
+
+## 3.0.1 - Oct 12, 2021
+
+- Fixed [#40](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/40) - Absence of focus node in credit_card_form.dart
+- Fixed [#57](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/57) - Can we specify a custom card type logos
+- License update from BSD 2-Clause "Simplified" to MIT
+
 ## 3.0.0 - Sep 23, 2021
 
 - Glassmorphism UI.

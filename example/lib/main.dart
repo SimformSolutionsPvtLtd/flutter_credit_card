@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
-import 'package:flutter_credit_card/credit_card_form.dart';
-import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 void main() => runApp(MySample());
@@ -68,6 +66,7 @@ class MySampleState extends State<MySample> {
                   expiryDate: expiryDate,
                   cardHolderName: cardHolderName,
                   cvvCode: cvvCode,
+                  bankName: 'Axis Bank',
                   showBackView: isCvvFocused,
                   obscureCardNumber: true,
                   obscureCardCvv: true,
@@ -76,7 +75,18 @@ class MySampleState extends State<MySample> {
                   backgroundImage:
                       useBackgroundImage ? 'assets/card_bg.png' : null,
                   isSwipeGestureEnabled: true,
-                  onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
+                  onCreditCardWidgetChange:
+                      (CreditCardBrand creditCardBrand) {},
+                  customCardTypeIcons: <CustomCardTypeIcon>[
+                    CustomCardTypeIcon(
+                      cardType: CardType.mastercard,
+                      cardImage: Image.asset(
+                        'assets/mastercard.png',
+                        height: 48,
+                        width: 48,
+                      ),
+                    ),
+                  ],
                 ),
                 Expanded(
                   child: SingleChildScrollView(

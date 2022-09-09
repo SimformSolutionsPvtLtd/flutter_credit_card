@@ -47,6 +47,7 @@ class CreditCardForm extends StatefulWidget {
     this.expiryDateValidator,
     this.cvvValidator,
     this.cardHolderValidator,
+    this.onFormComplete,
   }) : super(key: key);
 
   final String cardNumber;
@@ -66,6 +67,7 @@ class CreditCardForm extends StatefulWidget {
   final bool isCardNumberVisible;
   final bool isExpiryDateVisible;
   final GlobalKey<FormState> formKey;
+  final Function? onFormComplete;
 
   final GlobalKey<FormFieldState<String>>? cardNumberKey;
   final GlobalKey<FormFieldState<String>>? cardHolderKey;
@@ -287,6 +289,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                         else {
                           FocusScope.of(context).unfocus();
                           onCreditCardModelChange(creditCardModel);
+                          if (widget.onFormComplete != null) {
+                            widget.onFormComplete!();
+                          }
                         }
                       },
                       style: TextStyle(
@@ -346,6 +351,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   onEditingComplete: () {
                     FocusScope.of(context).unfocus();
                     onCreditCardModelChange(creditCardModel);
+                    if (widget.onFormComplete != null) {
+                      widget.onFormComplete!();
+                    }
                   },
                   validator: widget.cardHolderValidator,
                 ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
-import 'flutter_credit_card.dart';
-
 class CreditCardForm extends StatefulWidget {
   const CreditCardForm({
     Key? key,
@@ -113,7 +111,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     super.initState();
 
     createCreditCardModel();
-      
+
     _cardNumberController.text = widget.cardNumber;
     _expiryDateController.text = widget.expiryDate;
     _cardHolderNameController.text = widget.cardHolderName;
@@ -247,7 +245,11 @@ class _CreditCardFormState extends State<CreditCardForm> {
                           final List<String> date = value.split(RegExp(r'/'));
                           final int month = int.parse(date.first);
                           final int year = int.parse('20${date.last}');
-                          final DateTime cardDate = DateTime(year, month);
+                          final int lastDayOfMonth = month < 12
+                              ? DateTime(year, month + 1, 0).day
+                              : DateTime(year + 1, 1, 0).day;
+                          final DateTime cardDate = DateTime(
+                              year, month, lastDayOfMonth, 23, 59, 59, 999);
 
                           if (cardDate.isBefore(now) ||
                               month > 12 ||

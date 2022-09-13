@@ -191,7 +191,7 @@ class MySampleState extends State<MySample> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            backgroundColor: const Color(0xff1b447b),
+                            primary: const Color(0xff1b447b),
                           ),
                           child: Container(
                             margin: const EdgeInsets.all(12),

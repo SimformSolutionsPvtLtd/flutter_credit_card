@@ -41,7 +41,8 @@ class CreditCardWidget extends StatefulWidget {
       this.isChipVisible = true,
       this.isSwipeGestureEnabled = true,
       this.customCardTypeIcons = const <CustomCardTypeIcon>[],
-      required this.onCreditCardWidgetChange})
+      required this.onCreditCardWidgetChange,
+      this.chipColor})
       : super(key: key);
 
   final String cardNumber;
@@ -61,6 +62,7 @@ class CreditCardWidget extends StatefulWidget {
   final bool isHolderNameVisible;
   final String? backgroundImage;
   final String? backgroundNetworkImage;
+  final Color? chipColor;
   final bool isChipVisible;
   final Glassmorphism? glassmorphismConfig;
   final bool isSwipeGestureEnabled;
@@ -284,6 +286,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                     child: Image.asset(
                       'icons/chip.png',
                       package: 'flutter_credit_card',
+                      color: widget.chipColor,
                       scale: 1,
                     ),
                   ),

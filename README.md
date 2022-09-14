@@ -43,37 +43,33 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 *With optional parameters*
 ```dart   
     CreditCardWidget(
-        cardNumber: cardNumber,
-        expiryDate: expiryDate,
-        cardHolderName: cardHolderName,
-        cvvCode: cvvCode,
-        bankName: 'Axis Bank',
-        showBackView: isCvvFocused,
-        cardBgColor: Colors.black,
-        chipColor: Colors.amberAccent,
-        glassmorphismConfig: Glassmorphism.defaultConfig(),
-        backgroundImage: 'assets/card_bg.png',
-        backgroundNetworkImage: 'image-url'
-        obscureCardNumber: true,
-        obscureCardCvv: true,
-        isHolderNameVisible: false,
-        height: 175,
-        textStyle: TextStyle(color: Colors.yellowAccent),
-        width: MediaQuery.of(context).size.width,
-        isChipVisible: true,
-        isSwipeGestureEnabled: true,
-        animationDuration: Duration(milliseconds: 1000),
-        customCardTypeIcons: <CustomCardTypeIcon>[
-                    CustomCardTypeIcon(
-                      cardType: CardType.mastercard,
-                      cardImage: Image.asset(
-                        'assets/mastercard.png',
-                        height: 48,
-                        width: 48,
-                      ),
-                    ),
-                  ],
-                  
+      cardNumber: cardNumber,
+      expiryDate: expiryDate,
+      cardHolderName: cardHolderName,
+      cvvCode: cvvCode,
+      showBackView: isCvvFocused,
+      cardbgColor: Colors.black,
+      glassmorphismConfig: Glassmorphism.defaultConfig(),
+      backgroundImage: 'assets/card_bg.png',
+      obscureCardNumber: true,
+      obscureCardCvv: true,
+      isHolderNameVisible: false,
+      height: 175,
+      textStyle: TextStyle(color: Colors.yellowAccent),
+      width: MediaQuery.of(context).size.width,
+      isChipVisible: true,
+      isSwipeGestureEnabled: true,
+      animationDuration: Duration(milliseconds: 1000),
+      customCardIcons: <CustomCardTypeImage>[
+        CustomCardTypeImage(
+          cardType: CardType.mastercard,
+          cardImage: Image.asset(
+            'assets/mastercard.png',
+            height: 48,
+            width: 48,
+          ),
+        ),
+      ],
     ),
 ``` 
 

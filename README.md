@@ -2,9 +2,10 @@
 
 # Flutter Credit Card
 
-A Flutter package allows you to easily implement the Credit card's UI easily with the Card detection.
+![build](https://github.com/SimformSolutionsPvtLtd/flutter_calendar_view/workflows/Build/badge.svg?branch=master)
+![flutter_credit_card](https://img.shields.io/pub/v/flutter_credit_card?label=flutter_credit_card)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e546818ff64e4883a18a920f6a1c091c)](https://www.codacy.com/app/reg_3/flutter_credit_card?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=simformsolutions/flutter_credit_card&amp;utm_campaign=Badge_Grade)
+A Flutter package allows you to easily implement the Credit card's UI easily with the Card detection.
 
 ## Preview
 
@@ -49,6 +50,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         bankName: 'Axis Bank',
         showBackView: isCvvFocused,
         cardBgColor: Colors.black,
+        chipColor: Colors.amberAccent,
         glassmorphismConfig: Glassmorphism.defaultConfig(),
         backgroundImage: 'assets/card_bg.png',
         backgroundNetworkImage: 'image-url'
@@ -71,6 +73,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
                       ),
                     ),
                   ],
+                  
     ),
 ``` 
 
@@ -110,6 +113,10 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 ```dart
     CreditCardForm(
       formKey: formKey, // Required 
+      cardNumberKey: cardNumberKey,
+      cvvCodeKey: cvvCodeKey,
+      expiryDateKey: expiryDateKey,
+      cardHolderKey: cardHolderKey,
       onCreditCardModelChange: (CreditCardModel data) {}, // Required
       themeColor: Colors.red,
       obscureCvv: true, 
@@ -117,6 +124,13 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       isHolderNameVisible: false,
       isCardNumberVisible: false,
       isExpiryDateVisible: false,
+      cardNumberValidator: (String? cardNumber){},
+      expiryDateValidator: (String? expiryDate){},
+      cvvValidator: (String? cvv){},
+      cardHolderValidator: (String? cardHolderName){},
+      onFormComplete: () {
+      // callback to execute at the end of filling card data
+      },
       cardNumberDecoration: const InputDecoration(
         border: OutlineInputBorder(),
         labelText: 'Number',
@@ -158,6 +172,8 @@ This package's animation is inspired from from this [Dribbble](https://dribbble.
     <td align="center"><a href="https://github.com/Kashifalaliwala"><img src="https://avatars.githubusercontent.com/u/30998350?s=100" width="100px;" alt=""/><br /><sub><b>Kashifa Laliwala</b></sub></a></td>
     <td align="center"><a href="https://github.com/SanketKachhela"><img src="https://avatars.githubusercontent.com/u/20923896?s=100" width="100px;" alt=""/><br /><sub><b>Sanket Kachchela</b></sub></a></td>
     <td align="center"><a href="https://github.com/meetjanani"><img src="https://avatars.githubusercontent.com/u/32095359?s=100" width="100px;" alt=""/><br /><sub><b>Meet Janani</b></sub></a></td>
+    <td align="center"><a href="https://github.com/shwetachauhan-simform"><img src="https://avatars.githubusercontent.com/u/63042002?s=100" width="100px;" alt=""/><br /><sub><b>Shweta Chauhan</b></sub></a></td>
+    <td align="center"><a href="https://github.com/kavantrivedi"><img src="https://avatars.githubusercontent.com/u/97207242?s=100" width="100px;" alt=""/><br /><sub><b>Kavan Trivedi</b></sub></a></td>
   </tr>
 </table>
 <br/>

@@ -13,6 +13,8 @@ const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
   CardType.americanExpress: 'icons/amex.png',
   CardType.mastercard: 'icons/mastercard.png',
   CardType.discover: 'icons/discover.png',
+  CardType.elo: 'icons/elo.png',
+  CardType.hipercard: 'icons/hipercard.png',
 };
 
 class CreditCardWidget extends StatefulWidget {
@@ -505,6 +507,36 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       <String>['270', '271'],
       <String>['2720'],
     },
+    CardType.elo: <List<String>>{
+      <String>['401178'],
+      <String>['401179'],
+      <String>['438935'],
+      <String>['457631'],
+      <String>['457632'],
+      <String>['431274'],
+      <String>['451416'],
+      <String>['457393'],
+      <String>['504175'],
+      <String>['506699', '506778'],
+      <String>['509000', '509999'],
+      <String>['627780'],
+      <String>['636297'],
+      <String>['636368'],
+      <String>['650031', '650033'],
+      <String>['650035', '650051'],
+      <String>['650405', '650439'],
+      <String>['650485', '650538'],
+      <String>['650541', '650598'],
+      <String>['650700', '650718'],
+      <String>['650720', '650727'],
+      <String>['650901', '650978'],
+      <String>['651652', '651679'],
+      <String>['655000', '655019'],
+      <String>['655021', '655058']
+    },
+    CardType.hipercard: <List<String>>{
+      <String>['606282'],
+    },
   };
 
   /// This function determines the Credit Card type based on the cardPatterns
@@ -585,6 +617,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     } else {
       switch (ccType) {
         case CardType.visa:
+        case CardType.discover:
+        case CardType.mastercard:
+        case CardType.elo:
+        case CardType.hipercard:
           icon = Image.asset(
             CardTypeIconAsset[ccType]!,
             height: 48,
@@ -602,26 +638,6 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             package: 'flutter_credit_card',
           );
           isAmex = true;
-          break;
-
-        case CardType.mastercard:
-          icon = Image.asset(
-            CardTypeIconAsset[ccType]!,
-            height: 48,
-            width: 48,
-            package: 'flutter_credit_card',
-          );
-          isAmex = false;
-          break;
-
-        case CardType.discover:
-          icon = Image.asset(
-            CardTypeIconAsset[ccType]!,
-            height: 48,
-            width: 48,
-            package: 'flutter_credit_card',
-          );
-          isAmex = false;
           break;
 
         default:
@@ -770,4 +786,6 @@ enum CardType {
   visa,
   americanExpress,
   discover,
+  elo,
+  hipercard
 }

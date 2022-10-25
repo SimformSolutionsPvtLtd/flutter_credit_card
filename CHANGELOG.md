@@ -1,3 +1,7 @@
+# [3.0.5](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.5)
+
+- New card brands (Elo/Hipercard) was added [#109](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/109) 
+
 # [3.0.4](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.4)
 
 - Dependencies Upgraded [#97](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/97) 

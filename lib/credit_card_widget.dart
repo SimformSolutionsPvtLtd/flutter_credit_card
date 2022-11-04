@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/constants.dart';
+import 'package:flutter_credit_card/extension.dart';
 
 import 'credit_card_animation.dart';
 import 'credit_card_background.dart';
@@ -19,35 +20,37 @@ const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
 };
 
 class CreditCardWidget extends StatefulWidget {
-  const CreditCardWidget(
-      {Key? key,
-      required this.cardNumber,
-      required this.expiryDate,
-      required this.cardHolderName,
-      required this.cvvCode,
-      required this.showBackView,
-      this.bankName,
-      this.animationDuration = const Duration(milliseconds: 500),
-      this.height,
-      this.width,
-      this.textStyle,
-      this.cardBgColor = const Color(0xff1b447b),
-      this.obscureCardNumber = true,
-      this.obscureCardCvv = true,
-      this.labelCardHolder = 'CARD HOLDER',
-      this.labelExpiredDate = 'MM/YY',
-      this.cardType,
-      this.isHolderNameVisible = false,
-      this.backgroundImage,
-      this.backgroundNetworkImage,
-      this.glassmorphismConfig,
-      this.isChipVisible = true,
-      this.isSwipeGestureEnabled = true,
-      this.customCardTypeIcons = const <CustomCardTypeIcon>[],
-      required this.onCreditCardWidgetChange,
-      this.padding = AppConstants.creditCardPadding,
-      this.chipColor})
-      : super(key: key);
+  const CreditCardWidget({
+    Key? key,
+    required this.cardNumber,
+    required this.expiryDate,
+    required this.cardHolderName,
+    required this.cvvCode,
+    required this.showBackView,
+    this.bankName,
+    this.animationDuration = const Duration(milliseconds: 500),
+    this.height,
+    this.width,
+    this.textStyle,
+    this.cardBgColor = const Color(0xff1b447b),
+    this.obscureCardNumber = true,
+    this.obscureCardCvv = true,
+    this.labelCardHolder = 'CARD HOLDER',
+    this.labelExpiredDate = 'MM/YY',
+    this.cardType,
+    this.isHolderNameVisible = false,
+    this.backgroundImage,
+    this.backgroundNetworkImage,
+    this.glassmorphismConfig,
+    this.isChipVisible = true,
+    this.isSwipeGestureEnabled = true,
+    this.customCardTypeIcons = const <CustomCardTypeIcon>[],
+    required this.onCreditCardWidgetChange,
+    this.padding = AppConstants.creditCardPadding,
+    this.chipColor,
+    this.frontCardBorder,
+    this.backCardBorder,
+  }) : super(key: key);
 
   final String cardNumber;
   final String expiryDate;
@@ -77,6 +80,8 @@ class CreditCardWidget extends StatefulWidget {
   final CardType? cardType;
   final List<CustomCardTypeIcon> customCardTypeIcons;
   final double padding;
+  final BoxBorder? frontCardBorder;
+  final BoxBorder? backCardBorder;
 
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
@@ -248,7 +253,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               const TextStyle(
                 color: Colors.white,
                 fontFamily: 'halter',
-                fontSize: 16,
+                fontSize: 15,
                 package: 'flutter_credit_card',
               ),
             );
@@ -276,17 +281,21 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       height: widget.height,
       width: widget.width,
       padding: widget.padding,
+      border: widget.frontCardBorder,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          if (widget.bankName != null && widget.bankName!.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 16),
-              child: Text(
-                widget.bankName!,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: defaultTextStyle,
+          if (widget.bankName.isNotNullAndNotEmpty)
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16, top: 16),
+                child: Text(
+                  widget.bankName!,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: defaultTextStyle,
+                ),
               ),
             ),
           Expanded(
@@ -304,22 +313,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                       scale: 1,
                     ),
                   ),
-                const Spacer(),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
-                    child: widget.cardType != null
-                        ? getCardTypeImage(widget.cardType)
-                        : getCardTypeIcon(widget.cardNumber),
-                  ),
-                ),
               ],
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
@@ -334,8 +331,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     'VALID\nTHRU',
@@ -354,20 +351,29 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               ),
             ),
           ),
-          Visibility(
-            visible: widget.isHolderNameVisible,
-            child: Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                child: Text(
-                  widget.cardHolderName.isEmpty
-                      ? widget.labelCardHolder
-                      : widget.cardHolderName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: widget.textStyle ?? defaultTextStyle,
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Visibility(
+                  visible: widget.isHolderNameVisible,
+                  child: Expanded(
+                    child: Text(
+                      widget.cardHolderName.isEmpty
+                          ? widget.labelCardHolder
+                          : widget.cardHolderName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: widget.textStyle ?? defaultTextStyle,
+                    ),
+                  ),
                 ),
-              ),
+                widget.cardType != null
+                    ? getCardTypeImage(widget.cardType)
+                    : getCardTypeIcon(widget.cardNumber),
+              ],
             ),
           ),
         ],
@@ -401,6 +407,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       height: widget.height,
       width: widget.width,
       padding: widget.padding,
+      border: widget.backCardBorder,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,

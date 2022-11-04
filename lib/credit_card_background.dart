@@ -16,6 +16,7 @@ class CardBackground extends StatelessWidget {
     this.height,
     this.glassmorphismConfig,
     required this.padding,
+    this.border,
   })  : assert(
             (backgroundImage == null && backgroundNetworkImage == null) ||
                 (backgroundImage == null && backgroundNetworkImage != null) ||
@@ -31,6 +32,7 @@ class CardBackground extends StatelessWidget {
   final double? width;
   final double? height;
   final double padding;
+  final BoxBorder? border;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class CardBackground extends StatelessWidget {
             margin: EdgeInsets.all(padding),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
+              border: border,
               gradient: glassmorphismConfig != null
                   ? glassmorphismConfig!.gradient
                   : backgroundGradientColor,

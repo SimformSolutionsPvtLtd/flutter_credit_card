@@ -107,6 +107,14 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     _updateRotations(false);
   }
 
+  @override
+  void didUpdateWidget(covariant CreditCardWidget oldWidget) {
+    if (widget.cardBgColor != oldWidget.cardBgColor) {
+      _gradientSetup();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
   void _gradientSetup() {
     backgroundGradientColor = LinearGradient(
       // Where the linear gradient begins and ends

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/constants.dart';
 
 import 'credit_card_animation.dart';
 import 'credit_card_background.dart';
@@ -44,6 +45,7 @@ class CreditCardWidget extends StatefulWidget {
       this.isSwipeGestureEnabled = true,
       this.customCardTypeIcons = const <CustomCardTypeIcon>[],
       required this.onCreditCardWidgetChange,
+      this.padding = AppConstants.creditCardPadding,
       this.chipColor})
       : super(key: key);
 
@@ -74,6 +76,7 @@ class CreditCardWidget extends StatefulWidget {
 
   final CardType? cardType;
   final List<CustomCardTypeIcon> customCardTypeIcons;
+  final double padding;
 
   @override
   _CreditCardWidgetState createState() => _CreditCardWidgetState();
@@ -264,6 +267,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       glassmorphismConfig: widget.glassmorphismConfig,
       height: widget.height,
       width: widget.width,
+      padding: widget.padding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -388,6 +392,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       glassmorphismConfig: widget.glassmorphismConfig,
       height: widget.height,
       width: widget.width,
+      padding: widget.padding,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,

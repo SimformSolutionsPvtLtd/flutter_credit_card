@@ -158,12 +158,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-        primaryColor: themeColor.withOpacity(0.8),
-        primaryColorDark: themeColor,
-      ),
-      child: Form(
+    return Form(
         key: widget.formKey,
         child: Column(
           children: <Widget>[
@@ -359,7 +354,6 @@ class _CreditCardFormState extends State<CreditCardForm> {
             ),
           ],
         ),
-      ),
     );
   }
 }

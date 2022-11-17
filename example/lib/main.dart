@@ -19,17 +19,9 @@ class MySampleState extends State<MySample> {
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
   bool useBackgroundImage = false;
-  OutlineInputBorder? border;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    border = OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.grey.withOpacity(0.7),
-        width: 2.0,
-      ),
-    );
     super.initState();
   }
 
@@ -38,8 +30,8 @@ class MySampleState extends State<MySample> {
     return MaterialApp(
       title: 'Flutter Credit Card View Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      theme: ThemeData.from(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -66,12 +58,12 @@ class MySampleState extends State<MySample> {
                   expiryDate: expiryDate,
                   cardHolderName: cardHolderName,
                   cvvCode: cvvCode,
-                  bankName: 'Axis Bank',
+                  title: 'Title',
                   showBackView: isCvvFocused,
                   obscureCardNumber: true,
                   obscureCardCvv: true,
                   isHolderNameVisible: true,
-                  cardBgColor: Colors.red,
+                  cardBgColor: Colors.brown,
                   backgroundImage:
                       useBackgroundImage ? 'assets/card_bg.png' : null,
                   isSwipeGestureEnabled: true,
@@ -93,7 +85,6 @@ class MySampleState extends State<MySample> {
                     child: Column(
                       children: <Widget>[
                         CreditCardForm(
-                          formKey: formKey,
                           obscureCvv: true,
                           obscureNumber: true,
                           cardNumber: cardNumber,
@@ -103,37 +94,19 @@ class MySampleState extends State<MySample> {
                           isExpiryDateVisible: true,
                           cardHolderName: cardHolderName,
                           expiryDate: expiryDate,
-                          themeColor: Colors.blue,
-                          textColor: Colors.white,
-                          cardNumberDecoration: InputDecoration(
+                          cardNumberDecoration: const InputDecoration(
                             labelText: 'Number',
                             hintText: 'XXXX XXXX XXXX XXXX',
-                            hintStyle: const TextStyle(color: Colors.white),
-                            labelStyle: const TextStyle(color: Colors.white),
-                            focusedBorder: border,
-                            enabledBorder: border,
                           ),
-                          expiryDateDecoration: InputDecoration(
-                            hintStyle: const TextStyle(color: Colors.white),
-                            labelStyle: const TextStyle(color: Colors.white),
-                            focusedBorder: border,
-                            enabledBorder: border,
+                          expiryDateDecoration: const InputDecoration(
                             labelText: 'Expired Date',
                             hintText: 'XX/XX',
                           ),
-                          cvvCodeDecoration: InputDecoration(
-                            hintStyle: const TextStyle(color: Colors.white),
-                            labelStyle: const TextStyle(color: Colors.white),
-                            focusedBorder: border,
-                            enabledBorder: border,
+                          cvvCodeDecoration: const InputDecoration(
                             labelText: 'CVV',
                             hintText: 'XXX',
                           ),
-                          cardHolderDecoration: InputDecoration(
-                            hintStyle: const TextStyle(color: Colors.white),
-                            labelStyle: const TextStyle(color: Colors.white),
-                            focusedBorder: border,
-                            enabledBorder: border,
+                          cardHolderDecoration: const InputDecoration(
                             labelText: 'Card Holder',
                           ),
                           onCreditCardModelChange: onCreditCardModelChange,
@@ -144,13 +117,7 @@ class MySampleState extends State<MySample> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            const Text(
-                              'Glassmorphism',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
-                            ),
+                            const Text('Glassmorphism'),
                             Switch(
                               value: useGlassMorphism,
                               inactiveTrackColor: Colors.grey,
@@ -167,16 +134,9 @@ class MySampleState extends State<MySample> {
                           children: <Widget>[
                             const Text(
                               'Card Image',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
                             ),
                             Switch(
                               value: useBackgroundImage,
-                              inactiveTrackColor: Colors.grey,
-                              activeColor: Colors.white,
-                              activeTrackColor: Colors.green,
                               onChanged: (bool value) => setState(() {
                                 useBackgroundImage = value;
                               }),
@@ -191,26 +151,17 @@ class MySampleState extends State<MySample> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            backgroundColor: const Color(0xff1b447b),
                           ),
                           child: Container(
                             margin: const EdgeInsets.all(12),
-                            child: const Text(
-                              'Validate',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'halter',
-                                fontSize: 14,
-                                package: 'flutter_credit_card',
-                              ),
-                            ),
+                            child: const Text('Validate'),
                           ),
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              print('valid!');
-                            } else {
-                              print('invalid!');
-                            }
+                            // if (formKey.currentState!.validate()) {
+                            //   print('valid!');
+                            // } else {
+                            //   print('invalid!');
+                            // }
                           },
                         ),
                       ],

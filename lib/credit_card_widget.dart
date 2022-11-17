@@ -26,7 +26,7 @@ class CreditCardWidget extends StatefulWidget {
       required this.cardHolderName,
       required this.cvvCode,
       required this.showBackView,
-      this.bankName,
+      this.title,
       this.animationDuration = const Duration(milliseconds: 500),
       this.height,
       this.width,
@@ -56,7 +56,7 @@ class CreditCardWidget extends StatefulWidget {
   final TextStyle? textStyle;
   final Color cardBgColor;
   final bool showBackView;
-  final String? bankName;
+  final String? title;
   final Duration animationDuration;
   final double? height;
   final double? width;
@@ -279,11 +279,11 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          if (widget.bankName != null && widget.bankName!.isNotEmpty)
+          if (widget.title != null && widget.title!.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(left: 16, top: 16),
               child: Text(
-                widget.bankName!,
+                widget.title!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: defaultTextStyle,

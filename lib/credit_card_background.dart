@@ -78,10 +78,24 @@ class CardBackground extends StatelessWidget {
   }
 }
 
-class _GlassmorphicBorder extends StatelessWidget {
-  _GlassmorphicBorder()
-      : _painter = _GradientPainter(strokeWidth: 2, radius: 10);
-  final _GradientPainter _painter;
+class _GlassmorphicBorder extends StatefulWidget {
+  const _GlassmorphicBorder();
+
+  @override
+  State<_GlassmorphicBorder> createState() => _GlassmorphicBorderState();
+}
+
+class _GlassmorphicBorderState extends State<_GlassmorphicBorder> {
+  late final _GradientPainter _painter;
+
+  @override
+  void didChangeDependencies() {
+    _painter = _GradientPainter(
+        strokeWidth: 2,
+        radius: 10,
+        isDark: Theme.of(context).colorScheme.brightness == Brightness.dark);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,22 +112,28 @@ class _GlassmorphicBorder extends StatelessWidget {
 }
 
 class _GradientPainter extends CustomPainter {
-  _GradientPainter({required this.strokeWidth, required this.radius});
+  _GradientPainter({
+    required this.strokeWidth,
+    required this.radius,
+    required this.isDark,
+  });
 
   final double radius;
   final double strokeWidth;
   final Paint paintObject = Paint();
   final Paint paintObject2 = Paint();
+  final bool isDark;
 
   @override
   void paint(Canvas canvas, Size size) {
+    final Color base = isDark ? Colors.white : Colors.black;
     final LinearGradient gradient = LinearGradient(
         begin: Alignment.bottomRight,
         end: Alignment.topLeft,
         colors: <Color>[
-          Colors.white.withAlpha(50),
-          Colors.white.withAlpha(55),
-          Colors.white.withAlpha(50),
+          base.withAlpha(50),
+          base.withAlpha(55),
+          base.withAlpha(50),
         ],
         stops: const <double>[
           0.06,

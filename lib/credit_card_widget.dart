@@ -302,7 +302,6 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                   'icons/chip.png',
                   package: 'flutter_credit_card',
                   color: widget.chipColor,
-                  scale: 1,
                 ),
                 const SizedBox(height: Constants.creditCardPadding),
                 Text(

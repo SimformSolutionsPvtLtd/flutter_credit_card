@@ -69,8 +69,8 @@ class MySampleState extends State<MySample> {
                         cardType: CardType.mastercard,
                         cardImage: Image.asset(
                           'assets/mastercard.png',
-                          height: 48,
-                          width: 48,
+                          height: 16,
+                          width: 16,
                         ),
                       ),
                     ],

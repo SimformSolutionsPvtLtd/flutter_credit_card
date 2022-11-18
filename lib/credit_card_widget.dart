@@ -624,8 +624,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     }
 
     return SizedBox(
-      height: 36,
-      width: 36,
+      height: 48,
+      width: 48,
       child: icon,
     );
   }

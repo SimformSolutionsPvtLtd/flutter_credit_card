@@ -12,10 +12,7 @@ class CardBackground extends StatelessWidget {
     this.backgroundImage,
     this.backgroundNetworkImage,
     required this.child,
-    this.width,
-    this.height,
     this.glassmorphismConfig,
-    required this.padding,
   })  : assert(
             (backgroundImage == null && backgroundNetworkImage == null) ||
                 (backgroundImage == null && backgroundNetworkImage != null) ||
@@ -28,9 +25,6 @@ class CardBackground extends StatelessWidget {
   final Widget child;
   final Gradient backgroundGradientColor;
   final Glassmorphism? glassmorphismConfig;
-  final double? width;
-  final double? height;
-  final double padding;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +39,6 @@ class CardBackground extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.all(padding),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               gradient: glassmorphismConfig != null
@@ -68,12 +61,6 @@ class CardBackground extends StatelessWidget {
                         )
                       : null,
             ),
-            width: width ?? screenWidth,
-            height: height ??
-                (orientation == Orientation.portrait
-                    ? (((width ?? screenWidth) - (padding * 2)) *
-                        Constants.creditCardAspectRatio)
-                    : screenHeight / 2),
             child: ClipRRect(
               clipBehavior: Clip.hardEdge,
               borderRadius: BorderRadius.circular(8),
@@ -90,17 +77,7 @@ class CardBackground extends StatelessWidget {
               ),
             ),
           ),
-          if (glassmorphismConfig != null)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: _GlassmorphicBorder(
-                width: width ?? screenWidth,
-                height: height ??
-                    (orientation == Orientation.portrait
-                        ? ((screenWidth - 32) * 0.5714)
-                        : screenHeight / 2),
-              ),
-            ),
+          if (glassmorphismConfig != null) _GlassmorphicBorder(),
         ],
       );
     });
@@ -108,13 +85,9 @@ class CardBackground extends StatelessWidget {
 }
 
 class _GlassmorphicBorder extends StatelessWidget {
-  _GlassmorphicBorder({
-    required this.height,
-    required this.width,
-  }) : _painter = _GradientPainter(strokeWidth: 2, radius: 10);
+  _GlassmorphicBorder()
+      : _painter = _GradientPainter(strokeWidth: 2, radius: 10);
   final _GradientPainter _painter;
-  final double width;
-  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -125,8 +98,6 @@ class _GlassmorphicBorder extends StatelessWidget {
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
-        width: width,
-        height: height,
       ),
     );
   }

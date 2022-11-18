@@ -53,17 +53,23 @@ class MySampleState extends State<MySample> {
                   expiryDate: expiryDate,
                   cardHolderName: cardHolderName,
                   cvvCode: cvvCode,
-                  // title: Text('Bank'),
+                  title: Text(
+                    'Axis Bank',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
                   showBackView: isCvvFocused,
                   obscureCardNumber: true,
                   obscureCardCvv: true,
                   isHolderNameVisible: true,
-                  // backgroundColor: Colors.brown,
+                  backgroundColor: Colors.brown,
                   backgroundImage:
                       useBackgroundImage ? 'assets/card_bg.png' : null,
-                  // foregroundColor: (useGlassMorphism && !useBackgroundImage)
-                  //     ? Theme.of(context).colorScheme.onSurface
-                  //     : null,
+                  foregroundColor: (useGlassMorphism && !useBackgroundImage)
+                      ? Theme.of(context).colorScheme.onSurface
+                      : null,
                   isSwipeGestureEnabled: true,
                   onCreditCardWidgetChange:
                       (CreditCardBrand creditCardBrand) {},
@@ -92,21 +98,6 @@ class MySampleState extends State<MySample> {
                           isExpiryDateVisible: true,
                           cardHolderName: cardHolderName,
                           expiryDate: expiryDate,
-                          cardNumberDecoration: const InputDecoration(
-                            labelText: 'Number',
-                            hintText: 'XXXX XXXX XXXX XXXX',
-                          ),
-                          expiryDateDecoration: const InputDecoration(
-                            labelText: 'Expired Date',
-                            hintText: 'XX/XX',
-                          ),
-                          cvvCodeDecoration: const InputDecoration(
-                            labelText: 'CVV',
-                            hintText: 'XXX',
-                          ),
-                          cardHolderDecoration: const InputDecoration(
-                            labelText: 'Card Holder',
-                          ),
                           onCreditCardModelChange: onCreditCardModelChange,
                         ),
                         const SizedBox(

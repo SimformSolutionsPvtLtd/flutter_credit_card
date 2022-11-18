@@ -170,21 +170,27 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         : detectCCType(widget.cardNumber);
     widget.onCreditCardWidgetChange(CreditCardBrand(cardType));
 
-    return Stack(
-      children: <Widget>[
-        _cardGesture(
-          child: AnimationCard(
-            animation: _frontRotation,
-            child: _buildFrontContainer(),
-          ),
+    return Padding(
+      padding: const EdgeInsets.all(Constants.creditCardPadding),
+      child: AspectRatio(
+        aspectRatio: Constants.creditCardAspectRatio,
+        child: Stack(
+          children: <Widget>[
+            _cardGesture(
+              child: AnimationCard(
+                animation: _frontRotation,
+                child: _buildFrontContainer(),
+              ),
+            ),
+            _cardGesture(
+              child: AnimationCard(
+                animation: _backRotation,
+                child: _buildBackContainer(),
+              ),
+            ),
+          ],
         ),
-        _cardGesture(
-          child: AnimationCard(
-            animation: _backRotation,
-            child: _buildBackContainer(),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -274,9 +280,6 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       backgroundNetworkImage: widget.backgroundNetworkImage,
       backgroundGradientColor: backgroundGradientColor,
       glassmorphismConfig: widget.glassmorphismConfig,
-      height: widget.height,
-      width: widget.width,
-      padding: widget.padding,
       child: Padding(
         padding: const EdgeInsets.all(Constants.creditCardPadding),
         child: Column(
@@ -363,9 +366,6 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       backgroundNetworkImage: widget.backgroundNetworkImage,
       backgroundGradientColor: backgroundGradientColor,
       glassmorphismConfig: widget.glassmorphismConfig,
-      height: widget.height,
-      width: widget.width,
-      padding: widget.padding,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,

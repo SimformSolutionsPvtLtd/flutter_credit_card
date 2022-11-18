@@ -72,7 +72,7 @@ class CardBackground extends StatelessWidget {
             height: height ??
                 (orientation == Orientation.portrait
                     ? (((width ?? screenWidth) - (padding * 2)) *
-                        AppConstants.creditCardAspectRatio)
+                        Constants.creditCardAspectRatio)
                     : screenHeight / 2),
             child: ClipRRect(
               clipBehavior: Clip.hardEdge,

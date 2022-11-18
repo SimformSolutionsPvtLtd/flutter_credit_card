@@ -1,15 +1,15 @@
+![alt text](https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/banner.png?raw=true)
 
 # Flutter Credit Card
 
-Fork off https://github.com/simformsolutions/flutter_credit_card
-
-# Difference with original package:
-
-  - no theming 
-  - standardized brand icons
-  - localization
+![build](https://github.com/SimformSolutionsPvtLtd/flutter_calendar_view/workflows/Build/badge.svg?branch=master)
+![flutter_credit_card](https://img.shields.io/pub/v/flutter_credit_card?label=flutter_credit_card)
 
 A Flutter package allows you to easily implement the Credit card's UI easily with the Card detection.
+
+## Preview
+
+![The example app running in Android](https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/preview.gif)
 
 ## Installing
 

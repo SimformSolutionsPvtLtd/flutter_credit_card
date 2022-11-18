@@ -93,6 +93,7 @@ class MySampleState extends State<MySample> {
                   child: Column(
                     children: <Widget>[
                       CreditCardForm(
+                        formKey: formKey,
                         obscureCvv: true,
                         obscureNumber: true,
                         cardNumber: cardNumber,
@@ -147,11 +148,11 @@ class MySampleState extends State<MySample> {
                           child: const Text('Validate'),
                         ),
                         onPressed: () {
-                          // if (formKey.currentState!.validate()) {
-                          //   print('valid!');
-                          // } else {
-                          //   print('invalid!');
-                          // }
+                          if (formKey.currentState!.validate()) {
+                            print('valid!');
+                          } else {
+                            print('invalid!');
+                          }
                         },
                       ),
                     ],

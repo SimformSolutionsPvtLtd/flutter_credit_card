@@ -29,6 +29,7 @@ class MySampleState extends State<MySample> {
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
   bool useBackgroundImage = false;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void initState() {

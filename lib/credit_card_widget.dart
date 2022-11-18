@@ -288,7 +288,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 title ?? Container(),
                 Container(),
                 Container(),
@@ -300,7 +300,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             // const SizedBox(height: Constants.creditCardPadding),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Image.asset(
                   'icons/chip.png',
                   package: 'flutter_credit_card',

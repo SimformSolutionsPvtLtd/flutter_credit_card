@@ -3,7 +3,7 @@
 # Flutter Credit Card
 
 ![build](https://github.com/SimformSolutionsPvtLtd/flutter_calendar_view/workflows/Build/badge.svg?branch=master)
-![flutter_credit_card](https://img.shields.io/pub/v/flutter_credit_card?label=flutter_credit_card)
+[![flutter_credit_card](https://img.shields.io/pub/v/flutter_credit_card?label=flutter_credit_card)](https://pub.dev/packages/flutter_credit_card)
 
 A Flutter package allows you to easily implement the Credit card's UI easily with the Card detection.
 

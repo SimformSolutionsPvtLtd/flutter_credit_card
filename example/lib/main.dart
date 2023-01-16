@@ -1,3 +1,4 @@
+import 'package:example/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
@@ -44,13 +45,11 @@ class MySampleState extends State<MySample> {
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container(
-          decoration: BoxDecoration(
-            image: !useBackgroundImage
-                ? const DecorationImage(
-                    image: ExactAssetImage('assets/bg.png'),
-                    fit: BoxFit.fill,
-                  )
-                : null,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: ExactAssetImage('assets/bg.png'),
+              fit: BoxFit.fill,
+            ),
             color: Colors.black,
           ),
           child: SafeArea(
@@ -67,11 +66,15 @@ class MySampleState extends State<MySample> {
                   cardHolderName: cardHolderName,
                   cvvCode: cvvCode,
                   bankName: 'Axis Bank',
+                  frontCardBorder:
+                      !useGlassMorphism ? Border.all(color: Colors.grey) : null,
+                  backCardBorder:
+                      !useGlassMorphism ? Border.all(color: Colors.grey) : null,
                   showBackView: isCvvFocused,
                   obscureCardNumber: true,
                   obscureCardCvv: true,
                   isHolderNameVisible: true,
-                  cardBgColor: Colors.red,
+                  cardBgColor: AppColors.cardBgColor,
                   backgroundImage:
                       useBackgroundImage ? 'assets/card_bg.png' : null,
                   isSwipeGestureEnabled: true,
@@ -141,77 +144,93 @@ class MySampleState extends State<MySample> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const Text(
-                              'Glassmorphism',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              const Text(
+                                'Glassmorphism',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
                               ),
-                            ),
-                            Switch(
-                              value: useGlassMorphism,
-                              inactiveTrackColor: Colors.grey,
-                              activeColor: Colors.white,
-                              activeTrackColor: Colors.green,
-                              onChanged: (bool value) => setState(() {
-                                useGlassMorphism = value;
-                              }),
-                            ),
-                          ],
+                              const Spacer(),
+                              Switch(
+                                value: useGlassMorphism,
+                                inactiveTrackColor: Colors.grey,
+                                activeColor: Colors.white,
+                                activeTrackColor: AppColors.colorE5D1B2,
+                                onChanged: (bool value) => setState(() {
+                                  useGlassMorphism = value;
+                                }),
+                              ),
+                            ],
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const Text(
-                              'Card Image',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              const Text(
+                                'Card Image',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
                               ),
-                            ),
-                            Switch(
-                              value: useBackgroundImage,
-                              inactiveTrackColor: Colors.grey,
-                              activeColor: Colors.white,
-                              activeTrackColor: Colors.green,
-                              onChanged: (bool value) => setState(() {
-                                useBackgroundImage = value;
-                              }),
-                            ),
-                          ],
+                              const Spacer(),
+                              Switch(
+                                value: useBackgroundImage,
+                                inactiveTrackColor: Colors.grey,
+                                activeColor: Colors.white,
+                                activeTrackColor: AppColors.colorE5D1B2,
+                                onChanged: (bool value) => setState(() {
+                                  useBackgroundImage = value;
+                                }),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            backgroundColor: const Color(0xff1b447b),
-                          ),
+                        GestureDetector(
+                          onTap: _onValidate,
                           child: Container(
-                            margin: const EdgeInsets.all(12),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: <Color>[
+                                  AppColors.colorB58D67,
+                                  AppColors.colorB58D67,
+                                  AppColors.colorE5D1B2,
+                                  AppColors.colorF9EED2,
+                                  AppColors.colorFFFFFD,
+                                  AppColors.colorF9EED2,
+                                  AppColors.colorB58D67,
+                                ],
+                                begin: Alignment(-1, -4),
+                                end: Alignment(1, 4),
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            width: double.infinity,
+                            alignment: Alignment.center,
                             child: const Text(
                               'Validate',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontFamily: 'halter',
                                 fontSize: 14,
                                 package: 'flutter_credit_card',
                               ),
                             ),
                           ),
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              print('valid!');
-                            } else {
-                              print('invalid!');
-                            }
-                          },
                         ),
                       ],
                     ),
@@ -223,6 +242,14 @@ class MySampleState extends State<MySample> {
         ),
       ),
     );
+  }
+
+  void _onValidate() {
+    if (formKey.currentState!.validate()) {
+      print('valid!');
+    } else {
+      print('invalid!');
+    }
   }
 
   void onCreditCardModelChange(CreditCardModel? creditCardModel) {

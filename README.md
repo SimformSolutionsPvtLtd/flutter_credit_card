@@ -15,7 +15,8 @@ A Flutter package allows you to easily implement the Credit card's UI easily wit
 
 1.  Add dependency to `pubspec.yaml`
 
-    *Get the latest version in the 'Installing' tab on pub.dartlang.org*
+    Get the latest version in the 'Installing' tab
+    on [pub.dev](https://pub.dev/packages/flutter_credit_card/install)
     
 ```dart
 dependencies:
@@ -60,6 +61,8 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       isChipVisible: true,
       isSwipeGestureEnabled: true,
       animationDuration: Duration(milliseconds: 1000),
+      frontCardBorder: Border.all(color: Colors.grey),
+      backCardBorder: Border.all(color: Colors.grey),
       customCardIcons: <CustomCardTypeImage>[
         CustomCardTypeImage(
           cardType: CardType.mastercard,
@@ -156,8 +159,6 @@ Check out the **example** app in the [example](example) directory or the 'Exampl
 ## Credit
 
 This package's animation is inspired from from this [Dribbble](https://dribbble.com/shots/2187649-Credit-card-Checkout-flow-AMEX) art.
-
-<br/>
 
 ## Main Contributors
 

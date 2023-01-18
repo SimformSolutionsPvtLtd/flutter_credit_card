@@ -1,10 +1,10 @@
-# [3.0.6](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.6)
-
-- Enhancement [#111](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/111) Added Support for controlling the internal padding.
-
 # [3.0.5](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.5)
 
 - New card brands (Elo/Hipercard) was added [#109](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/109) 
+- Enhancement [#111](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/111) Added Support for controlling the internal padding.
+- Fixed [#112](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/112) Update bg color gradient.
+- Added cardBorder parameter on CreditCardWidget widget.
+- CreditCardWidget UI updated.
 
 # [3.0.4](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.4)
 

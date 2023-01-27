@@ -46,6 +46,7 @@ class CardBackground extends StatelessWidget {
       return Stack(
         alignment: Alignment.center,
         children: <Widget>[
+
           Container(
             margin: EdgeInsets.all(padding),
             decoration: BoxDecoration(
@@ -94,14 +95,17 @@ class CardBackground extends StatelessWidget {
             ),
           ),
           if (glassmorphismConfig != null)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: _GlassmorphicBorder(
-                width: width ?? screenWidth,
-                height: height ??
-                    (orientation == Orientation.portrait
-                        ? ((screenWidth - 32) * 0.5714)
-                        : screenHeight / 2),
+            IgnorePointer(
+              ignoring: true,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: _GlassmorphicBorder(
+                  width: width ?? screenWidth,
+                  height: height ??
+                      (orientation == Orientation.portrait
+                          ? ((screenWidth - 32) * 0.5714)
+                          : screenHeight / 2),
+                ),
               ),
             ),
         ],

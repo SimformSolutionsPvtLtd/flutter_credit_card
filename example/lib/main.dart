@@ -1,6 +1,5 @@
 import 'package:example/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
@@ -24,6 +23,14 @@ class MySampleState extends State<MySample> {
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
+
+  String? cardNumberValidationMessage;
+  String? expiryDateValidatorMessage;
+  String? cvvValidatorMessage;
+  String? cardHolderValidatorMessage;
+
 
   @override
   void initState() {
@@ -39,6 +46,7 @@ class MySampleState extends State<MySample> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: scaffoldMessengerKey,
       title: 'Flutter Credit Card View Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -61,6 +69,18 @@ class MySampleState extends State<MySample> {
                   height: 30,
                 ),
                 CreditCardWidget(
+                  setCardEditMode: CardEditMode.card,
+                  cardNumberValidator: onCardNumberValidator,
+                  onDefaultCardNumberValidationError: (String? value) {
+                    cardNumberValidationMessage = value;
+                  },
+                  onDefaultCardExpiryDateValidationError: (String? value) {
+                    expiryDateValidatorMessage = value;
+                  },
+                  onDefaultCardCvvValidationError: (String? value) {
+                    cvvValidatorMessage = value;
+                  },
+                  cardHolderValidator: onCardHolderValidator,
                   formKey: formKey2,
                   obscureCvv: true,
                   glassmorphismConfig:
@@ -110,7 +130,7 @@ class MySampleState extends State<MySample> {
                     child: Column(
                       children: [
                         Text(
-                          'Card number:- $cardNumber',
+                          'Card Number: $cardNumber\n',
                           style: const TextStyle(color: Colors.red),
                         ),
                         Expanded(
@@ -286,6 +306,15 @@ class MySampleState extends State<MySample> {
     if (formKey.currentState!.validate() || formKey2.currentState!.validate()) {
       print('valid!');
     } else {
+      if (cardNumberValidationMessage != null) {
+        showSnackBar(cardNumberValidationMessage!);
+        return;
+      } else if (expiryDateValidatorMessage != null) {
+        showSnackBar(expiryDateValidatorMessage!);
+        return;
+      } else if (cvvValidatorMessage != null) {
+        showSnackBar(cvvValidatorMessage!);
+      }
       print('invalid!');
     }
   }
@@ -298,5 +327,41 @@ class MySampleState extends State<MySample> {
       cvvCode = creditCardModel.cvvCode;
       isCvvFocused = creditCardModel.isCvvFocused;
     });
+  }
+
+  String? onCardHolderValidator(String? value) {
+    if (value!.isEmpty || value.length < 2) {
+      cardHolderValidatorMessage = 'Please input a valid name';
+      return 'Please input a valid name';
+    } else {
+      return null;
+    }
+  }
+
+  String? onCardNumberValidator(String? value) {
+    if (value!.isEmpty || value.length < 19) {
+      cardNumberValidationMessage = 'Invalid Card Number';
+      return '';
+    } else {
+      return null;
+    }
+  }
+
+  void showSnackBar(String value) {
+    scaffoldMessengerKey.currentState?.showSnackBar(
+      SnackBar(
+        duration: const Duration(milliseconds: 1000),
+        backgroundColor: Colors.red,
+        content: Text(
+          value,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Colors.white,
+            fontFamily: 'halter',
+            fontSize: 14,
+          ),
+        ),
+      ),
+    );
   }
 }

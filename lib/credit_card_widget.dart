@@ -14,6 +14,7 @@ const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
   CardType.visa: 'icons/visa.png',
   CardType.americanExpress: 'icons/amex.png',
   CardType.mastercard: 'icons/mastercard.png',
+  CardType.unionpay: 'icons/unionpay.png',
   CardType.discover: 'icons/discover.png',
   CardType.elo: 'icons/elo.png',
   CardType.hipercard: 'icons/hipercard.png',
@@ -589,9 +590,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       <String>['34'],
       <String>['37'],
     },
+    CardType.unionpay: <List<String>>{
+      <String>['62'],
+    },
     CardType.discover: <List<String>>{
       <String>['6011'],
-      <String>['622126', '622925'],
+      <String>['622126', '622925'], // China UnionPay co-branded
       <String>['644', '649'],
       <String>['65']
     },
@@ -713,6 +717,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     } else {
       switch (ccType) {
         case CardType.visa:
+        case CardType.unionpay:
         case CardType.discover:
         case CardType.mastercard:
         case CardType.elo:
@@ -881,7 +886,8 @@ enum CardType {
   mastercard,
   visa,
   americanExpress,
+  unionpay,
   discover,
   elo,
-  hipercard
+  hipercard,
 }

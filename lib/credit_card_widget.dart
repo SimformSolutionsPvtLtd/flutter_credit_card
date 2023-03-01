@@ -20,6 +20,7 @@ const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
 };
 
 class CreditCardWidget extends StatefulWidget {
+  /// A widget showcasing credit card UI.
   const CreditCardWidget({
     Key? key,
     required this.cardNumber,
@@ -52,35 +53,99 @@ class CreditCardWidget extends StatefulWidget {
     this.backCardBorder,
   }) : super(key: key);
 
+  /// A string indicating number on the card.
   final String cardNumber;
+
+  /// A string indicating expiry date for the card.
   final String expiryDate;
+
+  /// A string indicating name of the card holder.
   final String cardHolderName;
+
+  /// A String indicating cvv code.
   final String cvvCode;
+
+  /// Applies text style to cardNumber, expiryDate, cardHolderName and cvvCode.
   final TextStyle? textStyle;
+
+  /// Applies background color for card UI.
   final Color cardBgColor;
+
+  /// Shows back side of the card at initial level when setting it to true.
+  /// This is helpful when focusing on cvv.
   final bool showBackView;
+
+  /// A string indicating name of the bank.
   final String? bankName;
+
+  /// Duration for flip animation. Defaults to 500 milliseconds.
   final Duration animationDuration;
+
+  /// Sets height of the front and back side of the card.
   final double? height;
+
+  /// Sets width of the front and back side of the card.
   final double? width;
+
+  /// If this flag is enabled then card number is replaced with obscuring
+  /// characters to hide the content. Initial 4 and last 4 character
+  /// doesn't get obscured. Defaults to true.
   final bool obscureCardNumber;
+
+  /// If this flag is enabled then cvv is replaced with obscuring characters
+  /// to hide the content. Defaults to true.
   final bool obscureCardCvv;
+
+  /// Provides a callback any time there is a change in credit card brand.
   final void Function(CreditCardBrand) onCreditCardWidgetChange;
+
+  /// Enable/disable card holder name. Defaults to false.
   final bool isHolderNameVisible;
+
+  /// Shows image as background of the card widget. This should be available
+  /// locally in your assets folder.
   final String? backgroundImage;
+
+  /// Shows image as background of the card widget from the network.
   final String? backgroundNetworkImage;
+
+  /// Provides color to EMV chip on the card.
   final Color? chipColor;
+
+  /// Enable/disable showcasing EMV chip UI. Defaults to true.
   final bool isChipVisible;
+
+  /// Used to provide glassmorphism effect to credit card widget.
   final Glassmorphism? glassmorphismConfig;
+
+  /// Enable/disable gestures on credit card widget. If enabled then flip
+  /// animation is started when swiped or tapped. Defaults to true.
   final bool isSwipeGestureEnabled;
 
+  /// Default label for card holder name. This is shown when user hasn't
+  /// entered any text for card holder name.
   final String labelCardHolder;
+
+  /// Default label for expiry date. This is shown when user hasn't entered any
+  /// text for expiry date.
   final String labelExpiredDate;
 
+  /// Sets type of the card. An small image is shown based on selected type
+  /// of the card at bottom right corner. If this is set to null then image
+  /// shown automatically based on credit card number.
   final CardType? cardType;
+
+  /// Replaces credit card image with provided widget.
   final List<CustomCardTypeIcon> customCardTypeIcons;
+
+  /// Provides equal padding inside the credit card widget in all directions.
+  /// Defaults to 16.
   final double padding;
+
+  /// Provides border in front of credit card widget.
   final BoxBorder? frontCardBorder;
+
+  /// Provides border at back of credit card widget.
   final BoxBorder? backCardBorder;
 
   @override
@@ -249,7 +314,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   ///
   Widget _buildFrontContainer() {
     final TextStyle defaultTextStyle =
-        Theme.of(context).textTheme.headline6!.merge(
+        Theme.of(context).textTheme.titleLarge!.merge(
               const TextStyle(
                 color: Colors.white,
                 fontFamily: 'halter',
@@ -356,7 +421,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Visibility(
                   visible: widget.isHolderNameVisible,
                   child: Expanded(
@@ -386,7 +451,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   ///
   Widget _buildBackContainer() {
     final TextStyle defaultTextStyle =
-        Theme.of(context).textTheme.headline6!.merge(
+        Theme.of(context).textTheme.titleLarge!.merge(
               const TextStyle(
                 color: Colors.black,
                 fontFamily: 'halter',

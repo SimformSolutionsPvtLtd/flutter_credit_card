@@ -48,39 +48,103 @@ class CreditCardForm extends StatefulWidget {
     this.onFormComplete,
   }) : super(key: key);
 
+  /// A string indicating card number in the text field.
   final String cardNumber;
+
+  /// A string indicating expiry date in the text field.
   final String expiryDate;
+
+  /// A string indicating card holder name in the text field.
   final String cardHolderName;
+
+  /// A string indicating cvv code in the text field.
   final String cvvCode;
+
+  /// Error message string when invalid cvv is entered.
   final String cvvValidationMessage;
+
+  /// Error message string when invalid expiry date is entered.
   final String dateValidationMessage;
+
+  /// Error message string when credit card number is entered.
   final String numberValidationMessage;
+
+  /// Provides callback when there is any change in [CreditCardModel].
   final void Function(CreditCardModel) onCreditCardModelChange;
+
+  /// Color of the theme of the credit card form.
   final Color themeColor;
+
+  /// Color of text in the credit card form.
   final Color textColor;
+
+  /// Cursor color in the credit card form.
   final Color? cursorColor;
+
+  /// When enabled cvv gets hidden with obscuring characters. Defaults to
+  /// false.
   final bool obscureCvv;
+
+  /// When enabled credit card number get hidden with obscuring characters.
+  /// Defaults to false.
   final bool obscureNumber;
+
+  /// Allows editing the holder name by enabling this in the credit card form.
+  /// Defaults to true.
   final bool isHolderNameVisible;
+
+  /// Allows editing the credit card number by enabling this in the credit
+  /// card form. Defaults to true.
   final bool isCardNumberVisible;
+
+  /// Allows editing the expiry date by enabling this in the credit
+  /// card form. Defaults to true.
   final bool isExpiryDateVisible;
+
+  /// A form state key for this credit card form.
   final GlobalKey<FormState> formKey;
+
+  /// Provides a callback when text field provides callback in
+  /// [onEditingComplete].
   final Function? onFormComplete;
 
+  /// A FormFieldState key for card number text field.
   final GlobalKey<FormFieldState<String>>? cardNumberKey;
+
+  /// A FormFieldState key for card holder text field.
   final GlobalKey<FormFieldState<String>>? cardHolderKey;
+
+  /// A FormFieldState key for expiry date text field.
   final GlobalKey<FormFieldState<String>>? expiryDateKey;
+
+  /// A FormFieldState key for cvv code text field.
   final GlobalKey<FormFieldState<String>>? cvvCodeKey;
 
+  /// Provides decoration to card number text field.
   final InputDecoration cardNumberDecoration;
+
+  /// Provides decoration to card holder text field.
   final InputDecoration cardHolderDecoration;
+
+  /// Provides decoration to expiry date text field.
   final InputDecoration expiryDateDecoration;
+
+  /// Provides decoration to cvv code text field.
   final InputDecoration cvvCodeDecoration;
+
+  /// Used to configure the auto validation of [FormField] and [Form] widgets.
   final AutovalidateMode? autovalidateMode;
 
+  /// A validator for card number text field.
   final String? Function(String?)? cardNumberValidator;
+
+  /// A validator for expiry date text field.
   final String? Function(String?)? expiryDateValidator;
+
+  /// A validator for cvv code text field.
   final String? Function(String?)? cvvValidator;
+
+  /// A validator for card holder text field.
   final String? Function(String?)? cardHolderValidator;
 
   @override
@@ -287,9 +351,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                         else {
                           FocusScope.of(context).unfocus();
                           onCreditCardModelChange(creditCardModel);
-                          if (widget.onFormComplete != null) {
-                            widget.onFormComplete!();
-                          }
+                          widget.onFormComplete?.call();
                         }
                       },
                       style: TextStyle(
@@ -349,9 +411,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   onEditingComplete: () {
                     FocusScope.of(context).unfocus();
                     onCreditCardModelChange(creditCardModel);
-                    if (widget.onFormComplete != null) {
-                      widget.onFormComplete!();
-                    }
+                    widget.onFormComplete?.call();
                   },
                   validator: widget.cardHolderValidator,
                 ),

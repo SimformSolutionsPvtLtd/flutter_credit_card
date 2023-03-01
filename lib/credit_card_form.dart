@@ -66,7 +66,7 @@ class CreditCardForm extends StatefulWidget {
   /// Error message string when invalid expiry date is entered.
   final String dateValidationMessage;
 
-  /// Error message string when credit card number is entered.
+  /// Error message string when invalid credit card number is entered.
   final String numberValidationMessage;
 
   /// Provides callback when there is any change in [CreditCardModel].

@@ -51,6 +51,7 @@ class CreditCardWidget extends StatefulWidget {
     this.chipColor,
     this.frontCardBorder,
     this.backCardBorder,
+    this.obscureInitialCardNumber = false,
   }) : super(key: key);
 
   /// A string indicating number on the card.
@@ -91,6 +92,10 @@ class CreditCardWidget extends StatefulWidget {
   /// characters to hide the content. Initial 4 and last 4 character
   /// doesn't get obscured. Defaults to true.
   final bool obscureCardNumber;
+
+  /// Also obscures initial 4 card numbers with obscuring characters. This
+  /// flag requires [obscureCardNumber] to be true. This flag defaults to false.
+  final bool obscureInitialCardNumber;
 
   /// If this flag is enabled then cvv is replaced with obscuring characters
   /// to hide the content. Defaults to true.
@@ -326,7 +331,13 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     String number = widget.cardNumber;
     if (widget.obscureCardNumber) {
       final String stripped = number.replaceAll(RegExp(r'[^\d]'), '');
-      if (stripped.length > 8) {
+      if (widget.obscureInitialCardNumber && stripped.length > 4) {
+        final String start = number
+            .substring(0, number.length - 5)
+            .trim()
+            .replaceAll(RegExp(r'\d'), '*');
+        number = start + ' ' + stripped.substring(stripped.length - 4);
+      } else if (stripped.length > 8) {
         final String middle = number
             .substring(4, number.length - 5)
             .trim()

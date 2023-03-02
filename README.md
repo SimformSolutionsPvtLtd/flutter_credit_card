@@ -171,6 +171,7 @@ This package's animation is inspired from from this [Dribbble](https://dribbble.
     <td align="center"><a href="https://github.com/meetjanani"><img src="https://avatars.githubusercontent.com/u/32095359?s=100" width="100px;" alt=""/><br /><sub><b>Meet Janani</b></sub></a></td>
     <td align="center"><a href="https://github.com/shwetachauhan-simform"><img src="https://avatars.githubusercontent.com/u/63042002?s=100" width="100px;" alt=""/><br /><sub><b>Shweta Chauhan</b></sub></a></td>
     <td align="center"><a href="https://github.com/kavantrivedi"><img src="https://avatars.githubusercontent.com/u/97207242?s=100" width="100px;" alt=""/><br /><sub><b>Kavan Trivedi</b></sub></a></td>
+    <td align="center"><a href="https://github.com/Ujas-Majithiya"><img src="https://avatars.githubusercontent.com/u/56400956?v=4" width="100px;" alt=""/><br /><sub><b>Ujas Majithiya</b></sub></a></td>
   </tr>
 </table>
 <br/>

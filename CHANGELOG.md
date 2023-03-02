@@ -1,3 +1,9 @@
+# [3.0.6](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.6)
+
+- Add documentation for public apis.
+- Fixed [#126](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/126) Added a flag to disable autofill hints for credit card number as workaround to fix incorrect keyboard.
+- Enhancement [#129](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/129) Obscure initial character in credit card widget
+
 # [3.0.5](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.5)
 
 - New card brands (Elo/Hipercard) was added [#109](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/109) 

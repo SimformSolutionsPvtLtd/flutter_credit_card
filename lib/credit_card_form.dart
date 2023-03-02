@@ -46,6 +46,7 @@ class CreditCardForm extends StatefulWidget {
     this.cvvValidator,
     this.cardHolderValidator,
     this.onFormComplete,
+    this.disableCardNumberAutoFillHints = false,
   }) : super(key: key);
 
   /// A string indicating card number in the text field.
@@ -146,6 +147,17 @@ class CreditCardForm extends StatefulWidget {
 
   /// A validator for card holder text field.
   final String? Function(String?)? cardHolderValidator;
+
+  /// Setting this flag to true will disable autofill hints for Credit card
+  /// number text field. Flutter has a bug when auto fill hints are enabled for
+  /// credit card numbers it shows keyboard with characters. But, disabling
+  /// auto fill hints will show correct keyboard.
+  ///
+  /// Defaults to false.
+  ///
+  /// You can follow the issue here
+  /// [https://github.com/flutter/flutter/issues/104604](https://github.com/flutter/flutter/issues/104604).
+  final bool disableCardNumberAutoFillHints;
 
   @override
   _CreditCardFormState createState() => _CreditCardFormState();
@@ -257,7 +269,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   decoration: widget.cardNumberDecoration,
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
-                  autofillHints: const <String>[AutofillHints.creditCardNumber],
+                  autofillHints: widget.disableCardNumberAutoFillHints
+                      ? null
+                      : const <String>[AutofillHints.creditCardNumber],
                   autovalidateMode: widget.autovalidateMode,
                   validator: widget.cardNumberValidator ??
                       (String? value) {

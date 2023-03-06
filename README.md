@@ -53,6 +53,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       glassmorphismConfig: Glassmorphism.defaultConfig(),
       backgroundImage: 'assets/card_bg.png',
       obscureCardNumber: true,
+      obscureInitialCardNumber: false,
       obscureCardCvv: true,
       isHolderNameVisible: false,
       height: 175,

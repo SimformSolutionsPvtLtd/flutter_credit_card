@@ -40,6 +40,7 @@ class CreditCardForm extends StatefulWidget {
     this.isHolderNameVisible = true,
     this.isCardNumberVisible = true,
     this.isExpiryDateVisible = true,
+    this.enableCvv = true,
     this.autovalidateMode,
     this.cardNumberValidator,
     this.expiryDateValidator,
@@ -90,13 +91,17 @@ class CreditCardForm extends StatefulWidget {
   /// Defaults to false.
   final bool obscureNumber;
 
-  /// Allows editing the holder name by enabling this in the credit card form.
+  /// Allow editing the holder name by enabling this in the credit card form.
   /// Defaults to true.
   final bool isHolderNameVisible;
 
-  /// Allows editing the credit card number by enabling this in the credit
+  /// Allow editing the credit card number by enabling this in the credit
   /// card form. Defaults to true.
   final bool isCardNumberVisible;
+
+  /// Allow editing the cvv code by enabling this in the credit card form.
+  /// Defaults to true.
+  final bool enableCvv;
 
   /// Allows editing the expiry date by enabling this in the credit
   /// card form. Defaults to true.
@@ -350,49 +355,53 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
-                    child: TextFormField(
-                      key: widget.cvvCodeKey,
-                      obscureText: widget.obscureCvv,
-                      focusNode: cvvFocusNode,
-                      controller: _cvvCodeController,
-                      cursorColor: widget.cursorColor ?? themeColor,
-                      onEditingComplete: () {
-                        if (widget.isHolderNameVisible)
-                          FocusScope.of(context).requestFocus(cardHolderNode);
-                        else {
-                          FocusScope.of(context).unfocus();
-                          onCreditCardModelChange(creditCardModel);
-                          widget.onFormComplete?.call();
-                        }
-                      },
-                      style: TextStyle(
-                        color: widget.textColor,
+                  child: Visibility(
+                    visible: widget.enableCvv,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      margin:
+                          const EdgeInsets.only(left: 16, top: 8, right: 16),
+                      child: TextFormField(
+                        key: widget.cvvCodeKey,
+                        obscureText: widget.obscureCvv,
+                        focusNode: cvvFocusNode,
+                        controller: _cvvCodeController,
+                        cursorColor: widget.cursorColor ?? themeColor,
+                        onEditingComplete: () {
+                          if (widget.isHolderNameVisible)
+                            FocusScope.of(context).requestFocus(cardHolderNode);
+                          else {
+                            FocusScope.of(context).unfocus();
+                            onCreditCardModelChange(creditCardModel);
+                            widget.onFormComplete?.call();
+                          }
+                        },
+                        style: TextStyle(
+                          color: widget.textColor,
+                        ),
+                        decoration: widget.cvvCodeDecoration,
+                        keyboardType: TextInputType.number,
+                        textInputAction: widget.isHolderNameVisible
+                            ? TextInputAction.next
+                            : TextInputAction.done,
+                        autofillHints: const <String>[
+                          AutofillHints.creditCardSecurityCode
+                        ],
+                        onChanged: (String text) {
+                          setState(() {
+                            cvvCode = text;
+                            creditCardModel.cvvCode = cvvCode;
+                            onCreditCardModelChange(creditCardModel);
+                          });
+                        },
+                        validator: widget.cvvValidator ??
+                            (String? value) {
+                              if (value!.isEmpty || value.length < 3) {
+                                return widget.cvvValidationMessage;
+                              }
+                              return null;
+                            },
                       ),
-                      decoration: widget.cvvCodeDecoration,
-                      keyboardType: TextInputType.number,
-                      textInputAction: widget.isHolderNameVisible
-                          ? TextInputAction.next
-                          : TextInputAction.done,
-                      autofillHints: const <String>[
-                        AutofillHints.creditCardSecurityCode
-                      ],
-                      onChanged: (String text) {
-                        setState(() {
-                          cvvCode = text;
-                          creditCardModel.cvvCode = cvvCode;
-                          onCreditCardModelChange(creditCardModel);
-                        });
-                      },
-                      validator: widget.cvvValidator ??
-                          (String? value) {
-                            if (value!.isEmpty || value.length < 3) {
-                              return widget.cvvValidationMessage;
-                            }
-                            return null;
-                          },
                     ),
                   ),
                 ),

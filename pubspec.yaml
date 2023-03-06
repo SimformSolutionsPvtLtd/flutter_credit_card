@@ -23,3 +23,10 @@ flutter:
     - family: halter
       fonts:
         - asset: font/halter.ttf
+  plugin:
+    platforms:
+      android:
+        package: com.simform.flutter_credit_card
+        pluginClass: FlutterCreditCardPlugin
+      ios:
+        pluginClass: FlutterCreditCardPlugin

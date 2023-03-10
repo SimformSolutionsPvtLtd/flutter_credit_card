@@ -39,6 +39,7 @@ class CreditCardWidget extends StatefulWidget {
     this.obscureCardCvv = true,
     this.labelCardHolder = 'CARD HOLDER',
     this.labelExpiredDate = 'MM/YY',
+    this.labelValidThru = 'VALID\nTHRU',
     this.cardType,
     this.isHolderNameVisible = false,
     this.backgroundImage,
@@ -135,6 +136,10 @@ class CreditCardWidget extends StatefulWidget {
   /// Default label for expiry date. This is shown when user hasn't entered any
   /// text for expiry date.
   final String labelExpiredDate;
+
+  /// Default label for valid thru. This is shown when user hasn't entered any
+  /// text for valid thru.
+  final String labelValidThru;
 
   /// Sets type of the card. An small image is shown based on selected type
   /// of the card at bottom right corner. If this is set to null then image
@@ -412,7 +417,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'VALID\nTHRU',
+                    widget.labelValidThru,
                     style: widget.textStyle ??
                         defaultTextStyle.copyWith(fontSize: 7),
                     textAlign: TextAlign.center,

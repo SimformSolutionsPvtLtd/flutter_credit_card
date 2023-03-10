@@ -1,3 +1,7 @@
+# [3.0.7](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.7) (Unreleased)
+
+- Enhancement [#133](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/133) Add valid thru label customization.
+
 # [3.0.6](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.6)
 
 - Add documentation for public apis.

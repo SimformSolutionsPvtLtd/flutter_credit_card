@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/extension.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 class CreditCardForm extends StatefulWidget {
@@ -53,8 +54,8 @@ class CreditCardForm extends StatefulWidget {
   /// A string indicating card number in the text field.
   final String cardNumber;
 
-  /// A string indicating expiry date in the text field.
-  final String expiryDate;
+  /// Records indicating expiry date in the text field.
+  final (int?, int?) expiryDate;
 
   /// A string indicating card holder name in the text field.
   final String cardHolderName;
@@ -170,7 +171,7 @@ class CreditCardForm extends StatefulWidget {
 
 class _CreditCardFormState extends State<CreditCardForm> {
   late String cardNumber;
-  late String expiryDate;
+  late (int?, int?) expiryDate;
   late String cardHolderName;
   late String cvvCode;
   bool isCvvFocused = false;
@@ -214,7 +215,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     createCreditCardModel();
 
     _cardNumberController.text = widget.cardNumber;
-    _expiryDateController.text = widget.expiryDate;
+    _expiryDateController.text = widget.expiryDate.toStringValue;
     _cardHolderNameController.text = widget.cardHolderName;
     _cvvCodeController.text = widget.cvvCode;
 
@@ -308,7 +309,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                                 '0' + _expiryDateController.text;
                           }
                           setState(() {
-                            expiryDate = _expiryDateController.text;
+                            expiryDate = _expiryDateController.text.toRecordValue;
                             creditCardModel.expiryDate = expiryDate;
                             onCreditCardModelChange(creditCardModel);
                           });

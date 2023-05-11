@@ -6,7 +6,7 @@ class CreditCardModel {
   String cardNumber = '';
 
   /// Expiry date of the card.
-  String expiryDate = '';
+  (int?, int?) expiryDate;
 
   /// Name of the card holder.
   String cardHolderName = '';

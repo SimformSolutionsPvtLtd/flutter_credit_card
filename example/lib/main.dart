@@ -14,7 +14,7 @@ class MySample extends StatefulWidget {
 
 class MySampleState extends State<MySample> {
   String cardNumber = '';
-  String expiryDate = '';
+  (int?, int?) expiryDate = (0, 0);
   String cardHolderName = '';
   String cvvCode = '';
   bool isCvvFocused = false;
@@ -43,6 +43,7 @@ class MySampleState extends State<MySample> {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
+        appBar: AppBar(),
         resizeToAvoidBottomInset: false,
         body: Container(
           decoration: const BoxDecoration(

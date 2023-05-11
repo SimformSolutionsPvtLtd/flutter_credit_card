@@ -60,7 +60,7 @@ class CreditCardWidget extends StatefulWidget {
   final String cardNumber;
 
   /// A string indicating expiry date for the card.
-  final String expiryDate;
+  final (int?, int?) expiryDate;
 
   /// A string indicating name of the card holder.
   final String cardHolderName;
@@ -403,7 +403,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.cardNumber.isEmpty ? 'XXXX XXXX XXXX XXXX' : number,
+                widget.cardNumber.toNumber.isEmpty ? 'XXXX XXXX XXXX XXXX' : number,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
@@ -424,9 +424,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    widget.expiryDate.isEmpty
+                    widget.expiryDate.toStringValue.isEmpty
                         ? widget.labelExpiredDate
-                        : widget.expiryDate,
+                        : widget.expiryDate.toStringValue,
                     style: widget.textStyle ?? defaultTextStyle,
                   ),
                 ],
@@ -670,7 +670,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             // Convert the prefix range into numbers then make sure the
             // Credit Card num is in the pattern range.
             // Because Strings don't have '>=' type operators
-            final int ccPrefixAsInt = int.parse(ccPatternStr);
+            final int ccPrefixAsInt = int.tryParse(ccPatternStr) ?? 0;
             final int startPatternPrefixAsInt = int.parse(patternRange[0]);
             final int endPatternPrefixAsInt = int.parse(patternRange[1]);
             if (ccPrefixAsInt >= startPatternPrefixAsInt &&

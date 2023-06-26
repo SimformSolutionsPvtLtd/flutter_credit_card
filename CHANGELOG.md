@@ -1,6 +1,7 @@
 # [3.0.7](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.7) (Unreleased)
 
 - Enhancement [#133](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/133) Add valid thru label customization.
+- Enhancement [#142](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/142) Adding RuPay as card-type for users centric to India
 
 # [3.0.6](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.6)
 

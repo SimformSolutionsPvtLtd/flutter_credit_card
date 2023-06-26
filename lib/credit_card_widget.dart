@@ -12,6 +12,7 @@ import 'glassmorphism_config.dart';
 
 const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
   CardType.visa: 'icons/visa.png',
+  CardType.rupay: 'icons/rupay.png',
   CardType.americanExpress: 'icons/amex.png',
   CardType.mastercard: 'icons/mastercard.png',
   CardType.unionpay: 'icons/unionpay.png',
@@ -591,6 +592,11 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     CardType.visa: <List<String>>{
       <String>['4'],
     },
+    CardType.rupay: <List<String>>{
+      <String>['60'],
+      <String>['6521'],
+      <String>['6522'],
+    },
     CardType.americanExpress: <List<String>>{
       <String>['34'],
       <String>['37'],
@@ -722,6 +728,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     } else {
       switch (ccType) {
         case CardType.visa:
+        case CardType.rupay:
         case CardType.unionpay:
         case CardType.discover:
         case CardType.mastercard:
@@ -890,6 +897,7 @@ enum CardType {
   otherBrand,
   mastercard,
   visa,
+  rupay,
   americanExpress,
   unionpay,
   discover,

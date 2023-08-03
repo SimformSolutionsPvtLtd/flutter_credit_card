@@ -10,6 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  google_mlkit_text_recognition: 0.5.0
+  camera: 0.10.3+2
+  image: 4.0.15
+  path_provider: 2.0.14
 
 dev_dependencies:
   flutter_test:

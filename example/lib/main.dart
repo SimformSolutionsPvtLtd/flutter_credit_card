@@ -30,6 +30,7 @@ class MySampleState extends State<MySample> {
   bool useBackgroundImage = false;
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final CreditCardScanner scanner = CreditCardScanner();
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class MySampleState extends State<MySample> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: const BoxDecoration(
@@ -62,26 +63,25 @@ class MySampleState extends State<MySample> {
               ),
               CreditCardWidget(
                 glassmorphismConfig:
-                useGlassMorphism ? Glassmorphism.defaultConfig() : null,
+                    useGlassMorphism ? Glassmorphism.defaultConfig() : null,
                 cardNumber: cardNumber,
                 expiryDate: expiryDate,
                 cardHolderName: cardHolderName,
                 cvvCode: cvvCode,
                 bankName: 'Axis Bank',
                 frontCardBorder:
-                !useGlassMorphism ? Border.all(color: Colors.grey) : null,
+                    !useGlassMorphism ? Border.all(color: Colors.grey) : null,
                 backCardBorder:
-                !useGlassMorphism ? Border.all(color: Colors.grey) : null,
+                    !useGlassMorphism ? Border.all(color: Colors.grey) : null,
                 showBackView: isCvvFocused,
                 obscureCardNumber: true,
                 obscureCardCvv: true,
                 isHolderNameVisible: true,
                 cardBgColor: AppColors.cardBgColor,
                 backgroundImage:
-                useBackgroundImage ? 'assets/card_bg.png' : null,
+                    useBackgroundImage ? 'assets/card_bg.png' : null,
                 isSwipeGestureEnabled: true,
-                onCreditCardWidgetChange:
-                    (CreditCardBrand creditCardBrand) {},
+                onCreditCardWidgetChange: (CreditCardBrand creditCardBrand) {},
                 customCardTypeIcons: <CustomCardTypeIcon>[
                   CustomCardTypeIcon(
                     cardType: CardType.mastercard,
@@ -247,10 +247,12 @@ class MySampleState extends State<MySample> {
     );
   }
 
-  void _onValidate() {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => NativeScannerView(),
-    ));
+  void _onValidate()async {
+    final result = await scanner.scan(context);
+    print(result);
+    // Navigator.of(context).push(MaterialPageRoute(
+    //   builder: (_) => NativeScannerView(),
+    // ));
     // if (formKey.currentState!.validate()) {
     //   print('valid!');
     // } else {

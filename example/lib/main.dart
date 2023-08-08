@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
-void main() => runApp(MySample());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await CreditCardWidget.instance.initialize();
+
+  runApp(MySample());
+}
 
 class MySample extends StatefulWidget {
   @override
@@ -59,6 +65,7 @@ class MySampleState extends State<MySample> {
                   height: 30,
                 ),
                 CreditCardWidget(
+                  isFloatingAnimationEnabled: true,
                   glassmorphismConfig:
                       useGlassMorphism ? Glassmorphism.defaultConfig() : null,
                   cardNumber: cardNumber,

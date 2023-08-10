@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/constants.dart';
 import 'package:flutter_credit_card/extension.dart';
+import 'package:flutter_credit_card/flutter_credit_card_platform_interface.dart';
 
 import 'credit_card_animation.dart';
 import 'credit_card_background.dart';
@@ -11,7 +12,6 @@ import 'credit_card_brand.dart';
 import 'custom_card_type_icon.dart';
 import 'floating_card_setup/floating_controller.dart';
 import 'floating_card_setup/floating_event.dart';
-import 'floating_card_setup/floating_interface/floating_interface_base.dart';
 import 'glassmorphism_config.dart';
 
 const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
@@ -167,7 +167,8 @@ class CreditCardWidget extends StatefulWidget {
 
   final bool isFloatingAnimationEnabled;
 
-  static final FloatingPlatform instance = FloatingPlatform.instance;
+  static final FlutterCreditCardPlatform instance =
+      FlutterCreditCardPlatform.instance;
 
   /// floating animation enabled/disabled
   @override
@@ -298,7 +299,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       // Apply the damping factor — which may equal 1 and have no effect, if damping is null.
       frontFloatingController.x *= frontFloatingController.floatingBackFactor;
       frontFloatingController.y *= frontFloatingController.floatingBackFactor;
-      
+
       // Rotate the matrix by the resulting x and y values.
       matrix.rotateX(frontFloatingController.x);
       matrix.rotateY(frontFloatingController.y);

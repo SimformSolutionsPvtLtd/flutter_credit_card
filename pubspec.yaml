@@ -23,6 +23,8 @@ flutter:
       android:
         package: com.simform.flutter_credit_card
         pluginClass: FlutterCreditCardPlugin
+      ios:
+        pluginClass: FlutterCreditCardPlugin
   assets:
     - icons/
   fonts:

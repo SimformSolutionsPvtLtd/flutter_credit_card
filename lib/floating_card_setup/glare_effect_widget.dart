@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/floating_card_setup/floating_controller.dart';
 
-import '../constants.dart';
+import 'constants.dart';
 
 class GlareEffectWidget extends StatelessWidget {
   const GlareEffectWidget({

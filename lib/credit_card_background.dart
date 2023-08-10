@@ -2,7 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/floating_card_setup/floating_controller.dart';
-import 'package:flutter_credit_card/floating_card_setup/helper_widgets/glare_effect_widget.dart';
+import 'package:flutter_credit_card/floating_card_setup/glare_effect_widget.dart';
 
 import 'constants.dart';
 import 'floating_card_setup/constants.dart';

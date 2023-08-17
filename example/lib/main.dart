@@ -66,6 +66,8 @@ class MySampleState extends State<MySample> {
                 ),
                 CreditCardWidget(
                   isFloatingAnimationEnabled: true,
+                  isGlareAnimationEnabled: true,
+                  isShadowAnimationEnabled: true,
                   glassmorphismConfig:
                       useGlassMorphism ? Glassmorphism.defaultConfig() : null,
                   cardNumber: cardNumber,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/constants.dart';
 import 'package:flutter_credit_card/floating_card_setup/floating_controller.dart';
 
-import 'constants.dart';
 
 class GlareEffectWidget extends StatelessWidget {
   const GlareEffectWidget({
@@ -32,9 +32,9 @@ class GlareEffectWidget extends StatelessWidget {
                 gradient: LinearGradient(
                   tileMode: TileMode.clamp,
                   colors: <Color>[
-                    defaultGlareColor.withOpacity(0.1),
-                    defaultGlareColor.withOpacity(0.07),
-                    defaultGlareColor.withOpacity(0.05),
+                    AppConstants.defaultGlareColor.withOpacity(0.1),
+                    AppConstants.defaultGlareColor.withOpacity(0.07),
+                    AppConstants.defaultGlareColor.withOpacity(0.05),
                   ],
                   stops: const <double>[
                     0.1,

@@ -5,7 +5,6 @@ import 'package:flutter_credit_card/floating_card_setup/floating_controller.dart
 import 'package:flutter_credit_card/floating_card_setup/glare_effect_widget.dart';
 
 import 'constants.dart';
-import 'floating_card_setup/constants.dart';
 import 'glassmorphism_config.dart';
 
 class CardBackground extends StatelessWidget {
@@ -22,6 +21,7 @@ class CardBackground extends StatelessWidget {
     this.border,
     this.floatingController,
     this.glarePosition,
+    this.shadowEnabled = false,
   })  : assert(
             (backgroundImage == null && backgroundNetworkImage == null) ||
                 (backgroundImage == null && backgroundNetworkImage != null) ||
@@ -40,6 +40,7 @@ class CardBackground extends StatelessWidget {
   final BoxBorder? border;
   final FloatingController? floatingController;
   final double? glarePosition;
+  final bool shadowEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -53,24 +54,25 @@ class CardBackground extends StatelessWidget {
         return Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            if(floatingController != null)
-            Positioned(
-              left: floatingController!.y * 100 + 16,
-              right: -floatingController!.y * 100 + 16,
-              top: -floatingController!.x * 100 + 16,
-              bottom: floatingController!.x * 100 + 16,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      blurRadius: minBlurRadius,
-                      color: defaultShadowColor.withOpacity(minShadowOpacity),
-                    ),
-                  ],
+            if (floatingController != null && shadowEnabled)
+              Positioned(
+                left: floatingController!.y * 100 + 16,
+                right: -floatingController!.y * 100 + 16,
+                top: -floatingController!.x * 100 + 16,
+                bottom: floatingController!.x * 100 + 16,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        blurRadius: AppConstants.minBlurRadius,
+                        color: AppConstants.defaultShadowColor
+                            .withOpacity(AppConstants.minShadowOpacity),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
             Container(
               margin: EdgeInsets.all(padding),
               decoration: BoxDecoration(

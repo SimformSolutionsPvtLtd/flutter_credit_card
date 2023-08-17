@@ -11,7 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface:
-
+  flutter_web_plugins:
+    sdk: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -25,6 +26,9 @@ flutter:
         pluginClass: FlutterCreditCardPlugin
       ios:
         pluginClass: FlutterCreditCardPlugin
+      web:
+        pluginClass: FlutterCreditCardWeb
+        fileName: flutter_credit_card_web.dart
   assets:
     - icons/
   fonts:

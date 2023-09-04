@@ -19,6 +19,7 @@ const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
   CardType.discover: 'icons/discover.png',
   CardType.elo: 'icons/elo.png',
   CardType.hipercard: 'icons/hipercard.png',
+  CardType.verve: 'icons/verve.png',
 };
 
 class CreditCardWidget extends StatefulWidget {
@@ -753,6 +754,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           isAmex = true;
           break;
 
+        case CardType.verve:
+          icon = Image.asset(CardTypeIconAsset[ccType]!,
+              height: 48, width: 48, package: 'flutter_credit_card');
+          isAmex = false;
+          break;
+
         default:
           icon = Container(
             height: 48,
@@ -903,4 +910,5 @@ enum CardType {
   discover,
   elo,
   hipercard,
+  verve
 }

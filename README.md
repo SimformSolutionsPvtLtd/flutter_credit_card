@@ -1,22 +1,49 @@
-![alt text](https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/banner.png?raw=true)
+![banner](https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/banner.png?raw=true)
 
 # Flutter Credit Card
 
-![build](https://github.com/SimformSolutionsPvtLtd/flutter_calendar_view/workflows/Build/badge.svg?branch=master)
+![build](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/workflows/Build/badge.svg?branch=master)
 [![flutter_credit_card](https://img.shields.io/pub/v/flutter_credit_card?label=flutter_credit_card)](https://pub.dev/packages/flutter_credit_card)
 
 A Flutter package allows you to easily implement the Credit card's UI easily with the Card detection.
 
 ## Preview
 
-![The example app running in Android](https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/preview.gif)
+<table>
+    <tr>
+        <td align="center">
+            <figure>
+                <figcaption><b>Glassmorphism and Card Background</b></figcaption>
+                <hr/>
+                <img src="https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/preview.gif" alt="The example app showing credit card widget" width="227"/>
+            </figure>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <figure>
+                <figcaption><b>Floating Card on Mobile</b></figcaption>
+                <hr/>
+                <img src="https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/credit_card_float_preview.gif" alt="The example app showing card floating animation in mobile" width="227"/>
+            </figure>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <figure>
+                <figcaption><b>Floating Card on Web</b></figcaption>
+                <hr/>
+                <img src="https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/credit_card_float_cursor_preview.gif" alt="The example app showing card floating animation in web" width="227"/>
+            </figure>
+        </td>
+    </tr>
+</table>
 
 ## Installing
 
 1.  Add dependency to `pubspec.yaml`
 
-    Get the latest version in the 'Installing' tab
-    on [pub.dev](https://pub.dev/packages/flutter_credit_card/install)
+    Get the latest version from the 'Installing' tab on [pub.dev](https://pub.dev/packages/flutter_credit_card/install)
     
 ```dart
 dependencies:
@@ -38,6 +65,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       cardHolderName: cardHolderName,
       cvvCode: cvvCode,
       showBackView: isCvvFocused, //true when you want to show cvv(back) view
+      onCreditCardWidgetChange: (CreditCardBrand brand) {}, // Callback for anytime credit card brand is changed
     ),
 ```    
 
@@ -49,7 +77,9 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       cardHolderName: cardHolderName,
       cvvCode: cvvCode,
       showBackView: isCvvFocused,
-      cardbgColor: Colors.black,
+      onCreditCardWidgetChange: (CreditCardBrand brand) {},
+      bankName: 'Name of the Bank',
+      cardBgColor: Colors.black87,
       glassmorphismConfig: Glassmorphism.defaultConfig(),
       enableFloatingCard: true,
       floatConfig: FloatConfig(
@@ -58,10 +88,14 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
         shadowConfig: FloatShadowConfig.preset(),
       ),
       backgroundImage: 'assets/card_bg.png',
+      backgroundNetworkImage: 'https://www.xyz.com/card_bg.png',
       labelValidThru: 'VALID\nTHRU',
       obscureCardNumber: true,
       obscureInitialCardNumber: false,
       obscureCardCvv: true,
+      labelCardHolder: 'CARD HOLDER',
+      labelValidThru: 'VALID\nTHRU',
+      cardType: CardType.mastercard,
       isHolderNameVisible: false,
       height: 175,
       textStyle: TextStyle(color: Colors.yellowAccent),
@@ -71,8 +105,10 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       animationDuration: Duration(milliseconds: 1000),
       frontCardBorder: Border.all(color: Colors.grey),
       backCardBorder: Border.all(color: Colors.grey),
-      customCardIcons: <CustomCardTypeImage>[
-        CustomCardTypeImage(
+      chipColor: Colors.red,
+      padding: 16,
+      customCardTypeIcons: <CustomCardTypeIcons>[
+        CustomCardTypeIcons(
           cardType: CardType.mastercard,
           cardImage: Image.asset(
             'assets/mastercard.png',
@@ -162,18 +198,27 @@ would use `FloatConfig.preset()` as default configuration.
 ```dart
     CreditCardForm(
       formKey: formKey, // Required 
+      cardNumber: cardNumber, // Required
+      expiryDate: expiryDate, // Required
+      cardHolderName: cardHolderName, // Required
+      cvvCode: cvvCode, // Required
       cardNumberKey: cardNumberKey,
       cvvCodeKey: cvvCodeKey,
       expiryDateKey: expiryDateKey,
       cardHolderKey: cardHolderKey,
       onCreditCardModelChange: (CreditCardModel data) {}, // Required
-      themeColor: Colors.red,
+      themeColor: Colors.black, // Required
+      textColor: Colors.white,
+      cursorColor: Colors.blue,
       obscureCvv: true, 
       obscureNumber: true,
       isHolderNameVisible: true,
       isCardNumberVisible: true,
       isExpiryDateVisible: true,
       enableCvv: true,
+      cvvValidationMessage: 'Please input a valid CVV',
+      dateValidationMessage: 'Please input a valid date',
+      numberValidationMessage: 'Please input a valid number',
       cardNumberValidator: (String? cardNumber){},
       expiryDateValidator: (String? expiryDate){},
       cvvValidator: (String? cvv){},
@@ -181,6 +226,8 @@ would use `FloatConfig.preset()` as default configuration.
       onFormComplete: () {
       // callback to execute at the end of filling card data
       },
+      autovalidateMode: AutovalidateMode.always,
+      disableCardNumberAutoFillHints: false,
       cardNumberDecoration: const InputDecoration(
         border: OutlineInputBorder(),
         labelText: 'Number',
@@ -203,7 +250,6 @@ would use `FloatConfig.preset()` as default configuration.
     ),
 ```
 
-
 ## How to use
 Check out the **example** app in the [example](example) directory or the 'Example' tab on pub.dartlang.org for a more complete example.
 
@@ -224,12 +270,14 @@ Check out the **example** app in the [example](example) directory or the 'Exampl
     <td align="center"><a href="https://github.com/shwetachauhan-simform"><img src="https://avatars.githubusercontent.com/u/63042002?s=100" width="100px;" alt=""/><br /><sub><b>Shweta Chauhan</b></sub></a></td>
     <td align="center"><a href="https://github.com/kavantrivedi"><img src="https://avatars.githubusercontent.com/u/97207242?s=100" width="100px;" alt=""/><br /><sub><b>Kavan Trivedi</b></sub></a></td>
     <td align="center"><a href="https://github.com/Ujas-Majithiya"><img src="https://avatars.githubusercontent.com/u/56400956?v=4" width="100px;" alt=""/><br /><sub><b>Ujas Majithiya</b></sub></a></td>
+    <td align="center"><a href="https://github.com/aditya-chavda"><img src="https://avatars.githubusercontent.com/u/41247722?v=4" width="100px;" alt=""/><br /><sub><b>Aditya Chavda</b></sub></a></td>
   </tr>
 </table>
 <br/>
 
 ## Awesome Mobile Libraries
 - Check out our other available [awesome mobile libraries](https://github.com/SimformSolutionsPvtLtd/Awesome-Mobile-Libraries)
+
 ## Note
 We have updated license of flutter_credit_card from BSD 2-Clause "Simplified" to MIT.
 
@@ -257,6 +305,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
 ```

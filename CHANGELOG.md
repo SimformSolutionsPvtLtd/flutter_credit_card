@@ -1,6 +1,8 @@
-# [3.0.8](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.8) (Unreleased)
+# [4.0.0](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.0.0)
 
 - Added web support for example app [#148](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/148).
+- Added card float animation [#144](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/144).
+- Fixed credit card padding in RTL [#139](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/139).
 
 # [3.0.7](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.7)
 

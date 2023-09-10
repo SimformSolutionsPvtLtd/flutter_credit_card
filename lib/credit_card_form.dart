@@ -322,6 +322,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                           color: widget.textColor,
                         ),
                         decoration: widget.expiryDateDecoration,
+                        autovalidateMode: widget.autovalidateMode,
                         keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.next,
                         autofillHints: const <String>[
@@ -381,6 +382,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                         ),
                         decoration: widget.cvvCodeDecoration,
                         keyboardType: TextInputType.number,
+                        autovalidateMode: widget.autovalidateMode,
                         textInputAction: widget.isHolderNameVisible
                             ? TextInputAction.next
                             : TextInputAction.done,
@@ -429,6 +431,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   ),
                   decoration: widget.cardHolderDecoration,
                   keyboardType: TextInputType.text,
+                  autovalidateMode: widget.autovalidateMode,
                   textInputAction: TextInputAction.done,
                   autofillHints: const <String>[AutofillHints.creditCardName],
                   onEditingComplete: () {

@@ -3,6 +3,8 @@
 - Added web support for example app [#148](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/148).
 - Added card float animation [#144](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/144).
 - Fixed credit card padding in RTL [#139](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/139).
+- Fixed [#138](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/138) 
+  AutoValidateMode only applied to Card Number text field.
 
 # [3.0.7](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.7)
 

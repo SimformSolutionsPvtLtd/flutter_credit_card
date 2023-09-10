@@ -1,8 +1,11 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/floating_card_setup/floating_controller.dart';
+import 'package:flutter_credit_card/floating_card_setup/helper_widgets/glare_effect_widget.dart';
 
 import 'constants.dart';
+import 'floating_card_setup/constants.dart';
 import 'glassmorphism_config.dart';
 
 class CardBackground extends StatelessWidget {
@@ -17,6 +20,8 @@ class CardBackground extends StatelessWidget {
     this.glassmorphismConfig,
     required this.padding,
     this.border,
+    this.floatingController,
+    this.glarePosition,
   })  : assert(
             (backgroundImage == null && backgroundNetworkImage == null) ||
                 (backgroundImage == null && backgroundNetworkImage != null) ||
@@ -33,80 +38,106 @@ class CardBackground extends StatelessWidget {
   final double? height;
   final double padding;
   final BoxBorder? border;
+  final FloatingController? floatingController;
+  final double? glarePosition;
 
   @override
   Widget build(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final double screenWidth = constraints.maxWidth.isInfinite
-          ? MediaQuery.of(context).size.width
-          : constraints.maxWidth;
-      final double screenHeight = MediaQuery.of(context).size.height;
-      return Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.all(padding),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: border,
-              gradient: glassmorphismConfig != null
-                  ? glassmorphismConfig!.gradient
-                  : backgroundGradientColor,
-              image: backgroundImage != null && backgroundImage!.isNotEmpty
-                  ? DecorationImage(
-                      image: ExactAssetImage(
-                        backgroundImage!,
-                      ),
-                      fit: BoxFit.fill,
-                    )
-                  : backgroundNetworkImage != null &&
-                          backgroundNetworkImage!.isNotEmpty
-                      ? DecorationImage(
-                          image: NetworkImage(
-                            backgroundNetworkImage!,
-                          ),
-                          fit: BoxFit.fill,
-                        )
-                      : null,
-            ),
-            width: width ?? screenWidth,
-            height: height ??
-                (orientation == Orientation.portrait
-                    ? (((width ?? screenWidth) - (padding * 2)) *
-                        AppConstants.creditCardAspectRatio)
-                    : screenHeight / 2),
-            child: ClipRRect(
-              clipBehavior: Clip.hardEdge,
-              borderRadius: BorderRadius.circular(8),
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double screenWidth = constraints.maxWidth.isInfinite
+            ? MediaQuery.of(context).size.width
+            : constraints.maxWidth;
+        final double screenHeight = MediaQuery.of(context).size.height;
+        return Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            if(floatingController != null)
+            Positioned(
+              left: floatingController!.y * 100 + 16,
+              right: -floatingController!.y * 100 + 16,
+              top: -floatingController!.x * 100 + 16,
+              bottom: floatingController!.x * 100 + 16,
               child: Container(
-                child: glassmorphismConfig != null
-                    ? BackdropFilter(
-                        filter: ui.ImageFilter.blur(
-                          sigmaX: glassmorphismConfig?.blurX ?? 0.0,
-                          sigmaY: glassmorphismConfig?.blurY ?? 0.0,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      blurRadius: minBlurRadius,
+                      color: defaultShadowColor.withOpacity(minShadowOpacity),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.all(padding),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: border,
+                gradient: glassmorphismConfig != null
+                    ? glassmorphismConfig!.gradient
+                    : backgroundGradientColor,
+                image: backgroundImage != null && backgroundImage!.isNotEmpty
+                    ? DecorationImage(
+                        image: ExactAssetImage(
+                          backgroundImage!,
                         ),
-                        child: child,
+                        fit: BoxFit.fill,
                       )
-                    : child,
+                    : backgroundNetworkImage != null &&
+                            backgroundNetworkImage!.isNotEmpty
+                        ? DecorationImage(
+                            image: NetworkImage(
+                              backgroundNetworkImage!,
+                            ),
+                            fit: BoxFit.fill,
+                          )
+                        : null,
+              ),
+              width: width ?? screenWidth,
+              height: height ??
+                  (orientation == Orientation.portrait
+                      ? (((width ?? screenWidth) - (padding * 2)) *
+                          AppConstants.creditCardAspectRatio)
+                      : screenHeight / 2),
+              child: ClipRRect(
+                clipBehavior: Clip.hardEdge,
+                borderRadius: BorderRadius.circular(8),
+                child: GlareEffectWidget(
+                  glarePosition: glarePosition,
+                  controller: floatingController,
+                  border: border,
+                  child: Container(
+                    child: glassmorphismConfig != null
+                        ? BackdropFilter(
+                            filter: ui.ImageFilter.blur(
+                              sigmaX: glassmorphismConfig?.blurX ?? 0.0,
+                              sigmaY: glassmorphismConfig?.blurY ?? 0.0,
+                            ),
+                            child: child,
+                          )
+                        : child,
+                  ),
+                ),
               ),
             ),
-          ),
-          if (glassmorphismConfig != null)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: _GlassmorphicBorder(
-                width: width ?? screenWidth,
-                height: height ??
-                    (orientation == Orientation.portrait
-                        ? ((screenWidth - 32) * 0.5714)
-                        : screenHeight / 2),
+            if (glassmorphismConfig != null)
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: _GlassmorphicBorder(
+                  width: width ?? screenWidth,
+                  height: height ??
+                      (orientation == Orientation.portrait
+                          ? ((screenWidth - 32) * 0.5714)
+                          : screenHeight / 2),
+                ),
               ),
-            ),
-        ],
-      );
-    });
+          ],
+        );
+      },
+    );
   }
 }
 

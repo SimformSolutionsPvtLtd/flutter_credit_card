@@ -2,21 +2,30 @@ import 'dart:math';
 import 'dart:ui';
 
 class AppConstants {
-  static const double webBreakPoint = 800;
+  static const double floatWebBreakPoint = 650;
   static const double creditCardAspectRatio = 0.5714;
   static const double creditCardPadding = 16;
 
-  static const double maxfloatingBack = 0.05;
-  static const double minfloatingBack = 0.01;
-  static const double defaultDampingFactor = 0.2;
+  static const double minRestBackVel = 0.01;
+  static const double maxRestBackVel = 0.05;
+  static const double defaultRestBackVel = 0.8;
+
+  static const Duration fps60 = Duration(microseconds: 16666);
+  static const Duration fps60Offset = Duration(microseconds: 16667);
 
   /// Color constants
-  static const Color defaultGlareColor = Color(0xffFFFFFF),
-      defaultShadowColor = Color(0xff000000);
+  static const Color defaultGlareColor = Color(0xffFFFFFF);
+  static const Color defaultShadowColor = Color(0xff000000);
 
-     static const double defaultMaxAngle = pi / 10,
+  static const double defaultMaximumAngle = pi / 10;
+  static const double minBlurRadius = 10;
+  static const double minShadowOpacity = 0.3;
 
-      minBlurRadius = 10,
-      minShadowOpacity = 0.3;
-
+  /// Gyroscope channel constants
+  static const String gyroMethodChannelName = 'com.simform.flutter_credit_card';
+  static const String gyroEventChannelName =
+      'com.simform.flutter_credit_card/gyroscope';
+  static const String isGyroAvailableMethod = 'isGyroscopeAvailable';
+  static const String initiateMethod = 'initiateEvents';
+  static const String cancelMethod = 'cancelEvents';
 }

@@ -1,33 +1,35 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/floating_card_setup/floating_controller.dart';
-import 'package:flutter_credit_card/floating_card_setup/glare_effect_widget.dart';
 
 import 'constants.dart';
+import 'floating_animation/float_config.dart';
+import 'floating_animation/floating_controller.dart';
+import 'floating_animation/glare_effect_widget.dart';
 import 'glassmorphism_config.dart';
 
 class CardBackground extends StatelessWidget {
   const CardBackground({
-    Key? key,
     required this.backgroundGradientColor,
+    required this.child,
+    required this.padding,
     this.backgroundImage,
     this.backgroundNetworkImage,
-    required this.child,
     this.width,
     this.height,
     this.glassmorphismConfig,
-    required this.padding,
     this.border,
     this.floatingController,
     this.glarePosition,
-    this.shadowEnabled = false,
-  })  : assert(
-            (backgroundImage == null && backgroundNetworkImage == null) ||
-                (backgroundImage == null && backgroundNetworkImage != null) ||
-                (backgroundImage != null && backgroundNetworkImage == null),
-            "You can't use network image & asset image at same time for card background"),
-        super(key: key);
+    this.shadowConfig,
+    super.key,
+  }) : assert(
+          (backgroundImage == null && backgroundNetworkImage == null) ||
+              (backgroundImage == null && backgroundNetworkImage != null) ||
+              (backgroundImage != null && backgroundNetworkImage == null),
+          'You can\'t use network image & asset image at same time as card'
+          ' background',
+        );
 
   final String? backgroundImage;
   final String? backgroundNetworkImage;
@@ -40,60 +42,50 @@ class CardBackground extends StatelessWidget {
   final BoxBorder? border;
   final FloatingController? floatingController;
   final double? glarePosition;
-  final bool shadowEnabled;
+  final FloatShadowConfig? shadowConfig;
 
   @override
   Widget build(BuildContext context) {
-    final Orientation orientation = MediaQuery.of(context).orientation;
+    final MediaQueryData mediaQueryData = MediaQuery.of(context);
+    final Orientation orientation = mediaQueryData.orientation;
+    final Size screenSize = mediaQueryData.size;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final double screenWidth = constraints.maxWidth.isInfinite
-            ? MediaQuery.of(context).size.width
+            ? screenSize.width
             : constraints.maxWidth;
-        final double screenHeight = MediaQuery.of(context).size.height;
+        final double screenHeight = screenSize.height;
         return Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            if (floatingController != null && shadowEnabled)
-              Positioned(
-                left: floatingController!.y * 100 + 16,
-                right: -floatingController!.y * 100 + 16,
-                top: -floatingController!.x * 100 + 16,
-                bottom: floatingController!.x * 100 + 16,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        blurRadius: AppConstants.minBlurRadius,
-                        color: AppConstants.defaultShadowColor
-                            .withOpacity(AppConstants.minShadowOpacity),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             Container(
               margin: EdgeInsets.all(padding),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                border: border,
-                gradient: glassmorphismConfig != null
-                    ? glassmorphismConfig!.gradient
-                    : backgroundGradientColor,
-                image: backgroundImage != null && backgroundImage!.isNotEmpty
-                    ? DecorationImage(
-                        image: ExactAssetImage(
-                          backgroundImage!,
+                boxShadow: shadowConfig != null && floatingController != null
+                    ? <BoxShadow>[
+                        BoxShadow(
+                          blurRadius: shadowConfig!.blurRadius,
+                          color: shadowConfig!.color,
+                          offset: shadowConfig!.offset +
+                              Offset(
+                                floatingController!.y * 100,
+                                -floatingController!.x * 100,
+                              ),
                         ),
+                      ]
+                    : null,
+                border: border,
+                gradient:
+                    glassmorphismConfig?.gradient ?? backgroundGradientColor,
+                image: backgroundImage?.isNotEmpty ?? false
+                    ? DecorationImage(
+                        image: ExactAssetImage(backgroundImage!),
                         fit: BoxFit.fill,
                       )
-                    : backgroundNetworkImage != null &&
-                            backgroundNetworkImage!.isNotEmpty
+                    : backgroundNetworkImage?.isNotEmpty ?? false
                         ? DecorationImage(
-                            image: NetworkImage(
-                              backgroundNetworkImage!,
-                            ),
+                            image: NetworkImage(backgroundNetworkImage!),
                             fit: BoxFit.fill,
                           )
                         : null,
@@ -108,20 +100,17 @@ class CardBackground extends StatelessWidget {
                 clipBehavior: Clip.hardEdge,
                 borderRadius: BorderRadius.circular(8),
                 child: GlareEffectWidget(
-                  glarePosition: glarePosition,
-                  controller: floatingController,
                   border: border,
-                  child: Container(
-                    child: glassmorphismConfig != null
-                        ? BackdropFilter(
-                            filter: ui.ImageFilter.blur(
-                              sigmaX: glassmorphismConfig?.blurX ?? 0.0,
-                              sigmaY: glassmorphismConfig?.blurY ?? 0.0,
-                            ),
-                            child: child,
-                          )
-                        : child,
-                  ),
+                  glarePosition: glarePosition,
+                  child: glassmorphismConfig == null
+                      ? child
+                      : BackdropFilter(
+                          filter: ui.ImageFilter.blur(
+                            sigmaX: glassmorphismConfig!.blurX,
+                            sigmaY: glassmorphismConfig!.blurY,
+                          ),
+                          child: child,
+                        ),
                 ),
               ),
             ),

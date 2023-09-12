@@ -1,6 +1,6 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'floating_card_setup/floating_event.dart';
+import 'floating_animation/floating_event.dart';
 import 'flutter_credit_card_method_channel.dart';
 
 abstract class FlutterCreditCardPlatform extends PlatformInterface {
@@ -24,29 +24,21 @@ abstract class FlutterCreditCardPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Detects if the platform is Safari Mobile (iOS or iPad).
-  bool get isSafariMobile => false;
-
-  /// Indicates whether the gradient is available.
-  bool get isGradientOverlayAvailable => !isSafariMobile;
-
-  /// Indicates whether the gyroscope is available.
+  /// Denotes gyroscope feature availability.
   bool get isGyroscopeAvailable => false;
 
-  /// Indicates whether a permission is required to access gyroscope data.
-  bool get isPermissionRequired => false;
-
-  /// Indicates whether the permission is granted.
-  bool get isPermissionGranted => false;
-
-  /// The gyroscope stream, if available.
+  /// The stream having gyroscope data events, if available.
   Stream<FloatingEvent>? get floatingStream => null;
 
-  Future<void> initialize() async {
-    throw UnimplementedError();
-  }
+  /// Initializes the method and event channels.
+  Future<void> initialize() async => throw UnimplementedError();
 
-  Future<bool> requestPermission() async {
-    throw UnimplementedError();
-  }
+  /// Initiates the gyroscope data events.
+  Future<void> initiateEvents() async => throw UnimplementedError();
+
+  /// Cancels the gyroscope data events.
+  Future<void> cancelEvents() async => throw UnimplementedError();
+
+  /// Disposes the method and event channels.
+  Future<void> dispose() async => throw UnimplementedError();
 }

@@ -2,12 +2,12 @@
 enum FloatingType { pointer, gyroscope }
 
 class FloatingEvent {
-  const FloatingEvent({required this.type, this.x = 0, this.y = 0, this.z = 0});
-
-  const FloatingEvent.zero({required this.type})
-      : x = 0,
-        y = 0,
-        z = 0;
+  const FloatingEvent({
+    required this.type,
+    this.x = 0,
+    this.y = 0,
+    this.z = 0,
+  });
 
   /// The event's [x], [y] and [z] values.
   ///

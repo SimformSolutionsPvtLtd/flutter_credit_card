@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/constants.dart';
-import 'package:flutter_credit_card/floating_card_setup/floating_controller.dart';
 
+import '../constants.dart';
 
 class GlareEffectWidget extends StatelessWidget {
   const GlareEffectWidget({
-    super.key,
     required this.child,
     this.glarePosition,
-    this.controller,
     this.border,
+    super.key,
   });
 
   final Widget child;
-  final double? glarePosition;
   final BoxBorder? border;
-  final FloatingController? controller;
+  final double? glarePosition;
+
+  static final List<Color> _glareGradientColors = <Color>[
+    AppConstants.defaultGlareColor.withOpacity(0.1),
+    AppConstants.defaultGlareColor.withOpacity(0.07),
+    AppConstants.defaultGlareColor.withOpacity(0.05),
+  ];
+
+  static const List<double> _gradientStop = <double>[0.1, 0.3, 0.6];
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,7 @@ class GlareEffectWidget extends StatelessWidget {
       clipBehavior: Clip.none,
       children: <Widget>[
         child,
-        if (controller != null && glarePosition != null)
+        if (glarePosition != null)
           Positioned.fill(
             child: Container(
               clipBehavior: Clip.hardEdge,
@@ -31,16 +36,8 @@ class GlareEffectWidget extends StatelessWidget {
                 border: border,
                 gradient: LinearGradient(
                   tileMode: TileMode.clamp,
-                  colors: <Color>[
-                    AppConstants.defaultGlareColor.withOpacity(0.1),
-                    AppConstants.defaultGlareColor.withOpacity(0.07),
-                    AppConstants.defaultGlareColor.withOpacity(0.05),
-                  ],
-                  stops: const <double>[
-                    0.1,
-                    0.3,
-                    0.6,
-                  ],
+                  colors: _glareGradientColors,
+                  stops: _gradientStop,
                   transform: GradientRotation(glarePosition!),
                 ),
               ),

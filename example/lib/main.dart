@@ -3,19 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await CreditCardWidget.instance.initialize();
-
-  runApp(MySample());
-}
+void main() => runApp(const MySample());
 
 class MySample extends StatefulWidget {
+  const MySample({Key? key}) : super(key: key);
+
   @override
-  State<StatefulWidget> createState() {
-    return MySampleState();
-  }
+  State<StatefulWidget> createState() => MySampleState();
 }
 
 class MySampleState extends State<MySample> {
@@ -26,19 +20,14 @@ class MySampleState extends State<MySample> {
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
   bool useBackgroundImage = false;
-  OutlineInputBorder? border;
+  bool useFloatingAnimation = true;
+  final OutlineInputBorder border = OutlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.grey.withOpacity(0.7),
+      width: 2.0,
+    ),
+  );
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    border = OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.grey.withOpacity(0.7),
-        width: 2.0,
-      ),
-    );
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +54,7 @@ class MySampleState extends State<MySample> {
                   height: 30,
                 ),
                 CreditCardWidget(
-                  isFloatingAnimationEnabled: true,
-                  isGlareAnimationEnabled: true,
-                  isShadowAnimationEnabled: true,
+                  enableFloatingCard: useFloatingAnimation,
                   glassmorphismConfig:
                       useGlassMorphism ? Glassmorphism.defaultConfig() : null,
                   cardNumber: cardNumber,
@@ -203,6 +190,31 @@ class MySampleState extends State<MySample> {
                             ],
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              const Text(
+                                'Floating Card',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              const Spacer(),
+                              Switch(
+                                value: useFloatingAnimation,
+                                inactiveTrackColor: Colors.grey,
+                                activeColor: Colors.white,
+                                activeTrackColor: AppColors.colorE5D1B2,
+                                onChanged: (bool value) => setState(() {
+                                  useFloatingAnimation = value;
+                                }),
+                              ),
+                            ],
+                          ),
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -254,16 +266,16 @@ class MySampleState extends State<MySample> {
   }
 
   void _onValidate() {
-    if (formKey.currentState!.validate()) {
+    if (formKey.currentState?.validate() ?? false) {
       print('valid!');
     } else {
       print('invalid!');
     }
   }
 
-  void onCreditCardModelChange(CreditCardModel? creditCardModel) {
+  void onCreditCardModelChange(CreditCardModel creditCardModel) {
     setState(() {
-      cardNumber = creditCardModel!.cardNumber;
+      cardNumber = creditCardModel.cardNumber;
       expiryDate = creditCardModel.expiryDate;
       cardHolderName = creditCardModel.cardHolderName;
       cvvCode = creditCardModel.cvvCode;

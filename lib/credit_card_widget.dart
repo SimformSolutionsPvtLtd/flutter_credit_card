@@ -2,17 +2,18 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/constants.dart';
-import 'package:flutter_credit_card/extension.dart';
-import 'package:flutter_credit_card/flutter_credit_card_platform_interface.dart';
 
+import 'constants.dart';
 import 'credit_card_animation.dart';
 import 'credit_card_background.dart';
 import 'credit_card_brand.dart';
 import 'custom_card_type_icon.dart';
-import 'floating_card_setup/floating_controller.dart';
-import 'floating_card_setup/floating_event.dart';
-import 'floating_card_setup/mouse_pointer_listener.dart';
+import 'extension.dart';
+import 'floating_animation/cursor_listener.dart';
+import 'floating_animation/float_config.dart';
+import 'floating_animation/floating_controller.dart';
+import 'floating_animation/floating_event.dart';
+import 'flutter_credit_card_platform_interface.dart';
 import 'glassmorphism_config.dart';
 
 const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
@@ -29,12 +30,12 @@ const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
 class CreditCardWidget extends StatefulWidget {
   /// A widget showcasing credit card UI.
   const CreditCardWidget({
-    Key? key,
     required this.cardNumber,
     required this.expiryDate,
     required this.cardHolderName,
     required this.cvvCode,
     required this.showBackView,
+    required this.onCreditCardWidgetChange,
     this.bankName,
     this.animationDuration = const Duration(milliseconds: 500),
     this.height,
@@ -54,16 +55,15 @@ class CreditCardWidget extends StatefulWidget {
     this.isChipVisible = true,
     this.isSwipeGestureEnabled = true,
     this.customCardTypeIcons = const <CustomCardTypeIcon>[],
-    required this.onCreditCardWidgetChange,
     this.padding = AppConstants.creditCardPadding,
     this.chipColor,
     this.frontCardBorder,
     this.backCardBorder,
     this.obscureInitialCardNumber = false,
-    this.isFloatingAnimationEnabled = false,
-    this.isShadowAnimationEnabled = false,
-    this.isGlareAnimationEnabled = false,
-  }) : super(key: key);
+    this.enableFloatingCard = false,
+    this.floatConfig,
+    super.key,
+  });
 
   /// A string indicating number on the card.
   final String cardNumber;
@@ -168,14 +168,16 @@ class CreditCardWidget extends StatefulWidget {
   /// Provides border at back of credit card widget.
   final BoxBorder? backCardBorder;
 
-  final bool isFloatingAnimationEnabled;
+  /// Denotes whether card floating animation is enabled.
+  /// Defaults to false.
+  ///
+  /// Enabling this would float the card as per the movement of device or mouse
+  /// pointer.
+  final bool enableFloatingCard;
 
-  static final FlutterCreditCardPlatform instance =
-      FlutterCreditCardPlatform.instance;
-
-  final bool isShadowAnimationEnabled;
-
-  final bool isGlareAnimationEnabled;
+  /// The config for making the card float as per the movement of device or
+  /// mouse pointer.
+  final FloatConfig? floatConfig;
 
   /// floating animation enabled/disabled
   @override
@@ -183,38 +185,51 @@ class CreditCardWidget extends StatefulWidget {
 }
 
 class _CreditCardWidgetState extends State<CreditCardWidget>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late AnimationController controller;
   late Animation<double> _frontRotation;
   late Animation<double> _backRotation;
   late Gradient backgroundGradientColor;
-  late bool isFrontVisible = true;
-  late bool isGestureUpdate = false;
 
+  bool isFrontVisible = true;
+  bool isGestureUpdate = false;
   bool isAmex = false;
 
-  FloatingController get frontFloatingController =>
-      FloatingController.defaultController;
+  late FloatConfig floatConfig = widget.floatConfig ?? FloatConfig.preset();
 
-  FloatingController get backFloatingController =>
-      FloatingController.defaultController;
+  late FloatShadowConfig? floatShadowConfig =
+      widget.enableFloatingCard && floatConfig.isShadowEnabled
+          ? floatConfig.shadowConfig ?? FloatShadowConfig.preset()
+          : null;
 
-  StreamController<FloatingEvent> frontCardStreamController =
+  final FloatingController floatController = FloatingController.predefined();
+
+  final StreamController<FloatingEvent> frontCardFloatStream =
       StreamController<FloatingEvent>.broadcast();
 
-  StreamController<FloatingEvent> backCardStreamController =
+  final StreamController<FloatingEvent> backCardFloatStream =
       StreamController<FloatingEvent>.broadcast();
 
   Orientation? orientation;
+  Size? screenSize;
 
-  bool isAnimation = false;
+  /// Gives the radians pivoting opposite to the device movement with a center
+  /// anchor point.
+  double? get glarePosition => widget.enableFloatingCard &&
+          floatConfig.isGlareEnabled
+      ? pi / 4 + (floatController.y / floatController.maximumAngle * (2 * pi))
+      : null;
 
-  double get glarePosition =>
-      pi / 4 + (frontFloatingController.y / (pi / 10) * (2 * pi));
+  /// Represents the current floating card animation stream as per the
+  /// visibility of the front or back side of the credit card.
+  /// Determined based on [isFrontVisible].
+  StreamController<FloatingEvent> get floatingCardStream =>
+      isFrontVisible ? frontCardFloatStream : backCardFloatStream;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     ///initialize the animation controller
     controller = AnimationController(
@@ -222,35 +237,16 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       vsync: this,
     );
 
-    controller.addStatusListener((AnimationStatus status) {
-      if (status == AnimationStatus.forward) {
-        isAnimation = true;
-      } else if (status == AnimationStatus.reverse) {
-        isAnimation = true;
-      } else if (status == AnimationStatus.completed) {
-        isAnimation = false;
-      } else {
-        isAnimation = false;
-      }
-    });
-
-    if (widget.isFloatingAnimationEnabled) {
-      CreditCardWidget.instance.floatingStream?.listen((FloatingEvent event) {
-        if (isFrontVisible) {
-          frontCardStreamController.add(event);
-        } else {
-          backCardStreamController.add(event);
-        }
-      });
-    }
-
+    _handleFloatingAnimationSetup();
     _gradientSetup();
     _updateRotations(false);
   }
 
   @override
   void didChangeDependencies() {
-    orientation = MediaQuery.of(context).orientation;
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    orientation = mediaQuery.orientation;
+    screenSize = mediaQuery.size;
     super.didChangeDependencies();
   }
 
@@ -259,73 +255,31 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     if (widget.cardBgColor != oldWidget.cardBgColor) {
       _gradientSetup();
     }
+    if (oldWidget.enableFloatingCard != widget.enableFloatingCard ||
+        oldWidget.floatConfig != widget.floatConfig) {
+      floatConfig = widget.floatConfig ?? FloatConfig.preset();
+      floatShadowConfig =
+          widget.enableFloatingCard && floatConfig.isShadowEnabled
+              ? floatConfig.shadowConfig ?? FloatShadowConfig.preset()
+              : null;
+      _handleFloatingAnimationSetup();
+    }
     super.didUpdateWidget(oldWidget);
   }
 
-  Matrix4 computeBackTransformForEvent(FloatingEvent? event) {
-    final Matrix4 matrix = Matrix4.identity()..setEntry(3, 2, 0.001);
-
-    if (isAnimation) {
-      return matrix;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.inactive:
+        _handleFloatingAnimationSetup(shouldCancel: true);
+        break;
+      case AppLifecycleState.resumed:
+        _handleFloatingAnimationSetup();
+        break;
+      default:
+        break;
     }
-    if (event != null) {
-      if (CreditCardWidget.instance.isGyroscopeAvailable) {
-        frontFloatingController.x +=
-            (orientation == Orientation.landscape ? -event.y : event.x) * 0.016;
-        frontFloatingController.y -=
-            (orientation == Orientation.landscape ? event.x : event.y) * 0.016;
-
-        frontFloatingController.limitTheAngle();
-        // Apply the damping factor — which may equal 1 and have no effect, if damping is null.
-        frontFloatingController.x *= frontFloatingController.floatingBackFactor;
-        frontFloatingController.y *= frontFloatingController.floatingBackFactor;
-      } else {
-        frontFloatingController.x = event.x * 0.1;
-        frontFloatingController.y = event.y * 0.1;
-      }
-      // Rotate the matrix by the resulting x and y values.
-      matrix.rotateX(backFloatingController.x);
-      matrix.rotateY(backFloatingController.y);
-      matrix.translate(
-        backFloatingController.y * -((45) * 2.0),
-        backFloatingController.x * (45),
-      );
-    }
-
-    return matrix;
-  }
-
-  Matrix4 computeTransformForEvent(FloatingEvent? event) {
-    final Matrix4 matrix = Matrix4.identity()..setEntry(3, 2, 0.001);
-
-    if (isAnimation) {
-      return matrix;
-    }
-    if (event != null) {
-      if (CreditCardWidget.instance.isGyroscopeAvailable) {
-        frontFloatingController.x +=
-            (orientation == Orientation.landscape ? -event.y : event.x) * 0.02;
-        frontFloatingController.y -=
-            (orientation == Orientation.landscape ? event.x : event.y) * 0.02;
-
-        frontFloatingController.limitTheAngle();
-        // Apply the damping factor — which may equal 1 and have no effect, if damping is null.
-        frontFloatingController.x *= frontFloatingController.floatingBackFactor;
-        frontFloatingController.y *= frontFloatingController.floatingBackFactor;
-      } else {
-        frontFloatingController.x = event.x * 0.1;
-        frontFloatingController.y = event.y * 0.1;
-      }
-      // Rotate the matrix by the resulting x and y values.
-      matrix.rotateX(frontFloatingController.x);
-      matrix.rotateY(frontFloatingController.y);
-      matrix.translate(
-        frontFloatingController.y * -((45) * 2.0),
-        frontFloatingController.x * (45),
-      );
-    }
-
-    return matrix;
+    super.didChangeAppLifecycleState(state);
   }
 
   void _gradientSetup() {
@@ -346,40 +300,33 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
 
   @override
   void dispose() {
+    FlutterCreditCardPlatform.instance.dispose();
     controller.dispose();
-    backCardStreamController.close();
-    frontCardStreamController.close();
+    backCardFloatStream.close();
+    frontCardFloatStream.close();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     ///
-    /// If uer adds CVV then toggle the card from front to back..
+    /// If user adds CVV then toggle the card from front to back.
     /// controller forward starts animation and shows back layout.
     /// controller reverse starts animation and shows front layout.
     ///
-    if (!isGestureUpdate) {
-      _updateRotations(false);
-      if (widget.showBackView) {
-        isFrontVisible = false;
-        controller.forward();
-      } else {
-        isFrontVisible = true;
-        controller.reverse();
-      }
-    } else {
+    if (isGestureUpdate) {
       isGestureUpdate = false;
+    } else {
+      _toggleSide(flipFromRight: false, showBackSide: widget.showBackView);
     }
 
-    final CardType? cardType = widget.cardType != null
-        ? widget.cardType
-        : detectCCType(widget.cardNumber);
-    widget.onCreditCardWidgetChange(CreditCardBrand(cardType));
+    final CreditCardBrand cardBrand = CreditCardBrand(
+      widget.cardType ?? detectCCType(widget.cardNumber),
+    );
+    widget.onCreditCardWidgetChange(cardBrand);
 
-    DateTime? lastPointerEventTime;
-
-    final Widget child = Stack(
+    return Stack(
       children: <Widget>[
         _cardGesture(
           child: AnimationCard(
@@ -393,75 +340,71 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: _buildBackContainer(),
           ),
         ),
+        if (widget.enableFloatingCard &&
+            !FlutterCreditCardPlatform.instance.isGyroscopeAvailable)
+          Positioned.fill(
+            child: LayoutBuilder(
+              builder: (_, BoxConstraints constraints) {
+                final double parentHeight = constraints.maxHeight;
+                final double parentWidth = constraints.maxWidth;
+                final double outerPadding =
+                    (screenSize?.width ?? parentWidth) - parentWidth;
+                final double padding = outerPadding != 0 && widget.padding == 0
+                    ? AppConstants.creditCardPadding
+                    : widget.padding;
+
+                return CursorListener(
+                  onPositionChange: _processFloatingEvent,
+                  height: parentHeight - padding,
+                  width: parentWidth - padding,
+                  padding: padding,
+                );
+              },
+            ),
+          )
       ],
     );
-
-    return !CreditCardWidget.instance.isGyroscopeAvailable
-        ? CursorListener(
-            child: child,
-            onPositionChange: (Offset newOffset) {
-              final now = DateTime.now();
-              if (lastPointerEventTime == null) {
-                lastPointerEventTime = now;
-              } else if (now.difference(lastPointerEventTime!) <
-                  const Duration(microseconds: 1666)) {
-                /// Drop events more frequent than [_updateInterval]
-                return;
-              }
-              lastPointerEventTime = now;
-              if (isFrontVisible)
-                frontCardStreamController.add(
-                  FloatingEvent(
-                      type: FloatingType.pointer,
-                      x: newOffset.dx * 2,
-                      y: newOffset.dy * 2),
-                );
-              else
-                backCardStreamController.add(
-                  FloatingEvent(
-                      type: FloatingType.pointer,
-                      x: newOffset.dx * 2,
-                      y: newOffset.dy * 2),
-                );
-            })
-        : child;
   }
 
-  void _leftRotation() {
-    _toggleSide(false);
+  void _processFloatingEvent(FloatingEvent? event) {
+    if (event == null || controller.isAnimating) {
+      return;
+    }
+
+    floatingCardStream.add(event);
   }
 
-  void _rightRotation() {
-    _toggleSide(true);
-  }
-
-  void _toggleSide(bool isRightTap) {
-    _updateRotations(!isRightTap);
-    if (isFrontVisible) {
-      controller.forward();
+  void _toggleSide({
+    required bool flipFromRight,
+    bool? showBackSide,
+  }) {
+    _updateRotations(flipFromRight);
+    if (showBackSide ?? isFrontVisible) {
       isFrontVisible = false;
+      controller.forward();
     } else {
-      controller.reverse();
       isFrontVisible = true;
+      controller.reverse();
     }
   }
 
   void _updateRotations(bool isRightSwipe) {
     setState(() {
-      final bool rotateToLeft =
-          (isFrontVisible && !isRightSwipe) || !isFrontVisible && isRightSwipe;
+      final bool rotateToLeft = (isFrontVisible && !isRightSwipe) ||
+          (!isFrontVisible && isRightSwipe);
+      final double start = rotateToLeft ? (pi / 2) : (-pi / 2);
+      final double end = rotateToLeft ? (-pi / 2) : (pi / 2);
 
       ///Initialize the Front to back rotation tween sequence.
       _frontRotation = TweenSequence<double>(
         <TweenSequenceItem<double>>[
           TweenSequenceItem<double>(
-            tween: Tween<double>(
-                    begin: 0.0, end: rotateToLeft ? (pi / 2) : (-pi / 2))
+            tween: Tween<double>(begin: 0.0, end: start)
                 .chain(CurveTween(curve: Curves.linear)),
             weight: 50.0,
           ),
           TweenSequenceItem<double>(
-            tween: ConstantTween<double>(rotateToLeft ? (-pi / 2) : (pi / 2)),
+            tween: ConstantTween<double>(end),
             weight: 50.0,
           ),
         ],
@@ -471,15 +414,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       _backRotation = TweenSequence<double>(
         <TweenSequenceItem<double>>[
           TweenSequenceItem<double>(
-            tween: ConstantTween<double>(rotateToLeft ? (pi / 2) : (-pi / 2)),
+            tween: ConstantTween<double>(start),
             weight: 50.0,
           ),
           TweenSequenceItem<double>(
-            tween: Tween<double>(
-                    begin: rotateToLeft ? (-pi / 2) : (pi / 2), end: 0.0)
-                .chain(
-              CurveTween(curve: Curves.linear),
-            ),
+            tween: Tween<double>(begin: end, end: 0.0)
+                .chain(CurveTween(curve: Curves.linear)),
             weight: 50.0,
           ),
         ],
@@ -523,13 +463,16 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             stripped.substring(stripped.length - 4);
       }
     }
-    if (widget.isFloatingAnimationEnabled && isFrontVisible)
+
+    if (widget.enableFloatingCard && isFrontVisible) {
       return StreamBuilder<FloatingEvent>(
-        stream: frontCardStreamController.stream,
+        stream: frontCardFloatStream.stream,
         builder: (BuildContext context, AsyncSnapshot<FloatingEvent> snapshot) {
           return Transform(
-            transform: computeTransformForEvent(snapshot.data),
-            filterQuality: FilterQuality.high,
+            transform: floatController.transform(
+              snapshot.data,
+              shouldAvoid: controller.isAnimating,
+            ),
             alignment: FractionalOffset.center,
             child: _frontCardBackground(
               defaultTextStyle: defaultTextStyle,
@@ -538,11 +481,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           );
         },
       );
-    else
+    } else {
       return _frontCardBackground(
         defaultTextStyle: defaultTextStyle,
         number: number,
       );
+    }
   }
 
   Widget _frontCardBackground({
@@ -550,12 +494,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     required TextStyle defaultTextStyle,
   }) {
     return CardBackground(
-      glarePosition:
-          widget.isGlareAnimationEnabled && widget.isFloatingAnimationEnabled
-              ? glarePosition
-              : null,
-      floatingController:
-          widget.isFloatingAnimationEnabled ? frontFloatingController : null,
+      glarePosition: glarePosition,
+      floatingController: widget.enableFloatingCard ? floatController : null,
       backgroundImage: widget.backgroundImage,
       backgroundNetworkImage: widget.backgroundNetworkImage,
       backgroundGradientColor: backgroundGradientColor,
@@ -564,6 +504,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       width: widget.width,
       padding: widget.padding,
       border: widget.frontCardBorder,
+      shadowConfig: floatShadowConfig,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -681,20 +622,24 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         ? widget.cvvCode.replaceAll(RegExp(r'\d'), '*')
         : widget.cvvCode;
 
-    return widget.isFloatingAnimationEnabled
+    return widget.enableFloatingCard && !isFrontVisible
         ? StreamBuilder<FloatingEvent>(
-            stream: backCardStreamController.stream,
+            stream: backCardFloatStream.stream,
             builder:
-                (BuildContext context, AsyncSnapshot<FloatingEvent> snapshot) =>
-                    Transform(
-                      transform: computeBackTransformForEvent(snapshot.data),
-                      filterQuality: FilterQuality.high,
-                      alignment: FractionalOffset.center,
-                      child: _backCardBackground(
-                        cvv: cvv,
-                        defaultTextStyle: defaultTextStyle,
-                      ),
-                    ))
+                (BuildContext context, AsyncSnapshot<FloatingEvent> snapshot) {
+              return Transform(
+                transform: floatController.transform(
+                  snapshot.data,
+                  shouldAvoid: controller.isAnimating,
+                ),
+                alignment: FractionalOffset.center,
+                child: _backCardBackground(
+                  cvv: cvv,
+                  defaultTextStyle: defaultTextStyle,
+                ),
+              );
+            },
+          )
         : _backCardBackground(
             cvv: cvv,
             defaultTextStyle: defaultTextStyle,
@@ -706,12 +651,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     required TextStyle defaultTextStyle,
   }) {
     return CardBackground(
-      glarePosition:
-          widget.isGlareAnimationEnabled && widget.isFloatingAnimationEnabled
-              ? glarePosition
-              : null,
-      floatingController:
-          widget.isFloatingAnimationEnabled ? backFloatingController : null,
+      glarePosition: glarePosition,
+      floatingController: widget.enableFloatingCard ? floatController : null,
       backgroundImage: widget.backgroundImage,
       backgroundNetworkImage: widget.backgroundNetworkImage,
       backgroundGradientColor: backgroundGradientColor,
@@ -720,6 +661,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       width: widget.width,
       padding: widget.padding,
       border: widget.backCardBorder,
+      shadowConfig: floatShadowConfig,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -791,11 +733,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         ? GestureDetector(
             onPanEnd: (_) {
               isGestureUpdate = true;
-              if (isRightSwipe) {
-                _leftRotation();
-              } else {
-                _rightRotation();
-              }
+              _toggleSide(flipFromRight: isRightSwipe);
             },
             onPanUpdate: (DragUpdateDetails details) {
               // Swiping in right direction.
@@ -811,6 +749,24 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: child,
           )
         : child;
+  }
+
+  void _handleFloatingAnimationSetup({bool? shouldCancel}) {
+    if (shouldCancel ?? !widget.enableFloatingCard) {
+      FlutterCreditCardPlatform.instance.dispose();
+      return;
+    }
+
+    FlutterCreditCardPlatform.instance.initialize().then((_) {
+      final bool isGyroAvailable =
+          FlutterCreditCardPlatform.instance.isGyroscopeAvailable;
+      floatController.isGyroscopeAvailable = isGyroAvailable;
+
+      if (isGyroAvailable) {
+        FlutterCreditCardPlatform.instance.floatingStream
+            ?.listen(_processFloatingEvent);
+      }
+    });
   }
 
   /// Credit Card prefix patterns as of March 2019

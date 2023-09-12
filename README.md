@@ -51,6 +51,12 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       showBackView: isCvvFocused,
       cardbgColor: Colors.black,
       glassmorphismConfig: Glassmorphism.defaultConfig(),
+      enableFloatingCard: true,
+      floatConfig: FloatConfig(
+        isGlareEnabled: true,
+        isShadowEnabled: true,
+        shadowConfig: FloatShadowConfig.preset(),
+      ),
       backgroundImage: 'assets/card_bg.png',
       labelValidThru: 'VALID\nTHRU',
       obscureCardNumber: true,
@@ -109,6 +115,48 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
     ),
 ```    
 
+*Floating Card*
+> NOTE: Currently the floating card animation is not supported on mobile platform browsers.
+
+Enable floating card animation by passing `true` to `enableFloatingCard` parameter (default).
+
+You can pass `FloatConfig` to the `floatConfig` parameter to configure various things like 
+whether to enable or disable the glare or the shadow associated with the floating animation.
+
+The `FloatConfig` also supports `shadowConfig` that takes `FloatShadowConfig` to configure the 
+shadow that appears beneath the card when floating animation is turned on. 
+
+Passing no value to `shadowConfig` would use `FloatShadowConfig.preset()`, and `floatConfig` 
+would use `FloatConfig.preset()` as default configuration.
+
++ Default Shadow Configuration
+```dart
+    CreditCardWidget(
+        enableFloatingCard: true,
+        floatConfig: FloatConfig(
+            isGlareEnabled: true,
+            isShadowEnabled: true,
+            shadowConfig: FloatShadowConfig.preset(),
+        ),
+    );
+```    
+
++ Custom Shadow Configuration
+```dart
+    CreditCardWidget(
+        enableFloatingCard: true,
+        floatConfig: FloatConfig(
+            isGlareEnabled: true,
+            isShadowEnabled: true,
+            shadowConfig: FloatShadowConfig(
+              offset: Offset(10, 10),
+              color: Colors.black84,
+              blurRadius: 15,
+            ),
+        ),
+    );
+```    
+
 4.  Adding CreditCardForm
 
 ```dart
@@ -161,7 +209,8 @@ Check out the **example** app in the [example](example) directory or the 'Exampl
 
 ## Credit
 
-This package's animation is inspired from from this [Dribbble](https://dribbble.com/shots/2187649-Credit-card-Checkout-flow-AMEX) art.
+- This package's flip animation is inspired from this [Dribbble](https://dribbble.com/shots/2187649-Credit-card-Checkout-flow-AMEX) art.
+- This package's float animation is inspired from the [Motion](https://pub.dev/packages/motion) flutter package.
 
 ## Main Contributors
 

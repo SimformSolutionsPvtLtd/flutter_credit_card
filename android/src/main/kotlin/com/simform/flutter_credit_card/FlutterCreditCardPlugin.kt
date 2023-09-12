@@ -1,68 +1,63 @@
 package com.simform.flutter_credit_card
 
+import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
-import android.hardware.Sensor
-import android.hardware.SensorManager
-
+import android.os.Build
+import android.view.Display
+import android.view.WindowManager
+import androidx.annotation.ChecksSdkIntAtLeast
+import com.simform.flutter_credit_card.gyroscope.GyroscopeChannelImpl
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.BinaryMessenger
-import io.flutter.plugin.common.EventChannel
-import io.flutter.plugin.common.MethodChannel
+
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)
+private val isAtLeastOsR: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
 
 /** FlutterCreditCardPlugin */
-class FlutterCreditCardPlugin: FlutterPlugin {
-  private lateinit var gyroscopeChannel: EventChannel
+class FlutterCreditCardPlugin : FlutterPlugin, ActivityAware {
+    private var gyroscopeChannel: GyroscopeChannelImpl? = null
+    private var activity: Activity? = null
 
-  private lateinit var methodChannel: MethodChannel
+    override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) =
+        initializeChannels(binding.applicationContext, binding.binaryMessenger)
 
-  private lateinit var gyroScopeStreamHandler: StreamHandlerImpl
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) =
+        disposeChannels()
 
-  override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-    setupEventChannels(binding.applicationContext, binding.binaryMessenger)
-    setupMethodChannel(binding.applicationContext, binding.binaryMessenger)
-  }
-
-  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-    teardownEventChannels()
-    teardownMethodChannel()
-  }
-
-  private fun setupEventChannels(context: Context, messenger: BinaryMessenger) {
-    val sensorsManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-
-    gyroscopeChannel = EventChannel(messenger, GYROSCOPE_CHANNEL_NAME)
-    gyroScopeStreamHandler = com.simform.flutter_credit_card.StreamHandlerImpl(
-            sensorsManager,
-            Sensor.TYPE_GYROSCOPE,
-    )
-    gyroscopeChannel.setStreamHandler(gyroScopeStreamHandler)
-  }
-
-  private fun teardownEventChannels() {
-    gyroscopeChannel.setStreamHandler(null)
-    gyroScopeStreamHandler.onCancel(null)
-  }
-
-  private fun setupMethodChannel(context: Context, messenger: BinaryMessenger) {
-    methodChannel = MethodChannel(messenger, METHOD_CHANNEL_NAME)
-    methodChannel.setMethodCallHandler { call, result ->
-      if (call.method == "isGyroscopeAvailable") {
-        val packageManager: PackageManager = context.packageManager
-        val gyroExists =
-                packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_GYROSCOPE)
-        result.success(gyroExists)
-      }
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        activity = if (isAtLeastOsR) binding.activity else null
     }
-  }
 
-  private fun teardownMethodChannel() {
-    methodChannel.setMethodCallHandler(null)
-  }
+    override fun onDetachedFromActivity() {
+        activity = null
+    }
 
-  companion object {
-    private const val GYROSCOPE_CHANNEL_NAME = "com.simform.flutter_credit_card/gyroscope"
-    private const val METHOD_CHANNEL_NAME = "com.simform.flutter_credit_card"
-    private const val DEFAULT_UPDATE_INTERVAL = SensorManager.SENSOR_DELAY_NORMAL
-  }
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        activity = if (isAtLeastOsR) binding.activity else null
+    }
+
+    override fun onDetachedFromActivityForConfigChanges() {
+        activity = null
+    }
+
+    private fun initializeChannels(context: Context, messenger: BinaryMessenger) {
+        gyroscopeChannel = GyroscopeChannelImpl(context, messenger) { getViewDisplay(context) }
+    }
+
+    private fun getViewDisplay(context: Context): Display? {
+        if (isAtLeastOsR) {
+            return activity?.display
+        } else {
+            @Suppress("DEPRECATION")
+            return (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+        }
+    }
+
+    private fun disposeChannels() {
+        gyroscopeChannel?.dispose()
+        gyroscopeChannel = null
+        activity = null
+    }
 }

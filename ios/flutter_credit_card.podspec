@@ -5,14 +5,15 @@
 Pod::Spec.new do |s|
   s.name             = 'flutter_credit_card'
   s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.summary          = 'Flutter Credit Card Widget Plugin Package'
   s.description      = <<-DESC
-A new Flutter plugin project.
+A Credit Card widget package with support of entering card details, and animations like card flip
+and float.
                        DESC
-  s.homepage         = 'http://example.com'
-  s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
-  s.source           = { :path => '.' }
+  s.homepage         = 'https://github.com/simformsolutions/flutter_credit_card'
+  s.license          = { :type => 'MIT', :file => '../LICENSE' }
+  s.author           = { 'Simform Solutions' => 'developer@simform.com' }
+  s.source           = { :http => 'https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/master' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
   s.platform = :ios, '11.0'

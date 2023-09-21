@@ -5,6 +5,7 @@
 - Fixed credit card padding in RTL [#139](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/139).
 - Fixed [#138](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/138) 
   AutoValidateMode only applied to Card Number text field.
+- Added dart 3 support [#146](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/146).
 
 # [3.0.7](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.7)
 

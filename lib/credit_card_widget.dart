@@ -16,7 +16,7 @@ import 'floating_animation/floating_event.dart';
 import 'flutter_credit_card_platform_interface.dart';
 import 'glassmorphism_config.dart';
 
-const Map<CardType, String> CardTypeIconAsset = <CardType, String>{
+const Map<CardType, String> cardTypeIconAsset = <CardType, String>{
   CardType.visa: 'icons/visa.png',
   CardType.rupay: 'icons/rupay.png',
   CardType.americanExpress: 'icons/amex.png',
@@ -181,7 +181,7 @@ class CreditCardWidget extends StatefulWidget {
 
   /// floating animation enabled/disabled
   @override
-  _CreditCardWidgetState createState() => _CreditCardWidgetState();
+  State<CreditCardWidget> createState() => _CreditCardWidgetState();
 }
 
 class _CreditCardWidgetState extends State<CreditCardWidget>
@@ -441,23 +441,20 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
 
     String number = widget.cardNumber;
     if (widget.obscureCardNumber) {
-      final String stripped = number.replaceAll(RegExp(r'[^\d]'), '');
+      final String stripped = number.replaceAll(RegExp(r'\D'), '');
       if (widget.obscureInitialCardNumber && stripped.length > 4) {
         final String start = number
             .substring(0, number.length - 5)
             .trim()
             .replaceAll(RegExp(r'\d'), '*');
-        number = start + ' ' + stripped.substring(stripped.length - 4);
+        number = '$start ${stripped.substring(stripped.length - 4)}';
       } else if (stripped.length > 8) {
         final String middle = number
             .substring(4, number.length - 5)
             .trim()
             .replaceAll(RegExp(r'\d'), '*');
-        number = stripped.substring(0, 4) +
-            ' ' +
-            middle +
-            ' ' +
-            stripped.substring(stripped.length - 4);
+        number =
+            '${stripped.substring(0, 4)} $middle ${stripped.substring(stripped.length - 4)}';
       }
     }
 
@@ -889,7 +886,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       return customCardTypeIcon.first.cardImage;
     } else {
       return Image.asset(
-        CardTypeIconAsset[cardType]!,
+        cardTypeIconAsset[cardType]!,
         height: 48,
         width: 48,
         package: 'flutter_credit_card',
@@ -917,7 +914,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         case CardType.elo:
         case CardType.hipercard:
           icon = Image.asset(
-            CardTypeIconAsset[ccType]!,
+            cardTypeIconAsset[ccType]!,
             height: 48,
             width: 48,
             package: 'flutter_credit_card',
@@ -927,7 +924,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
 
         case CardType.americanExpress:
           icon = Image.asset(
-            CardTypeIconAsset[ccType]!,
+            cardTypeIconAsset[ccType]!,
             height: 48,
             width: 48,
             package: 'flutter_credit_card',
@@ -936,10 +933,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           break;
 
         default:
-          icon = Container(
-            height: 48,
-            width: 48,
-          );
+          icon = const SizedBox(height: 48, width: 48);
           isAmex = false;
           break;
       }

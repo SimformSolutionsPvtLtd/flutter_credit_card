@@ -7,7 +7,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 void main() => runApp(const MySample());
 
 class MySample extends StatefulWidget {
-  const MySample({Key? key}) : super(key: key);
+  const MySample({super.key});
 
   @override
   State<StatefulWidget> createState() => MySampleState();

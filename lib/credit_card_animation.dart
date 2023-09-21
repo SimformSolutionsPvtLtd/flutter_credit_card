@@ -4,6 +4,7 @@ class AnimationCard extends StatelessWidget {
   const AnimationCard({
     required this.child,
     required this.animation,
+    super.key,
   });
 
   final Widget child;

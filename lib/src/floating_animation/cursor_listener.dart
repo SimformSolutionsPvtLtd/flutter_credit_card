@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../utils/constants.dart';
+import '../utils/enumerations.dart';
 import 'floating_event.dart';
 
 class CursorListener extends StatefulWidget {

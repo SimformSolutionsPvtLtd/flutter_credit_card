@@ -1,6 +1,6 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'floating_animation/floating_event.dart';
+import '../floating_animation/floating_event.dart';
 import 'flutter_credit_card_method_channel.dart';
 
 abstract class FlutterCreditCardPlatform extends PlatformInterface {

@@ -1,5 +1,4 @@
-/// The type of floating event.
-enum FloatingType { pointer, gyroscope }
+import '../utils/enumerations.dart';
 
 class FloatingEvent {
   const FloatingEvent({

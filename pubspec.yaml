@@ -30,7 +30,7 @@ flutter:
         pluginClass: FlutterCreditCardPlugin
       web:
         pluginClass: FlutterCreditCardWeb
-        fileName: flutter_credit_card_web.dart
+        fileName: src/plugin/flutter_credit_card_web.dart
   assets:
     - icons/
   fonts:

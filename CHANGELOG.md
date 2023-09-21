@@ -6,6 +6,7 @@
 - Fixed [#138](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/138) 
   AutoValidateMode only applied to Card Number text field.
 - Added dart 3 support [#146](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/146).
+- Fixed package structure and improved code overall [#150](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/150).
 
 # [3.0.7](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.7)
 

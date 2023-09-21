@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:flutter/widgets.dart';
+
+import '../utils/enumerations.dart';
 
 class CustomCardTypeIcon {
   /// A model class to update card image with user defined widget for the

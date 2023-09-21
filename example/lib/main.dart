@@ -1,7 +1,6 @@
 import 'package:example/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 void main() => runApp(const MySample());

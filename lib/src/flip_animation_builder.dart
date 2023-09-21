@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AnimationCard extends StatelessWidget {
-  const AnimationCard({
+class FlipAnimationBuilder extends StatelessWidget {
+  const FlipAnimationBuilder({
     required this.child,
     required this.animation,
     super.key,
@@ -15,11 +15,10 @@ class AnimationCard extends StatelessWidget {
     return AnimatedBuilder(
       animation: animation,
       builder: (BuildContext context, Widget? child) {
-        final Matrix4 transform = Matrix4.identity();
-        transform.setEntry(3, 2, 0.001);
-        transform.rotateY(animation.value);
         return Transform(
-          transform: transform,
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.001)
+            ..rotateY(animation.value),
           alignment: Alignment.center,
           child: child,
         );

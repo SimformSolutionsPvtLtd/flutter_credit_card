@@ -4,53 +4,54 @@ import '../models/custom_card_type_icon.dart';
 import 'constants.dart';
 import 'enumerations.dart';
 
-/// This function determines the Credit Card type based on the cardPatterns
-/// and returns it.
+/// Uses the predefined prefixes from [AppConstants.cardNumPatterns] to match
+/// with the prefix of the [cardNumber] in order to detect the [CardType].
+/// Defaults to [CardType.otherBrand] if unable to detect a type.
 CardType detectCCType(String cardNumber) {
-  //Default card type is other
-  CardType cardType = CardType.otherBrand;
-
   if (cardNumber.isEmpty) {
-    return cardType;
+    return CardType.otherBrand;
   }
 
-  AppConstants.cardNumPatterns.forEach(
-    (CardType type, Set<List<String>> patterns) {
-      for (List<String> patternRange in patterns) {
-        // Remove any spaces
-        String ccPatternStr = cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
-        final int rangeLen = patternRange[0].length;
-        // Trim the Credit Card number string to match the pattern prefix length
-        if (rangeLen < cardNumber.length) {
-          ccPatternStr = ccPatternStr.substring(0, rangeLen);
-        }
+  // Remove any spaces
+  cardNumber = cardNumber.replaceAll(RegExp(r'\s+\b|\b\s'), '');
 
-        if (patternRange.length > 1) {
-          // Convert the prefix range into numbers then make sure the
-          // Credit Card num is in the pattern range.
-          // Because Strings don't have '>=' type operators
-          final int ccPrefixAsInt = int.parse(ccPatternStr);
-          final int startPatternPrefixAsInt = int.parse(patternRange[0]);
-          final int endPatternPrefixAsInt = int.parse(patternRange[1]);
-          if (ccPrefixAsInt >= startPatternPrefixAsInt &&
-              ccPrefixAsInt <= endPatternPrefixAsInt) {
-            // Found a match
-            cardType = type;
-            break;
-          }
-        } else {
-          // Just compare the single pattern prefix with the Credit Card prefix
-          if (ccPatternStr == patternRange[0]) {
-            // Found a match
-            cardType = type;
-            break;
-          }
-        }
-      }
-    },
+  final int firstDigit = int.parse(
+    cardNumber.length <= 1 ? cardNumber : cardNumber.substring(0, 1),
   );
 
-  return cardType;
+  if (!AppConstants.cardNumPatterns.containsKey(firstDigit)) {
+    return CardType.otherBrand;
+  }
+
+  final Map<List<int?>, CardType> cardNumPatternSubMap =
+      AppConstants.cardNumPatterns[firstDigit]!;
+
+  final int ccPatternNum = int.parse(cardNumber);
+
+  for (final List<int?> range in cardNumPatternSubMap.keys) {
+    int subPatternNum = ccPatternNum;
+
+    if (range.length != 2 || range.first == null) {
+      continue;
+    }
+
+    final int start = range.first!;
+    final int? end = range.last;
+
+    // Adjust the cardNumber prefix as per the length of start prefix range.
+    final int startLen = start.toString().length;
+    if (startLen < cardNumber.length) {
+      subPatternNum = int.parse(cardNumber.substring(0, startLen));
+    }
+
+    if ((end == null && subPatternNum == start) ||
+        ((subPatternNum <= (end ?? -double.maxFinite)) &&
+            subPatternNum >= start)) {
+      return cardNumPatternSubMap[range]!;
+    }
+  }
+
+  return CardType.otherBrand;
 }
 
 /// Returns the icon for the card type if detected else will return a

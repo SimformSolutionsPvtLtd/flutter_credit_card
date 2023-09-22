@@ -528,7 +528,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
               children: <Widget>[
                 if (widget.isChipVisible)
                   Padding(
-                    padding: const EdgeInsets.only(left: 16),
+                    padding: const EdgeInsetsDirectional.only(start: 16),
                     child: Image.asset(
                       'icons/chip.png',
                       package: 'flutter_credit_card',
@@ -542,7 +542,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           const SizedBox(height: 10),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 16),
+              padding: const EdgeInsetsDirectional.only(start: 16),
               child: Text(
                 widget.cardNumber.isEmpty ? 'XXXX XXXX XXXX XXXX' : number,
                 style: widget.textStyle ?? defaultTextStyle,
@@ -552,7 +552,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.only(left: 16),
+              padding: const EdgeInsetsDirectional.only(start: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,

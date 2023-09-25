@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
-import 'floating_animation/float_config.dart';
+import 'floating_animation/floating_config.dart';
 import 'floating_animation/floating_controller.dart';
 import 'floating_animation/glare_effect_widget.dart';
 import 'glassmorphism_config.dart';
@@ -42,7 +42,7 @@ class CardBackground extends StatelessWidget {
   final BoxBorder? border;
   final FloatingController? floatingController;
   final double? glarePosition;
-  final FloatShadowConfig? shadowConfig;
+  final FloatingShadowConfig? shadowConfig;
 
   @override
   Widget build(BuildContext context) {

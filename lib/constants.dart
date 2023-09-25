@@ -15,11 +15,10 @@ class AppConstants {
 
   /// Color constants
   static const Color defaultGlareColor = Color(0xffFFFFFF);
-  static const Color defaultShadowColor = Color(0xff000000);
+  static const Color floatingShadowColor = Color(0x4D000000);
 
   static const double defaultMaximumAngle = pi / 10;
   static const double minBlurRadius = 10;
-  static const double minShadowOpacity = 0.3;
 
   /// Gyroscope channel constants
   static const String gyroMethodChannelName = 'com.simform.flutter_credit_card';

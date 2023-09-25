@@ -19,6 +19,7 @@ A Flutter package allows you to easily implement the Credit card's UI easily wit
             </figure>
         </td>
     </tr>
+<tr><td></td></tr>
     <tr>
         <td align="center">
             <figure>
@@ -28,6 +29,7 @@ A Flutter package allows you to easily implement the Credit card's UI easily wit
             </figure>
         </td>
     </tr>
+<tr><td></td></tr>
     <tr>
         <td align="center">
             <figure>
@@ -82,10 +84,10 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       cardBgColor: Colors.black87,
       glassmorphismConfig: Glassmorphism.defaultConfig(),
       enableFloatingCard: true,
-      floatConfig: FloatConfig(
+      floatingConfig: FloatingConfig(
         isGlareEnabled: true,
         isShadowEnabled: true,
-        shadowConfig: FloatShadowConfig.preset(),
+        shadowConfig: FloatingShadowConfig(),
       ),
       backgroundImage: 'assets/card_bg.png',
       backgroundNetworkImage: 'https://www.xyz.com/card_bg.png',
@@ -152,39 +154,23 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 ```    
 
 *Floating Card*
-> NOTE: Currently the floating card animation is not supported on mobile platform browsers.
 
-Enable floating card animation by passing `true` to `enableFloatingCard` parameter (default).
-
-You can pass `FloatConfig` to the `floatConfig` parameter to configure various things like 
-whether to enable or disable the glare or the shadow associated with the floating animation.
-
-The `FloatConfig` also supports `shadowConfig` that takes `FloatShadowConfig` to configure the 
-shadow that appears beneath the card when floating animation is turned on. 
-
-Passing no value to `shadowConfig` would use `FloatShadowConfig.preset()`, and `floatConfig` 
-would use `FloatConfig.preset()` as default configuration.
-
-+ Default Shadow Configuration
++ Default Configuration
 ```dart
     CreditCardWidget(
         enableFloatingCard: true,
-        floatConfig: FloatConfig(
-            isGlareEnabled: true,
-            isShadowEnabled: true,
-            shadowConfig: FloatShadowConfig.preset(),
         ),
     );
 ```    
 
-+ Custom Shadow Configuration
++ Custom Configuration
 ```dart
     CreditCardWidget(
         enableFloatingCard: true,
-        floatConfig: FloatConfig(
+        floatingConfig: FloatingConfig(
             isGlareEnabled: true,
             isShadowEnabled: true,
-            shadowConfig: FloatShadowConfig(
+            shadowConfig: FloatingShadowConfig(
               offset: Offset(10, 10),
               color: Colors.black84,
               blurRadius: 15,
@@ -192,6 +178,7 @@ would use `FloatConfig.preset()` as default configuration.
         ),
     );
 ```    
+> NOTE: Currently the floating card animation is not supported on mobile platform browsers.
 
 4.  Adding CreditCardForm
 

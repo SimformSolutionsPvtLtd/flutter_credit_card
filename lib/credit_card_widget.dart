@@ -10,7 +10,7 @@ import 'credit_card_brand.dart';
 import 'custom_card_type_icon.dart';
 import 'extension.dart';
 import 'floating_animation/cursor_listener.dart';
-import 'floating_animation/float_config.dart';
+import 'floating_animation/floating_config.dart';
 import 'floating_animation/floating_controller.dart';
 import 'floating_animation/floating_event.dart';
 import 'flutter_credit_card_platform_interface.dart';
@@ -61,7 +61,7 @@ class CreditCardWidget extends StatefulWidget {
     this.backCardBorder,
     this.obscureInitialCardNumber = false,
     this.enableFloatingCard = false,
-    this.floatConfig,
+    this.floatingConfig = const FloatingConfig(),
     super.key,
   });
 
@@ -177,7 +177,7 @@ class CreditCardWidget extends StatefulWidget {
 
   /// The config for making the card float as per the movement of device or
   /// mouse pointer.
-  final FloatConfig? floatConfig;
+  final FloatingConfig floatingConfig;
 
   /// floating animation enabled/disabled
   @override
@@ -195,11 +195,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   bool isGestureUpdate = false;
   bool isAmex = false;
 
-  late FloatConfig floatConfig = widget.floatConfig ?? FloatConfig.preset();
-
-  late FloatShadowConfig? floatShadowConfig =
-      widget.enableFloatingCard && floatConfig.isShadowEnabled
-          ? floatConfig.shadowConfig ?? FloatShadowConfig.preset()
+  late FloatingShadowConfig? floatingShadowConfig =
+      widget.enableFloatingCard && widget.floatingConfig.isShadowEnabled
+          ? widget.floatingConfig.shadowConfig
           : null;
 
   final FloatingController floatController = FloatingController.predefined();
@@ -216,7 +214,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// Gives the radians pivoting opposite to the device movement with a center
   /// anchor point.
   double? get glarePosition => widget.enableFloatingCard &&
-          floatConfig.isGlareEnabled
+          widget.floatingConfig.isGlareEnabled
       ? pi / 4 + (floatController.y / floatController.maximumAngle * (2 * pi))
       : null;
 
@@ -256,11 +254,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       _gradientSetup();
     }
     if (oldWidget.enableFloatingCard != widget.enableFloatingCard ||
-        oldWidget.floatConfig != widget.floatConfig) {
-      floatConfig = widget.floatConfig ?? FloatConfig.preset();
-      floatShadowConfig =
-          widget.enableFloatingCard && floatConfig.isShadowEnabled
-              ? floatConfig.shadowConfig ?? FloatShadowConfig.preset()
+        oldWidget.floatingConfig != widget.floatingConfig) {
+      floatingShadowConfig =
+          widget.enableFloatingCard && widget.floatingConfig.isShadowEnabled
+              ? widget.floatingConfig.shadowConfig
               : null;
       _handleFloatingAnimationSetup();
     }
@@ -504,7 +501,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       width: widget.width,
       padding: widget.padding,
       border: widget.frontCardBorder,
-      shadowConfig: floatShadowConfig,
+      shadowConfig: floatingShadowConfig,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -661,7 +658,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       width: widget.width,
       padding: widget.padding,
       border: widget.backCardBorder,
-      shadowConfig: floatShadowConfig,
+      shadowConfig: floatingShadowConfig,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -405,7 +405,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
               child: Text(
-                widget.cardNumber.isEmpty ? 'XXXX XXXX XXXX XXXX' : number,
+                widget.cardNumber.isEmpty ? 'XXXX XXXX XXXX XXXX XXX' : number,
                 style: widget.textStyle ?? defaultTextStyle,
               ),
             ),
@@ -649,6 +649,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     CardType.hipercard: <List<String>>{
       <String>['606282'],
     },
+    CardType.verve: <List<String>>{
+      <String>['5061'],
+    }
   };
 
   /// This function determines the Credit Card type based on the cardPatterns
@@ -755,8 +758,12 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           break;
 
         case CardType.verve:
-          icon = Image.asset(CardTypeIconAsset[ccType]!,
-              height: 48, width: 48, package: 'flutter_credit_card');
+          icon = Image.asset(
+            CardTypeIconAsset[ccType]!,
+            height: 48,
+            width: 48,
+            package: 'flutter_credit_card',
+          );
           isAmex = false;
           break;
 

@@ -165,7 +165,7 @@ class CreditCardForm extends StatefulWidget {
   final bool disableCardNumberAutoFillHints;
 
   @override
-  _CreditCardFormState createState() => _CreditCardFormState();
+  State<CreditCardForm> createState() => _CreditCardFormState();
 }
 
 class _CreditCardFormState extends State<CreditCardForm> {
@@ -305,7 +305,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                           if (_expiryDateController.text
                               .startsWith(RegExp('[2-9]'))) {
                             _expiryDateController.text =
-                                '0' + _expiryDateController.text;
+                                '0${_expiryDateController.text}';
                           }
                           setState(() {
                             expiryDate = _expiryDateController.text;
@@ -369,9 +369,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                         controller: _cvvCodeController,
                         cursorColor: widget.cursorColor ?? themeColor,
                         onEditingComplete: () {
-                          if (widget.isHolderNameVisible)
+                          if (widget.isHolderNameVisible) {
                             FocusScope.of(context).requestFocus(cardHolderNode);
-                          else {
+                          } else {
                             FocusScope.of(context).unfocus();
                             onCreditCardModelChange(creditCardModel);
                             widget.onFormComplete?.call();

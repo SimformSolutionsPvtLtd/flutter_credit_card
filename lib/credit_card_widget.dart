@@ -25,6 +25,7 @@ const Map<CardType, String> cardTypeIconAsset = <CardType, String>{
   CardType.discover: 'icons/discover.png',
   CardType.elo: 'icons/elo.png',
   CardType.hipercard: 'icons/hipercard.png',
+  CardType.verve: 'icons/verve.png',
 };
 
 class CreditCardWidget extends StatefulWidget {
@@ -827,6 +828,9 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     CardType.hipercard: <List<String>>{
       <String>['606282'],
     },
+    CardType.verve: <List<String>>{
+      <String>['5061'],
+    }
   };
 
   /// This function determines the Credit Card type based on the cardPatterns
@@ -930,6 +934,16 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
             package: 'flutter_credit_card',
           );
           isAmex = true;
+          break;
+
+        case CardType.verve:
+          icon = Image.asset(
+            CardTypeIconAsset[ccType]!,
+            height: 48,
+            width: 48,
+            package: 'flutter_credit_card',
+          );
+          isAmex = false;
           break;
 
         default:
@@ -1079,4 +1093,5 @@ enum CardType {
   discover,
   elo,
   hipercard,
+  verve
 }

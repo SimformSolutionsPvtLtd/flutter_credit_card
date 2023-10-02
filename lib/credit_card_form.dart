@@ -180,7 +180,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
   late CreditCardModel creditCardModel;
 
   final MaskedTextController _cardNumberController =
-      MaskedTextController(mask: '0000 0000 0000 0000');
+      MaskedTextController(mask: '0000 0000 0000 0000 000');
   final TextEditingController _expiryDateController =
       MaskedTextController(mask: '00/00');
   final TextEditingController _cardHolderNameController =
@@ -281,7 +281,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   validator: widget.cardNumberValidator ??
                       (String? value) {
                         // Validate less that 13 digits +3 white spaces
-                        if (value!.isEmpty || value.length < 16) {
+                        if (value!.isEmpty || value.length < 19) {
                           return widget.numberValidationMessage;
                         }
                         return null;

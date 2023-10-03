@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import '../constants.dart';
+import '../utils/constants.dart';
 
 class FloatingConfig {
   /// Configuration for making the card float as per the movement of device or

@@ -1,12 +1,13 @@
-import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
 import 'floating_animation/floating_config.dart';
 import 'floating_animation/floating_controller.dart';
 import 'floating_animation/glare_effect_widget.dart';
-import 'glassmorphism_config.dart';
+import 'models/glassmorphism_config.dart';
+import 'utils/constants.dart';
+import 'utils/extensions.dart';
 
 class CardBackground extends StatelessWidget {
   const CardBackground({
@@ -24,9 +25,7 @@ class CardBackground extends StatelessWidget {
     this.shadowConfig,
     super.key,
   }) : assert(
-          (backgroundImage == null && backgroundNetworkImage == null) ||
-              (backgroundImage == null && backgroundNetworkImage != null) ||
-              (backgroundImage != null && backgroundNetworkImage == null),
+          backgroundImage == null || backgroundNetworkImage == null,
           'You can\'t use network image & asset image at same time as card'
           ' background',
         );
@@ -54,14 +53,20 @@ class CardBackground extends StatelessWidget {
         final double screenWidth = constraints.maxWidth.isInfinite
             ? screenSize.width
             : constraints.maxWidth;
-        final double screenHeight = screenSize.height;
+        final double implicitHeight = orientation.isPortrait
+            ? ((width ?? screenWidth) - (padding * 2)) *
+                AppConstants.creditCardAspectRatio
+            : screenSize.height / 2;
         return Stack(
           alignment: Alignment.center,
           children: <Widget>[
             Container(
               margin: EdgeInsets.all(padding),
+              width: width ?? screenWidth,
+              height: height ?? implicitHeight,
+              clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: AppConstants.creditCardBorderRadius,
                 boxShadow: shadowConfig != null && floatingController != null
                     ? <BoxShadow>[
                         BoxShadow(
@@ -90,39 +95,26 @@ class CardBackground extends StatelessWidget {
                           )
                         : null,
               ),
-              width: width ?? screenWidth,
-              height: height ??
-                  (orientation == Orientation.portrait
-                      ? (((width ?? screenWidth) - (padding * 2)) *
-                          AppConstants.creditCardAspectRatio)
-                      : screenHeight / 2),
-              child: ClipRRect(
-                clipBehavior: Clip.hardEdge,
-                borderRadius: BorderRadius.circular(8),
-                child: GlareEffectWidget(
-                  border: border,
-                  glarePosition: glarePosition,
-                  child: glassmorphismConfig == null
-                      ? child
-                      : BackdropFilter(
-                          filter: ui.ImageFilter.blur(
-                            sigmaX: glassmorphismConfig!.blurX,
-                            sigmaY: glassmorphismConfig!.blurY,
-                          ),
-                          child: child,
+              child: GlareEffectWidget(
+                border: border,
+                glarePosition: glarePosition,
+                child: glassmorphismConfig == null
+                    ? child
+                    : BackdropFilter(
+                        filter: ImageFilter.blur(
+                          sigmaX: glassmorphismConfig!.blurX,
+                          sigmaY: glassmorphismConfig!.blurY,
                         ),
-                ),
+                        child: child,
+                      ),
               ),
             ),
             if (glassmorphismConfig != null)
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(padding),
                 child: _GlassmorphicBorder(
                   width: width ?? screenWidth,
-                  height: height ??
-                      (orientation == Orientation.portrait
-                          ? ((screenWidth - 32) * 0.5714)
-                          : screenHeight / 2),
+                  height: height ?? implicitHeight,
                 ),
               ),
           ],
@@ -148,7 +140,7 @@ class _GlassmorphicBorder extends StatelessWidget {
       size: MediaQuery.of(context).size,
       child: Container(
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: AppConstants.creditCardBorderRadius,
         ),
         width: width,
         height: height,

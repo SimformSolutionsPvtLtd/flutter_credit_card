@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-import 'floating_animation/floating_event.dart';
+import '../floating_animation/floating_event.dart';
 import 'flutter_credit_card_platform_interface.dart';
 
 /// A web implementation of the FlutterCreditCardPlatform of the

@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 
-import 'constants.dart';
-import 'floating_animation/floating_event.dart';
+import '../floating_animation/floating_event.dart';
+import '../utils/constants.dart';
+import '../utils/enumerations.dart';
 import 'flutter_credit_card_platform_interface.dart';
 
 /// An implementation of [FlutterCreditCardPlatform] that uses method channels.

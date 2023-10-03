@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/rendering.dart';
-import 'package:flutter_credit_card/constants.dart';
 
+import '../utils/constants.dart';
 import 'floating_event.dart';
 
 class FloatingController {

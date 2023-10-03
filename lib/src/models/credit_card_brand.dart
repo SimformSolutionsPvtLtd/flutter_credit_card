@@ -1,4 +1,4 @@
-import 'package:flutter_credit_card/flutter_credit_card.dart';
+import '../utils/enumerations.dart';
 
 class CreditCardBrand {
   CreditCardBrand(this.brandName);

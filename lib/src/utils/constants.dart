@@ -60,69 +60,70 @@ class AppConstants {
   static const String initiateMethod = 'initiateEvents';
   static const String cancelMethod = 'cancelEvents';
 
-  /// Credit Card prefix patterns as of March 2019
-  /// A [List<String>] represents a range.
-  /// i.e. ['51', '55'] represents the range of cards starting with '51' to those starting with '55'
-  static const Map<CardType, Set<List<String>>> cardNumPatterns =
-      <CardType, Set<List<String>>>{
-    CardType.visa: <List<String>>{
-      <String>['4'],
+  // TODO(aditya): Switch to records instead of list as key for the inner map. For ex (start: 655021, end: 655058).
+  /// Credit Card number prefix patterns as of March 2019.
+  ///
+  /// The key of outer map divides all the available prefixes using the
+  /// first digit of the credit card number, decreasing the number of
+  /// prefixes to loop through.
+  ///
+  /// The key of inner [Map] is a list of length 2 that represents range of the
+  /// number prefix (i.e. [655021, 655058] matches any number prefix that falls
+  /// under range of 655021 and 655058 inclusive), and the value is the card
+  /// type that range of number prefix is for.
+  ///
+  /// Make sure to keep the keys sorted in descending order starting from the
+  /// first digit of the start range.
+  static const Map<int, Map<List<int?>, CardType>> cardNumPatterns =
+      <int, Map<List<int?>, CardType>>{
+    6: <List<int?>, CardType>{
+      <int?>[655021, 655058]: CardType.elo,
+      <int?>[655000, 655019]: CardType.elo,
+      <int?>[6521, 6522]: CardType.rupay,
+      <int?>[651652, 651679]: CardType.elo,
+      <int?>[650901, 650978]: CardType.elo,
+      <int?>[650720, 650727]: CardType.elo,
+      <int?>[650700, 650718]: CardType.elo,
+      <int?>[650541, 650598]: CardType.elo,
+      <int?>[650485, 650538]: CardType.elo,
+      <int?>[650405, 650439]: CardType.elo,
+      <int?>[650035, 650051]: CardType.elo,
+      <int?>[650031, 650033]: CardType.elo,
+      <int?>[65, null]: CardType.discover,
+      <int?>[644, 649]: CardType.discover,
+      <int?>[636368, null]: CardType.elo,
+      <int?>[636297, null]: CardType.elo,
+      <int?>[627780, null]: CardType.elo,
+      <int?>[622126, 622925]: CardType.discover,
+      <int?>[62, null]: CardType.unionpay,
+      <int?>[606282, null]: CardType.hipercard,
+      <int?>[6011, null]: CardType.discover,
+      <int?>[60, null]: CardType.rupay,
     },
-    CardType.rupay: <List<String>>{
-      <String>['60'],
-      <String>['6521'],
-      <String>['6522'],
+    5: <List<int?>, CardType>{
+      <int?>[51, 55]: CardType.mastercard,
+      <int?>[509000, 509999]: CardType.elo,
+      <int?>[506699, 506778]: CardType.elo,
+      <int?>[504175, null]: CardType.elo,
     },
-    CardType.americanExpress: <List<String>>{
-      <String>['34'],
-      <String>['37'],
+    4: <List<int?>, CardType>{
+      <int?>[457631, 457632]: CardType.elo,
+      <int?>[457393, null]: CardType.elo,
+      <int?>[451416, null]: CardType.elo,
+      <int?>[438935, null]: CardType.elo,
+      <int?>[431274, null]: CardType.elo,
+      <int?>[401178, 401179]: CardType.elo,
+      <int?>[4, null]: CardType.visa,
     },
-    CardType.unionpay: <List<String>>{
-      <String>['62'],
+    3: <List<int?>, CardType>{
+      <int?>[34, 37]: CardType.americanExpress,
     },
-    CardType.discover: <List<String>>{
-      <String>['6011'],
-      <String>['622126', '622925'], // China UnionPay co-branded
-      <String>['644', '649'],
-      <String>['65']
-    },
-    CardType.mastercard: <List<String>>{
-      <String>['51', '55'],
-      <String>['2221', '2229'],
-      <String>['223', '229'],
-      <String>['23', '26'],
-      <String>['270', '271'],
-      <String>['2720'],
-    },
-    CardType.elo: <List<String>>{
-      <String>['401178'],
-      <String>['401179'],
-      <String>['438935'],
-      <String>['457631'],
-      <String>['457632'],
-      <String>['431274'],
-      <String>['451416'],
-      <String>['457393'],
-      <String>['504175'],
-      <String>['506699', '506778'],
-      <String>['509000', '509999'],
-      <String>['627780'],
-      <String>['636297'],
-      <String>['636368'],
-      <String>['650031', '650033'],
-      <String>['650035', '650051'],
-      <String>['650405', '650439'],
-      <String>['650485', '650538'],
-      <String>['650541', '650598'],
-      <String>['650700', '650718'],
-      <String>['650720', '650727'],
-      <String>['650901', '650978'],
-      <String>['651652', '651679'],
-      <String>['655000', '655019'],
-      <String>['655021', '655058']
-    },
-    CardType.hipercard: <List<String>>{
-      <String>['606282'],
+    2: <List<int?>, CardType>{
+      <int?>[2720, null]: CardType.mastercard,
+      <int?>[270, 271]: CardType.mastercard,
+      <int?>[23, 26]: CardType.mastercard,
+      <int?>[223, 229]: CardType.mastercard,
+      <int?>[2221, 2229]: CardType.mastercard,
     },
   };
 

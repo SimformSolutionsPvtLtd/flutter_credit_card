@@ -41,6 +41,11 @@ A Flutter package allows you to easily implement the Credit card's UI easily wit
     </tr>
 </table>
 
+## Migration guide for Version 4.0.0
+- The `themeColor`, `textColor`, and `cursorColor` properties have been removed from `CreditCardForm` due to changes in how it detects and applies application themes. Please check out the example app to learn how to apply those using `Theme`.
+- The `cardNumberDecoration`, `expiryDateDecoration`, `cvvCodeDecoration`, and `cardHolderDecoration` properties are moved to the newly added `InputDecoration` class that also has `textStyle` properties for all the textFields of the `CreditCardForm`.
+
+
 ## Installing
 
 1.  Add dependency to `pubspec.yaml`
@@ -194,9 +199,6 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       expiryDateKey: expiryDateKey,
       cardHolderKey: cardHolderKey,
       onCreditCardModelChange: (CreditCardModel data) {}, // Required
-      themeColor: Colors.black, // Required
-      textColor: Colors.white,
-      cursorColor: Colors.blue,
       obscureCvv: true, 
       obscureNumber: true,
       isHolderNameVisible: true,
@@ -215,24 +217,42 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       },
       autovalidateMode: AutovalidateMode.always,
       disableCardNumberAutoFillHints: false,
-      cardNumberDecoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Number',
-        hintText: 'XXXX XXXX XXXX XXXX',
-      ),
-      expiryDateDecoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Expired Date',
-        hintText: 'XX/XX',
-      ),
-      cvvCodeDecoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'CVV',
-        hintText: 'XXX',
-      ),
-      cardHolderDecoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Card Holder',
+      inputConfiguration: const InputConfiguration(
+        cardNumberDecoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Number',
+          hintText: 'XXXX XXXX XXXX XXXX',
+        ),
+        expiryDateDecoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Expired Date',
+          hintText: 'XX/XX',
+        ),
+        cvvCodeDecoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'CVV',
+          hintText: 'XXX',
+        ),
+        cardHolderDecoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Card Holder',
+        ),
+        cardNumberTextStyle: TextStyle(
+          fontSize: 10,
+          color: Colors.black,
+        ),
+        cardHolderTextStyle: TextStyle(
+          fontSize: 10,
+          color: Colors.black,
+        ),
+        expiryDateTextStyle: TextStyle(
+          fontSize: 10,
+          color: Colors.black,
+        ),
+        cvvCodeTextStyle: TextStyle(
+          fontSize: 10,
+          color: Colors.black,
+        ),
       ),
     ),
 ```

@@ -16,21 +16,7 @@ class CreditCardForm extends StatefulWidget {
     required this.formKey,
     this.obscureCvv = false,
     this.obscureNumber = false,
-    this.cardHolderDecoration = const InputDecoration(
-      labelText: AppConstants.cardHolder,
-    ),
-    this.cardNumberDecoration = const InputDecoration(
-      labelText: AppConstants.cardNumber,
-      hintText: AppConstants.sixteenX,
-    ),
-    this.expiryDateDecoration = const InputDecoration(
-      labelText: AppConstants.expiryDate,
-      hintText: AppConstants.expiryDateShort,
-    ),
-    this.cvvCodeDecoration = const InputDecoration(
-      labelText: AppConstants.cvv,
-      hintText: AppConstants.threeX,
-    ),
+    this.inputConfiguration = const InputConfiguration(),
     this.cardNumberKey,
     this.cardHolderKey,
     this.expiryDateKey,
@@ -119,17 +105,8 @@ class CreditCardForm extends StatefulWidget {
   /// A FormFieldState key for cvv code text field.
   final GlobalKey<FormFieldState<String>>? cvvCodeKey;
 
-  /// Provides decoration to card number text field.
-  final InputDecoration cardNumberDecoration;
-
-  /// Provides decoration to card holder text field.
-  final InputDecoration cardHolderDecoration;
-
-  /// Provides decoration to expiry date text field.
-  final InputDecoration expiryDateDecoration;
-
-  /// Provides decoration to cvv code text field.
-  final InputDecoration cvvCodeDecoration;
+  /// Provides [InputDecoration] and [TextStyle] to [CreditCardForm]'s [TextField].
+  final InputConfiguration inputConfiguration;
 
   /// Used to configure the auto validation of [FormField] and [Form] widgets.
   final AutovalidateMode? autovalidateMode;
@@ -221,7 +198,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 onChanged: _onCardNumberChange,
                 onEditingComplete: () =>
                     FocusScope.of(context).requestFocus(expiryDateNode),
-                decoration: widget.cardNumberDecoration,
+                decoration: widget.inputConfiguration.cardNumberDecoration,
+                style: widget.inputConfiguration.cardNumberTextStyle,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
                 autofillHints: widget.disableCardNumberAutoFillHints
@@ -251,7 +229,9 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       focusNode: expiryDateNode,
                       onEditingComplete: () =>
                           FocusScope.of(context).requestFocus(cvvFocusNode),
-                      decoration: widget.expiryDateDecoration,
+                      decoration:
+                          widget.inputConfiguration.expiryDateDecoration,
+                      style: widget.inputConfiguration.expiryDateTextStyle,
                       autovalidateMode: widget.autovalidateMode,
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
@@ -279,7 +259,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       focusNode: cvvFocusNode,
                       controller: _cvvCodeController,
                       onEditingComplete: _onCvvEditComplete,
-                      decoration: widget.cvvCodeDecoration,
+                      decoration: widget.inputConfiguration.cvvCodeDecoration,
+                      style: widget.inputConfiguration.cvvCodeTextStyle,
                       keyboardType: TextInputType.number,
                       autovalidateMode: widget.autovalidateMode,
                       textInputAction: widget.isHolderNameVisible
@@ -310,7 +291,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 controller: _cardHolderNameController,
                 onChanged: _onCardHolderNameChange,
                 focusNode: cardHolderNode,
-                decoration: widget.cardHolderDecoration,
+                decoration: widget.inputConfiguration.cardHolderDecoration,
+                style: widget.inputConfiguration.cardHolderTextStyle,
                 keyboardType: TextInputType.text,
                 autovalidateMode: widget.autovalidateMode,
                 textInputAction: TextInputAction.done,

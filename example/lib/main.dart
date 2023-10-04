@@ -40,23 +40,51 @@ class MySampleState extends State<MySample> {
       debugShowCheckedModeBanner: false,
       themeMode: isLightTheme ? ThemeMode.light : ThemeMode.dark,
       theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.white,
-        scaffoldBackgroundColor: Colors.black,
+        textTheme: const TextTheme(
+          // Text style for text fields' input.
+          titleMedium: TextStyle(color: Colors.black, fontSize: 18),
+        ),
+        colorScheme: ColorScheme.fromSeed(
+          brightness: Brightness.light,
+          seedColor: Colors.white,
+          background: Colors.black,
+          // Defines colors like cursor color of the text fields.
+          primary: Colors.black,
+        ),
+        // Decoration theme for the text fields.
+        inputDecorationTheme: InputDecorationTheme(
+          hintStyle: const TextStyle(color: Colors.black),
+          labelStyle: const TextStyle(color: Colors.black),
+          focusedBorder: border,
+          enabledBorder: border,
+        ),
       ),
       darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.black,
-        scaffoldBackgroundColor: Colors.white,
+        textTheme: const TextTheme(
+          // Text style for text fields' input.
+          titleMedium: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+        colorScheme: ColorScheme.fromSeed(
+          brightness: Brightness.dark,
+          seedColor: Colors.black,
+          background: Colors.white,
+          // Defines colors like cursor color of the text fields.
+          primary: Colors.white,
+        ),
+        // Decoration theme for the text fields.
+        inputDecorationTheme: InputDecorationTheme(
+          hintStyle: const TextStyle(color: Colors.white),
+          labelStyle: const TextStyle(color: Colors.white),
+          focusedBorder: border,
+          enabledBorder: border,
+        ),
       ),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Builder(
           builder: (BuildContext context) {
-            final Color bgColor = Theme.of(context).scaffoldBackgroundColor;
             return Container(
               decoration: BoxDecoration(
-                color: bgColor,
                 image: DecorationImage(
                   image: ExactAssetImage(
                     isLightTheme ? 'assets/bg-light.png' : 'assets/bg-dark.png',
@@ -128,37 +156,19 @@ class MySampleState extends State<MySample> {
                               isExpiryDateVisible: true,
                               cardHolderName: cardHolderName,
                               expiryDate: expiryDate,
-                              themeColor: Theme.of(context).primaryColor,
-                              textColor: bgColor,
-                              cardNumberDecoration: InputDecoration(
+                              cardNumberDecoration: const InputDecoration(
                                 labelText: 'Number',
                                 hintText: 'XXXX XXXX XXXX XXXX',
-                                hintStyle: TextStyle(color: bgColor),
-                                labelStyle: TextStyle(color: bgColor),
-                                focusedBorder: border,
-                                enabledBorder: border,
                               ),
-                              expiryDateDecoration: InputDecoration(
-                                hintStyle: TextStyle(color: bgColor),
-                                labelStyle: TextStyle(color: bgColor),
-                                focusedBorder: border,
-                                enabledBorder: border,
+                              expiryDateDecoration: const InputDecoration(
                                 labelText: 'Expired Date',
                                 hintText: 'XX/XX',
                               ),
-                              cvvCodeDecoration: InputDecoration(
-                                hintStyle: TextStyle(color: bgColor),
-                                labelStyle: TextStyle(color: bgColor),
-                                focusedBorder: border,
-                                enabledBorder: border,
+                              cvvCodeDecoration: const InputDecoration(
                                 labelText: 'CVV',
                                 hintText: 'XXX',
                               ),
-                              cardHolderDecoration: InputDecoration(
-                                hintStyle: TextStyle(color: bgColor),
-                                labelStyle: TextStyle(color: bgColor),
-                                focusedBorder: border,
-                                enabledBorder: border,
+                              cardHolderDecoration: const InputDecoration(
                                 labelText: 'Card Holder',
                               ),
                               onCreditCardModelChange: onCreditCardModelChange,
@@ -170,10 +180,7 @@ class MySampleState extends State<MySample> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  const Text(
-                                    'Glassmorphism',
-                                    style: TextStyle(fontSize: 18),
-                                  ),
+                                  const Text('Glassmorphism'),
                                   const Spacer(),
                                   Switch(
                                     value: useGlassMorphism,
@@ -193,10 +200,7 @@ class MySampleState extends State<MySample> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  const Text(
-                                    'Card Image',
-                                    style: TextStyle(fontSize: 18),
-                                  ),
+                                  const Text('Card Image'),
                                   const Spacer(),
                                   Switch(
                                     value: useBackgroundImage,
@@ -216,10 +220,7 @@ class MySampleState extends State<MySample> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  const Text(
-                                    'Floating Card',
-                                    style: TextStyle(fontSize: 18),
-                                  ),
+                                  const Text('Floating Card'),
                                   const Spacer(),
                                   Switch(
                                     value: useFloatingAnimation,

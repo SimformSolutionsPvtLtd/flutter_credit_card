@@ -164,7 +164,6 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
 ```dart
     CreditCardWidget(
         enableFloatingCard: true,
-        ),
     );
 ```    
 

@@ -8,10 +8,14 @@
 - Added dart 3 support [#146](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/146).
 - Fixed package structure and improved code overall [#150](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/150).
 - Fixed and improved card type detection logic [#151](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/151).
-- (Breaking Change) Fixed [#136](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/136)
+- [BREAKING] Fixed [#136](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/136)
   Application theme not applied to `CreditCardForm`. 
-   Removed `themeColor`, `textColor`, `cursorColor` from `CreditCardForm`. You can check example app
-   to know how to apply those using `Theme`.
+  - Removed `themeColor`, `textColor`, `cursorColor` from `CreditCardForm`. You can check example app
+  to know how to apply those using `Theme`. 
+- [BREAKING] Added `InputDecoration` class [#153](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/153).
+  - The `cardNumberDecoration`, `expiryDateDecoration`, `cvvCodeDecoration`, and `cardHolderDecoration`
+     properties are moved to the newly added `InputDecoration` class that also has `textStyle` properties
+     for all the textFields of the `CreditCardForm`.
 
 # [3.0.7](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/3.0.7)
 

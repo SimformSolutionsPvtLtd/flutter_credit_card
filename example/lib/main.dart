@@ -156,20 +156,22 @@ class MySampleState extends State<MySample> {
                               isExpiryDateVisible: true,
                               cardHolderName: cardHolderName,
                               expiryDate: expiryDate,
-                              cardNumberDecoration: const InputDecoration(
-                                labelText: 'Number',
-                                hintText: 'XXXX XXXX XXXX XXXX',
-                              ),
-                              expiryDateDecoration: const InputDecoration(
-                                labelText: 'Expired Date',
-                                hintText: 'XX/XX',
-                              ),
-                              cvvCodeDecoration: const InputDecoration(
-                                labelText: 'CVV',
-                                hintText: 'XXX',
-                              ),
-                              cardHolderDecoration: const InputDecoration(
-                                labelText: 'Card Holder',
+                              inputConfiguration: const InputConfiguration(
+                                cardNumberDecoration: InputDecoration(
+                                  labelText: 'Number',
+                                  hintText: 'XXXX XXXX XXXX XXXX',
+                                ),
+                                expiryDateDecoration: InputDecoration(
+                                  labelText: 'Expired Date',
+                                  hintText: 'XX/XX',
+                                ),
+                                cvvCodeDecoration: InputDecoration(
+                                  labelText: 'CVV',
+                                  hintText: 'XXX',
+                                ),
+                                cardHolderDecoration: InputDecoration(
+                                  labelText: 'Card Holder',
+                                ),
                               ),
                               onCreditCardModelChange: onCreditCardModelChange,
                             ),

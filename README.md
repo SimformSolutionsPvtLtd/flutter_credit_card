@@ -15,7 +15,7 @@ A Flutter package allows you to easily implement the Credit card's UI easily wit
             <figure>
                 <figcaption><b>Glassmorphism and Card Background</b></figcaption>
                 <hr/>
-                <img src="https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/preview.gif" alt="The example app showing credit card widget" width="227"/>
+                <img src="https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_credit_card/master/readme_assets/preview.gif" alt="The example app showing credit card widget" width="227"/>
             </figure>
         </td>
     </tr>
@@ -25,7 +25,7 @@ A Flutter package allows you to easily implement the Credit card's UI easily wit
             <figure>
                 <figcaption><b>Floating Card on Mobile</b></figcaption>
                 <hr/>
-                <img src="https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/credit_card_float_preview.gif" alt="The example app showing card floating animation in mobile" width="227"/>
+                <img src="https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_credit_card/master/readme_assets/credit_card_float_preview.gif" alt="The example app showing card floating animation in mobile" width="227"/>
             </figure>
         </td>
     </tr>
@@ -35,13 +35,13 @@ A Flutter package allows you to easily implement the Credit card's UI easily wit
             <figure>
                 <figcaption><b>Floating Card on Web</b></figcaption>
                 <hr/>
-                <img src="https://github.com/simformsolutions/flutter_credit_card/blob/master/readme_assets/credit_card_float_cursor_preview.gif" alt="The example app showing card floating animation in web" width="227"/>
+                <img src="https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_credit_card/master/readme_assets/credit_card_float_cursor_preview.gif" alt="The example app showing card floating animation in web" width="227"/>
             </figure>
         </td>
     </tr>
 </table>
 
-## Migration guide for Version 4.0.0
+## Migration guide for Version 4.x.x
 - The `themeColor`, `textColor`, and `cursorColor` properties have been removed from `CreditCardForm` due to changes in how it detects and applies application themes. Please check out the example app to learn how to apply those using `Theme`.
 - The `cardNumberDecoration`, `expiryDateDecoration`, `cvvCodeDecoration`, and `cardHolderDecoration` properties are moved to the newly added `InputDecoration` class that also has `textStyle` properties for all the textFields of the `CreditCardForm`.
 

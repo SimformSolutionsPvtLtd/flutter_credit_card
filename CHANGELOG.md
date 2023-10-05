@@ -1,4 +1,4 @@
-# [4.0.0](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.0.0)
+# [4.0.0+1](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.0.0+1)
 
 - Added web support for example app [#148](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/148).
 - Added card float animation [#144](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/144).

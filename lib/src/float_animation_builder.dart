@@ -15,7 +15,7 @@ class FloatAnimationBuilder extends StatelessWidget {
   final bool isEnabled;
   final Stream<FloatingEvent> stream;
   final FloatEventCallback onEvent;
-  final Widget child;
+  final WidgetCallback child;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +29,9 @@ class FloatAnimationBuilder extends StatelessWidget {
                 Transform(
               transform: onEvent(snapshot.data),
               alignment: FractionalOffset.center,
-              child: child,
+              child: child(),
             ),
           )
-        : child;
+        : child();
   }
 }

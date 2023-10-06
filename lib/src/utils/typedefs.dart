@@ -1,4 +1,4 @@
-import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 
 import '../floating_animation/floating_event.dart';
 import '../models/credit_card_brand.dart';
@@ -11,3 +11,5 @@ typedef CCBrandChangeCallback = void Function(CreditCardBrand);
 typedef ValidationCallback = String? Function(String?);
 
 typedef FloatEventCallback = Matrix4 Function(FloatingEvent? event);
+
+typedef WidgetCallback = Widget Function();

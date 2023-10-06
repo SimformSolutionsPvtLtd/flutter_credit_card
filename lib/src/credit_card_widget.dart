@@ -458,7 +458,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       stream: frontCardFloatStream.stream,
       onEvent: (FloatingEvent? event) =>
           floatController.transform(event, shouldAvoid: controller.isAnimating),
-      child: _frontCardBackground(
+      child: () => _frontCardBackground(
         defaultTextStyle: defaultTextStyle,
         number: number,
       ),
@@ -601,7 +601,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       stream: backCardFloatStream.stream,
       onEvent: (FloatingEvent? event) =>
           floatController.transform(event, shouldAvoid: controller.isAnimating),
-      child: _backCardBackground(defaultTextStyle: defaultTextStyle, cvv: cvv),
+      child: () => _backCardBackground(
+        defaultTextStyle: defaultTextStyle,
+        cvv: cvv,
+      ),
     );
   }
 

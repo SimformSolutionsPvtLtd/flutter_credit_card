@@ -50,9 +50,8 @@ class MethodChannelFlutterCreditCard extends FlutterCreditCardPlatform {
       AppConstants.gyroEventChannelName,
     );
 
-    await initiateEvents();
-
     if (Platform.isIOS || Platform.isAndroid) {
+      await initiateEvents();
       _isGyroscopeAvailable = await _methodChannel!.invokeMethod<dynamic>(
             AppConstants.isGyroAvailableMethod,
           ) ??

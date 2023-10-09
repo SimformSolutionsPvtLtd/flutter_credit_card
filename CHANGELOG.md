@@ -1,6 +1,7 @@
 # [4.0.1](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.0.1)
 
 - Fixed glare effect issue [#154](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/154).
+- Added desktop support for example app [#155](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/155).
 
 # [4.0.0+1](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.0.0+1)
 

@@ -20,8 +20,8 @@ class InputConfiguration {
       hintText: AppConstants.threeX,
     ),
     this.bankNameDecoration = const InputDecoration(
-      labelText: AppConstants.defaultBankName,
-      hintText: AppConstants.bankName,
+      labelText: AppConstants.bankName,
+      hintText: AppConstants.defaultBankName,
     ),
     this.cardNumberTextStyle,
     this.cardHolderTextStyle,

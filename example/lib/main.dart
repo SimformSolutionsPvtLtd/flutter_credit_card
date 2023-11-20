@@ -105,6 +105,9 @@ class MySampleState extends State<MySample> {
                       ),
                     ),
                     CreditCardWidget(
+                      onItemTapped: (TappedItem tapedItem, String content){
+                        print("tap item==>${tapedItem.toString()},content==>$content");
+                      },
                       enableFloatingCard: useFloatingAnimation,
                       glassmorphismConfig: _getGlassmorphismConfig(),
                       cardNumber: cardNumber,

@@ -21,9 +21,12 @@ import 'utils/extensions.dart';
 import 'utils/helpers.dart';
 import 'utils/typedefs.dart';
 
+enum TappedItem { cardNumber, expiryDate, cardHolderName, cvvCode, bankName }
+
 class CreditCardWidget extends StatefulWidget {
   /// A widget showcasing credit card UI.
   const CreditCardWidget({
+    this.onItemTapped,
     required this.cardNumber,
     required this.expiryDate,
     required this.cardHolderName,
@@ -58,6 +61,8 @@ class CreditCardWidget extends StatefulWidget {
     this.floatingConfig = const FloatingConfig(),
     super.key,
   });
+
+  final void Function(TappedItem tapedItem, String content)? onItemTapped;
 
   /// A string indicating number on the card.
   final String cardNumber;
@@ -469,6 +474,8 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     required String number,
     required TextStyle defaultTextStyle,
   }) {
+    final Null Function(DragEndDetails details)? emptyPanEnd = widget.onItemTapped == null
+        ? null : (DragEndDetails details) {};//Prevent accidental touches
     return CardBackground(
       glarePosition: glarePosition,
       floatingController: widget.enableFloatingCard ? floatController : null,
@@ -487,13 +494,22 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           if (widget.bankName.isNotNullAndNotEmpty)
             Align(
               alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 16, top: 16),
-                child: Text(
-                  widget.bankName!,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: defaultTextStyle,
+              child: GestureDetector(
+                onPanEnd: emptyPanEnd,
+                onTap: widget.onItemTapped == null
+                    ? null
+                    : () {
+                        widget.onItemTapped
+                            ?.call(TappedItem.bankName, widget.bankName!);
+                      },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16, top: 16),
+                  child: Text(
+                    widget.bankName!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: defaultTextStyle,
+                  ),
                 ),
               ),
             ),
@@ -517,60 +533,96 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsetsDirectional.only(start: 16),
-              child: Text(
-                widget.cardNumber.isEmpty ? AppConstants.sixteenX : number,
-                style: widget.textStyle ?? defaultTextStyle,
+            child: GestureDetector(
+              onPanEnd: emptyPanEnd,//Prevent accidental touches
+              onTap: widget.onItemTapped == null
+                  ? null
+                  : () {
+                      widget.onItemTapped?.call(
+                          TappedItem.cardNumber,
+                          widget.cardNumber.isEmpty
+                              ? AppConstants.sixteenX
+                              : number);
+                    },
+              child: Padding(
+                padding: const EdgeInsetsDirectional.only(start: 16),
+                child: Text(
+                  widget.cardNumber.isEmpty ? AppConstants.sixteenX : number,
+                  style: widget.textStyle ?? defaultTextStyle,
+                ),
               ),
             ),
           ),
           Expanded(
             flex: 1,
-            child: Padding(
-              padding: const EdgeInsetsDirectional.only(start: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    widget.labelValidThru,
-                    style: widget.textStyle ??
-                        defaultTextStyle.copyWith(fontSize: 7),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
-                    widget.expiryDate.isEmpty
-                        ? widget.labelExpiredDate
-                        : widget.expiryDate,
-                    style: widget.textStyle ?? defaultTextStyle,
-                  ),
-                ],
+            child: GestureDetector(
+              onPanEnd: emptyPanEnd,//Prevent accidental touches
+              onTap: widget.onItemTapped == null
+                  ? null
+                  : () {
+                      widget.onItemTapped?.call(
+                          TappedItem.expiryDate,
+                          widget.expiryDate.isEmpty
+                              ? widget.labelExpiredDate
+                              : widget.expiryDate);
+                    },
+              child: Padding(
+                padding: const EdgeInsetsDirectional.only(start: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      widget.labelValidThru,
+                      style: widget.textStyle ??
+                          defaultTextStyle.copyWith(fontSize: 7),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      widget.expiryDate.isEmpty
+                          ? widget.labelExpiredDate
+                          : widget.expiryDate,
+                      style: widget.textStyle ?? defaultTextStyle,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Visibility(
-                  visible: widget.isHolderNameVisible,
-                  child: Expanded(
-                    child: Text(
-                      widget.cardHolderName.isEmpty
-                          ? widget.labelCardHolder
-                          : widget.cardHolderName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: widget.textStyle ?? defaultTextStyle,
+          GestureDetector(
+            onPanEnd: emptyPanEnd,//Prevent accidental touches
+            onTap: widget.onItemTapped == null
+                ? null
+                : () {
+                    widget.onItemTapped?.call(
+                        TappedItem.cardHolderName,
+                        widget.cardHolderName.isEmpty
+                            ? widget.labelCardHolder
+                            : widget.cardHolderName);
+                  },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Visibility(
+                    visible: widget.isHolderNameVisible,
+                    child: Expanded(
+                      child: Text(
+                        widget.cardHolderName.isEmpty
+                            ? widget.labelCardHolder
+                            : widget.cardHolderName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: widget.textStyle ?? defaultTextStyle,
+                      ),
                     ),
                   ),
-                ),
-                _getCardTypeIcon(),
-              ],
+                  _getCardTypeIcon(),
+                ],
+              ),
             ),
           ),
         ],
@@ -653,16 +705,30 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                     flex: 3,
                     child: Container(
                       color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Text(
-                          widget.cvvCode.isEmpty
-                              ? isAmex
-                                  ? AppConstants.fourX
-                                  : AppConstants.threeX
-                              : cvv,
-                          maxLines: 1,
-                          style: widget.textStyle ?? defaultTextStyle,
+                      child: GestureDetector(
+                        onPanEnd: (DragEndDetails details) {},//Prevent accidental touches
+                        onTap: widget.onItemTapped == null
+                            ? null
+                            : () {
+                                widget.onItemTapped?.call(
+                                    TappedItem.cvvCode,
+                                    widget.cvvCode.isEmpty
+                                        ? isAmex
+                                            ? AppConstants.fourX
+                                            : AppConstants.threeX
+                                        : cvv);
+                              },
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Text(
+                            widget.cvvCode.isEmpty
+                                ? isAmex
+                                    ? AppConstants.fourX
+                                    : AppConstants.threeX
+                                : cvv,
+                            maxLines: 1,
+                            style: widget.textStyle ?? defaultTextStyle,
+                          ),
                         ),
                       ),
                     ),

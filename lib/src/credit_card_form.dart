@@ -12,6 +12,7 @@ class CreditCardForm extends StatefulWidget {
     required this.expiryDate,
     required this.cardHolderName,
     required this.cvvCode,
+    required this.bankName,
     required this.onCreditCardModelChange,
     required this.formKey,
     this.obscureCvv = false,
@@ -19,11 +20,13 @@ class CreditCardForm extends StatefulWidget {
     this.inputConfiguration = const InputConfiguration(),
     this.cardNumberKey,
     this.cardHolderKey,
+    this.bankNameKey,
     this.expiryDateKey,
     this.cvvCodeKey,
     this.cvvValidationMessage = AppConstants.cvvValidationMessage,
     this.dateValidationMessage = AppConstants.dateValidationMessage,
     this.numberValidationMessage = AppConstants.numberValidationMessage,
+    this.isBankNameVisible = true,
     this.isHolderNameVisible = true,
     this.isCardNumberVisible = true,
     this.isExpiryDateVisible = true,
@@ -33,6 +36,7 @@ class CreditCardForm extends StatefulWidget {
     this.expiryDateValidator,
     this.cvvValidator,
     this.cardHolderValidator,
+    this.bankNameValidator,
     this.onFormComplete,
     this.disableCardNumberAutoFillHints = false,
     super.key,
@@ -49,6 +53,9 @@ class CreditCardForm extends StatefulWidget {
 
   /// A string indicating cvv code in the text field.
   final String cvvCode;
+
+  /// A string indicating bank name code in the text field.
+  final String bankName;
 
   /// Error message string when invalid cvv is entered.
   final String cvvValidationMessage;
@@ -73,6 +80,9 @@ class CreditCardForm extends StatefulWidget {
   /// Allow editing the holder name by enabling this in the credit card form.
   /// Defaults to true.
   final bool isHolderNameVisible;
+
+  /// is bank name visible
+  final bool isBankNameVisible;
 
   /// Allow editing the credit card number by enabling this in the credit
   /// card form. Defaults to true.
@@ -99,6 +109,9 @@ class CreditCardForm extends StatefulWidget {
   /// A FormFieldState key for card holder text field.
   final GlobalKey<FormFieldState<String>>? cardHolderKey;
 
+  /// A FormFieldState key for bank name text field.
+  final GlobalKey<FormFieldState<String>>? bankNameKey;
+
   /// A FormFieldState key for expiry date text field.
   final GlobalKey<FormFieldState<String>>? expiryDateKey;
 
@@ -123,6 +136,9 @@ class CreditCardForm extends StatefulWidget {
   /// A validator for card holder text field.
   final ValidationCallback? cardHolderValidator;
 
+
+  final ValidationCallback? bankNameValidator;
+
   /// Setting this flag to true will disable autofill hints for Credit card
   /// number text field. Flutter has a bug when auto fill hints are enabled for
   /// credit card numbers it shows keyboard with characters. But, disabling
@@ -143,6 +159,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
   late String expiryDate;
   late String cardHolderName;
   late String cvvCode;
+  late String bankName;
   bool isCvvFocused = false;
 
   late final CreditCardModel creditCardModel;
@@ -164,6 +181,11 @@ class _CreditCardFormState extends State<CreditCardForm> {
     text: widget.cardHolderName,
   );
 
+  late final TextEditingController _bankNameController =
+  TextEditingController(
+    text: widget.bankName,
+  );
+
   late final TextEditingController _cvvCodeController = MaskedTextController(
     mask: AppConstants.cvvMask,
     text: widget.cvvCode,
@@ -172,6 +194,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
   final FocusNode cvvFocusNode = FocusNode();
   final FocusNode expiryDateNode = FocusNode();
   final FocusNode cardHolderNode = FocusNode();
+  final FocusNode bankNameNode = FocusNode();
 
   @override
   void initState() {
@@ -295,10 +318,33 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 style: widget.inputConfiguration.cardHolderTextStyle,
                 keyboardType: TextInputType.text,
                 autovalidateMode: widget.autovalidateMode,
-                textInputAction: TextInputAction.done,
+                textInputAction: widget.isBankNameVisible
+                    ? TextInputAction.next
+                    : TextInputAction.done,
                 autofillHints: const <String>[AutofillHints.creditCardName],
                 onEditingComplete: _onHolderNameEditComplete,
                 validator: widget.cardHolderValidator,
+              ),
+            ),
+          ),
+          Visibility(
+            visible: widget.isBankNameVisible,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+              child: TextFormField(
+                key: widget.bankNameKey,
+                controller: _bankNameController,
+                onChanged: _onBankNameChange,
+                focusNode: bankNameNode,
+                decoration: widget.inputConfiguration.bankNameDecoration,
+                style: widget.inputConfiguration.bankNameTextStyle,
+                keyboardType: TextInputType.text,
+                autovalidateMode: widget.autovalidateMode,
+                textInputAction: TextInputAction.done,
+                autofillHints: const <String>[AutofillHints.creditCardName],
+                onEditingComplete: _onBankNameEditComplete,
+                validator: widget.bankNameValidator,
               ),
             ),
           ),
@@ -325,6 +371,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     expiryDate = widget.expiryDate;
     cardHolderName = widget.cardHolderName;
     cvvCode = widget.cvvCode;
+    bankName = widget.bankName;
 
     creditCardModel = CreditCardModel(
       cardNumber,
@@ -332,6 +379,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
       cardHolderName,
       cvvCode,
       isCvvFocused,
+      bankName
     );
   }
 
@@ -359,6 +407,14 @@ class _CreditCardFormState extends State<CreditCardForm> {
     });
   }
 
+  void _onBankNameChange(String text) {
+    setState(() {
+      creditCardModel.bankName = bankName = text;
+      onCreditCardModelChange(creditCardModel);
+    });
+  }
+
+
   void _onCardHolderNameChange(String value) {
     setState(() {
       creditCardModel.cardHolderName =
@@ -378,6 +434,17 @@ class _CreditCardFormState extends State<CreditCardForm> {
   }
 
   void _onHolderNameEditComplete() {
+    if (widget.isBankNameVisible) {
+      FocusScope.of(context).requestFocus(bankNameNode);
+    } else {
+      FocusScope.of(context).unfocus();
+      onCreditCardModelChange(creditCardModel);
+      widget.onFormComplete?.call();
+    }
+  }
+
+
+  void _onBankNameEditComplete() {
     FocusScope.of(context).unfocus();
     onCreditCardModelChange(creditCardModel);
     widget.onFormComplete?.call();

@@ -19,10 +19,15 @@ class InputConfiguration {
       labelText: AppConstants.cvv,
       hintText: AppConstants.threeX,
     ),
+    this.bankNameDecoration = const InputDecoration(
+      labelText: AppConstants.defaultBankName,
+      hintText: AppConstants.bankName,
+    ),
     this.cardNumberTextStyle,
     this.cardHolderTextStyle,
     this.expiryDateTextStyle,
     this.cvvCodeTextStyle,
+    this.bankNameTextStyle,
   });
 
   /// Provides decoration to card number text field.
@@ -37,6 +42,9 @@ class InputConfiguration {
   /// Provides decoration to cvv code text field.
   final InputDecoration cvvCodeDecoration;
 
+  /// Provides decoration to bank name text field.
+  final InputDecoration bankNameDecoration;
+
   /// Provides textStyle to card number text field.
   final TextStyle? cardNumberTextStyle;
 
@@ -48,4 +56,7 @@ class InputConfiguration {
 
   /// Provides textStyle to cvv code text field.
   final TextStyle? cvvCodeTextStyle;
+
+  /// Provides textStyle to bank name text field.
+  final TextStyle? bankNameTextStyle;
 }

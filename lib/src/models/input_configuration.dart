@@ -21,7 +21,6 @@ class InputConfiguration {
     ),
     this.bankNameDecoration = const InputDecoration(
       labelText: AppConstants.bankName,
-      hintText: AppConstants.defaultBankName,
     ),
     this.cardNumberTextStyle,
     this.cardHolderTextStyle,

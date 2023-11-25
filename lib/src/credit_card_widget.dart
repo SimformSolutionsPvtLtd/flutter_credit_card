@@ -542,7 +542,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
                           TappedItem.cardNumber,
                           widget.cardNumber.isEmpty
                               ? AppConstants.sixteenX
-                              : number);
+                              : widget.cardNumber);
                     },
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(start: 16),

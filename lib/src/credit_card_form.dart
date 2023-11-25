@@ -213,6 +213,12 @@ class _CreditCardFormState extends State<CreditCardForm> {
   }
 
   @override
+  void didChangeDependencies() {
+    initTextControllers();
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: widget.formKey,

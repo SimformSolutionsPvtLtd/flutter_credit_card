@@ -387,6 +387,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
   void _onCardNumberChange(String value) {
     setState(() {
       creditCardModel.cardNumber = cardNumber = _cardNumberController.text;
+      creditCardModel.type = detectCCType(cardNumber).name;
       onCreditCardModelChange(creditCardModel);
     });
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/src/utils/helpers.dart';
 
 import '../flutter_credit_card.dart';
 import 'masked_text_controller.dart';
@@ -136,7 +137,6 @@ class CreditCardForm extends StatefulWidget {
   /// A validator for card holder text field.
   final ValidationCallback? cardHolderValidator;
 
-
   final ValidationCallback? bankNameValidator;
 
   /// Setting this flag to true will disable autofill hints for Credit card
@@ -181,8 +181,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     text: widget.cardHolderName,
   );
 
-  late final TextEditingController _bankNameController =
-  TextEditingController(
+  late final TextEditingController _bankNameController = TextEditingController(
     text: widget.bankName,
   );
 
@@ -363,6 +362,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
 
   void textFieldFocusDidChange() {
     isCvvFocused = creditCardModel.isCvvFocused = cvvFocusNode.hasFocus;
+
     onCreditCardModelChange(creditCardModel);
   }
 
@@ -379,7 +379,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
       cardHolderName,
       cvvCode,
       isCvvFocused,
-      bankName
+      bankName,
+      detectCCType(cardNumber).name,
     );
   }
 
@@ -414,7 +415,6 @@ class _CreditCardFormState extends State<CreditCardForm> {
     });
   }
 
-
   void _onCardHolderNameChange(String value) {
     setState(() {
       creditCardModel.cardHolderName =
@@ -442,7 +442,6 @@ class _CreditCardFormState extends State<CreditCardForm> {
       widget.onFormComplete?.call();
     }
   }
-
 
   void _onBankNameEditComplete() {
     FocusScope.of(context).unfocus();

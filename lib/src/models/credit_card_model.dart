@@ -1,6 +1,6 @@
 class CreditCardModel {
   CreditCardModel(this.cardNumber, this.expiryDate, this.cardHolderName,
-      this.cvvCode, this.isCvvFocused,this.bankName);
+      this.cvvCode, this.isCvvFocused,this.bankName,this.type);
 
   /// Number of the credit/debit card.
   String cardNumber = '';
@@ -19,4 +19,6 @@ class CreditCardModel {
 
   /// A boolean for indicating if cvv is focused or not.
   bool isCvvFocused = false;
+
+  String type = '';
 }

@@ -166,38 +166,48 @@ class _CreditCardFormState extends State<CreditCardForm> {
   late final CCModelChangeCallback onCreditCardModelChange =
       widget.onCreditCardModelChange;
 
-  late final MaskedTextController _cardNumberController = MaskedTextController(
-    mask: AppConstants.cardNumberMask,
-    text: widget.cardNumber,
-  );
+  late MaskedTextController _cardNumberController;
 
-  late final TextEditingController _expiryDateController = MaskedTextController(
-    mask: AppConstants.expiryDateMask,
-    text: widget.expiryDate,
-  );
+  late TextEditingController _expiryDateController;
 
-  late final TextEditingController _cardHolderNameController =
-      TextEditingController(
-    text: widget.cardHolderName,
-  );
+  late TextEditingController _cardHolderNameController;
 
-  late final TextEditingController _bankNameController = TextEditingController(
-    text: widget.bankName,
-  );
+  late TextEditingController _bankNameController;
 
-  late final TextEditingController _cvvCodeController = MaskedTextController(
-    mask: AppConstants.cvvMask,
-    text: widget.cvvCode,
-  );
+  late TextEditingController _cvvCodeController;
 
   final FocusNode cvvFocusNode = FocusNode();
   final FocusNode expiryDateNode = FocusNode();
   final FocusNode cardHolderNode = FocusNode();
   final FocusNode bankNameNode = FocusNode();
 
+  void initTextControllers() {
+    _cardNumberController = MaskedTextController(
+      mask: AppConstants.cardNumberMask,
+      text: widget.cardNumber,
+    );
+    _expiryDateController = MaskedTextController(
+      mask: AppConstants.expiryDateMask,
+      text: widget.expiryDate,
+    );
+    _cardHolderNameController = TextEditingController(
+      text: widget.cardHolderName,
+    );
+    _bankNameController = TextEditingController(
+      text: widget.bankName,
+    );
+    _cvvCodeController = MaskedTextController(
+      mask: AppConstants.cvvMask,
+      text: widget.cvvCode,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
+
+    initTextControllers();
+
     createCreditCardModel();
     cvvFocusNode.addListener(textFieldFocusDidChange);
   }

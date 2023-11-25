@@ -205,14 +205,23 @@ class _CreditCardFormState extends State<CreditCardForm> {
   @override
   void initState() {
     super.initState();
+    initTextControllers();
     createCreditCardModel();
     cvvFocusNode.addListener(textFieldFocusDidChange);
+  }
+
+  void resetControllersValue() {
+    _cardNumberController.text = widget.cardNumber;
+    _expiryDateController.text = widget.expiryDate;
+    _cardHolderNameController.text = widget.cardHolderName;
+    _bankNameController.text = widget.bankName;
+    _cvvCodeController.text = widget.cvvCode;
   }
 
 
   @override
   Widget build(BuildContext context) {
-    initTextControllers();
+    resetControllersValue();
     return Form(
       key: widget.formKey,
       child: Column(

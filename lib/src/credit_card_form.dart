@@ -15,7 +15,7 @@ class CreditCardForm extends StatefulWidget {
     required this.cvvCode,
     required this.bankName,
     required this.onCreditCardModelChange,
-    required this.formKey,
+    this.formKey,
     this.obscureCvv = false,
     this.obscureNumber = false,
     this.inputConfiguration = const InputConfiguration(),
@@ -98,7 +98,7 @@ class CreditCardForm extends StatefulWidget {
   final bool isExpiryDateVisible;
 
   /// A form state key for this credit card form.
-  final GlobalKey<FormState> formKey;
+  final GlobalKey<FormState>? formKey;
 
   /// Provides a callback when text field provides callback in
   /// [onEditingComplete].

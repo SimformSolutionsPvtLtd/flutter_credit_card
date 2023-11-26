@@ -230,7 +230,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
             visible: widget.isCardNumberVisible,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
-              margin: const EdgeInsets.only(left: 8, top: 8, right: 8),
+              margin: const EdgeInsets.only(left: 8, top: 0, right: 8),
               child: TextFormField(
                 key: widget.cardNumberKey,
                 obscureText: widget.obscureNumber,
@@ -261,7 +261,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 child: Expanded(
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    margin: const EdgeInsets.only(left: 8, top: 4, right: 8),
+                    margin: const EdgeInsets.only(left: 8, top: 0, right: 8),
                     child: TextFormField(
                       key: widget.expiryDateKey,
                       controller: _expiryDateController,
@@ -292,7 +292,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   visible: widget.enableCvv,
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    margin: const EdgeInsets.only(left: 8, top: 4, right: 8),
+                    margin: const EdgeInsets.only(left: 8, top: 0, right: 8),
                     child: TextFormField(
                       key: widget.cvvCodeKey,
                       obscureText: widget.obscureCvv,
@@ -325,7 +325,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
             visible: widget.isHolderNameVisible,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
-              margin: const EdgeInsets.only(left: 8, top: 4, right: 8),
+              margin: const EdgeInsets.only(left: 8, top: 0, right: 8),
               child: TextFormField(
                 key: widget.cardHolderKey,
                 controller: _cardHolderNameController,
@@ -348,7 +348,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
             visible: widget.isBankNameVisible,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
-              margin: const EdgeInsets.only(left: 8, top: 4, right: 8),
+              margin: const EdgeInsets.only(left: 8, top: 0, right: 8),
               child: TextFormField(
                 key: widget.bankNameKey,
                 controller: _bankNameController,

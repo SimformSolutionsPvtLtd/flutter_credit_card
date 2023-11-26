@@ -229,7 +229,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
           Visibility(
             visible: widget.isCardNumberVisible,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              padding: const EdgeInsets.symmetric(vertical: 0.0),
               margin: const EdgeInsets.only(left: 8, top: 0, right: 8),
               child: TextFormField(
                 key: widget.cardNumberKey,
@@ -260,7 +260,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 visible: widget.isExpiryDateVisible,
                 child: Expanded(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 2.0),
+                    padding: const EdgeInsets.symmetric(vertical: 0.0),
                     margin: const EdgeInsets.only(left: 8, top: 0, right: 8),
                     child: TextFormField(
                       key: widget.expiryDateKey,
@@ -291,7 +291,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 child: Visibility(
                   visible: widget.enableCvv,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 2.0),
+                    padding: const EdgeInsets.symmetric(vertical: 0.0),
                     margin: const EdgeInsets.only(left: 8, top: 0, right: 8),
                     child: TextFormField(
                       key: widget.cvvCodeKey,
@@ -324,7 +324,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
           Visibility(
             visible: widget.isHolderNameVisible,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              padding: const EdgeInsets.symmetric(vertical: 0.0),
               margin: const EdgeInsets.only(left: 8, top: 0, right: 8),
               child: TextFormField(
                 key: widget.cardHolderKey,
@@ -347,7 +347,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
           Visibility(
             visible: widget.isBankNameVisible,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              padding: const EdgeInsets.symmetric(vertical: 0.0),
               margin: const EdgeInsets.only(left: 8, top: 0, right: 8),
               child: TextFormField(
                 key: widget.bankNameKey,

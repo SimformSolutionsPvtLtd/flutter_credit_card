@@ -76,6 +76,9 @@ class AppConstants {
   /// first digit of the start range.
   static const Map<int, Map<List<int?>, CardType>> cardNumPatterns =
       <int, Map<List<int?>, CardType>>{
+    9: <List<int?>, CardType>{
+      <int?>[2200, 2204]: CardType.mir,
+    },
     6: <List<int?>, CardType>{
       <int?>[655021, 655058]: CardType.elo,
       <int?>[655000, 655019]: CardType.elo,

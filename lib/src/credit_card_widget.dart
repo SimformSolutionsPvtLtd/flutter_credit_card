@@ -31,6 +31,7 @@ class CreditCardWidget extends StatefulWidget {
     required this.showBackView,
     required this.onCreditCardWidgetChange,
     this.bankName,
+    this.cardStatus,
     this.animationDuration = AppConstants.defaultAnimDuration,
     this.height,
     this.width,
@@ -83,6 +84,9 @@ class CreditCardWidget extends StatefulWidget {
 
   /// A string indicating name of the bank.
   final String? bankName;
+
+  /// A string indicating status of the card (Platinum, Gold, etc.)
+  final String? cardStatus;
 
   /// Duration for flip animation. Defaults to 500 milliseconds.
   final Duration animationDuration;
@@ -465,6 +469,69 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
     );
   }
 
+  Widget _frontCardTopRow(TextStyle defaultTextStyle) {
+    Padding? cardStylePadding;
+    Padding? bankNamePadding;
+
+    if (widget.bankName.isNotNullAndNotEmpty) {
+      bankNamePadding = _frontCardBankNameWidget(defaultTextStyle);
+    }
+
+    if (widget.cardStatus.isNotNullAndNotEmpty) {
+      cardStylePadding = _frontCardStatusWidget(defaultTextStyle);
+    }
+
+    if (cardStylePadding != null && bankNamePadding != null) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          cardStylePadding,
+          bankNamePadding,
+        ],
+      );
+    }
+
+    if (cardStylePadding != null) {
+      return Align(
+        alignment: Alignment.topLeft,
+        child: cardStylePadding,
+      );
+    }
+
+    if (bankNamePadding != null) {
+      return Align(
+        alignment: Alignment.topRight,
+        child: bankNamePadding,
+      );
+    }
+
+    return const SizedBox();
+  }
+
+  Padding _frontCardStatusWidget(TextStyle defaultTextStyle) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, top: 16),
+      child: Text(
+        widget.cardStatus!,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: defaultTextStyle,
+      ),
+    );
+  }
+
+  Padding _frontCardBankNameWidget(TextStyle defaultTextStyle) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 16, top: 16),
+      child: Text(
+        widget.bankName!,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: defaultTextStyle,
+      ),
+    );
+  }
+
   Widget _frontCardBackground({
     required String number,
     required TextStyle defaultTextStyle,
@@ -484,19 +551,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          if (widget.bankName.isNotNullAndNotEmpty)
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 16, top: 16),
-                child: Text(
-                  widget.bankName!,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: defaultTextStyle,
-                ),
-              ),
-            ),
+          _frontCardTopRow(defaultTextStyle),
           Expanded(
             flex: widget.isChipVisible ? 1 : 0,
             child: Row(

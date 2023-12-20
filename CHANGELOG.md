@@ -1,3 +1,7 @@
+# [4.0.2](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.0.2) [UNRELEASED]
+
+- Fixed floating event stream bad state exception [#157](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/157).
+
 # [4.0.1](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.0.1)
 
 - Fixed glare effect issue [#154](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/154).

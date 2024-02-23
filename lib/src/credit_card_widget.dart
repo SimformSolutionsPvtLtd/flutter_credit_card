@@ -359,7 +359,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   }
 
   void _processFloatingEvent(FloatingEvent? event) {
-    if (event == null || controller.isAnimating) {
+    if (!mounted || event == null || controller.isAnimating) {
       return;
     }
 

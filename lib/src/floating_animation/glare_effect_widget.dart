@@ -30,15 +30,17 @@ class GlareEffectWidget extends StatelessWidget {
         child,
         if (glarePosition != null)
           Positioned.fill(
-            child: Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                border: border,
-                gradient: LinearGradient(
-                  tileMode: TileMode.clamp,
-                  colors: _glareGradientColors,
-                  stops: _gradientStop,
-                  transform: GradientRotation(glarePosition!),
+            child: IgnorePointer(
+              child: Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  border: border,
+                  gradient: LinearGradient(
+                    tileMode: TileMode.clamp,
+                    colors: _glareGradientColors,
+                    stops: _gradientStop,
+                    transform: GradientRotation(glarePosition!),
+                  ),
                 ),
               ),
             ),

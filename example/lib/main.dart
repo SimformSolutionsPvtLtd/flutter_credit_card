@@ -17,6 +17,7 @@ class MySampleState extends State<MySample> {
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
+  String bankName = '';
   String cvvCode = '';
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
@@ -105,13 +106,17 @@ class MySampleState extends State<MySample> {
                       ),
                     ),
                     CreditCardWidget(
+                      onItemTapped: (TappedItem tapedItem, String content) {
+                        print(
+                            'tap item==>${tapedItem.toString()},content==>$content');
+                      },
                       enableFloatingCard: useFloatingAnimation,
                       glassmorphismConfig: _getGlassmorphismConfig(),
                       cardNumber: cardNumber,
                       expiryDate: expiryDate,
                       cardHolderName: cardHolderName,
                       cvvCode: cvvCode,
-                      bankName: 'Axis Bank',
+                      bankName: bankName,
                       frontCardBorder: useGlassMorphism
                           ? null
                           : Border.all(color: Colors.grey),
@@ -151,28 +156,30 @@ class MySampleState extends State<MySample> {
                               obscureNumber: true,
                               cardNumber: cardNumber,
                               cvvCode: cvvCode,
+                              bankName: bankName,
                               isHolderNameVisible: true,
                               isCardNumberVisible: true,
                               isExpiryDateVisible: true,
                               cardHolderName: cardHolderName,
                               expiryDate: expiryDate,
                               inputConfiguration: const InputConfiguration(
-                                cardNumberDecoration: InputDecoration(
-                                  labelText: 'Number',
-                                  hintText: 'XXXX XXXX XXXX XXXX',
-                                ),
-                                expiryDateDecoration: InputDecoration(
-                                  labelText: 'Expired Date',
-                                  hintText: 'XX/XX',
-                                ),
-                                cvvCodeDecoration: InputDecoration(
-                                  labelText: 'CVV',
-                                  hintText: 'XXX',
-                                ),
-                                cardHolderDecoration: InputDecoration(
-                                  labelText: 'Card Holder',
-                                ),
-                              ),
+                                  cardNumberDecoration: InputDecoration(
+                                    labelText: 'Number',
+                                    hintText: 'XXXX XXXX XXXX XXXX',
+                                  ),
+                                  expiryDateDecoration: InputDecoration(
+                                    labelText: 'Expired Date',
+                                    hintText: 'XX/XX',
+                                  ),
+                                  cvvCodeDecoration: InputDecoration(
+                                    labelText: 'CVV',
+                                    hintText: 'XXX',
+                                  ),
+                                  cardHolderDecoration: InputDecoration(
+                                    labelText: 'Card Holder',
+                                  ),
+                                  bankNameDecoration: InputDecoration(
+                                      labelText: 'Default Bank')),
                               onCreditCardModelChange: onCreditCardModelChange,
                             ),
                             const SizedBox(height: 20),
@@ -320,6 +327,7 @@ class MySampleState extends State<MySample> {
       cardNumber = creditCardModel.cardNumber;
       expiryDate = creditCardModel.expiryDate;
       cardHolderName = creditCardModel.cardHolderName;
+      bankName = creditCardModel.bankName;
       cvvCode = creditCardModel.cvvCode;
       isCvvFocused = creditCardModel.isCvvFocused;
     });

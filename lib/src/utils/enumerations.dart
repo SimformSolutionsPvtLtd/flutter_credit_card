@@ -8,6 +8,7 @@ enum CardType {
   discover,
   elo,
   hipercard,
+  mir,
 }
 
 /// The type of floating event.

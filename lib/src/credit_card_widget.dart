@@ -35,6 +35,7 @@ class CreditCardWidget extends StatefulWidget {
     this.height,
     this.width,
     this.textStyle,
+    this.textColor,
     this.cardBgColor = AppConstants.defaultCardBgColor,
     this.obscureCardNumber = true,
     this.obscureCardCvv = true,
@@ -73,6 +74,9 @@ class CreditCardWidget extends StatefulWidget {
 
   /// Applies text style to cardNumber, expiryDate, cardHolderName and cvvCode.
   final TextStyle? textStyle;
+
+  /// Applies text color to cardNumber, expiryDate, cardHolderName and cvvCode.
+  final Color? textColor;
 
   /// Applies background color for card UI.
   final Color cardBgColor;
@@ -297,7 +301,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
         _cardGesture(
           child: FlipAnimationBuilder(
             animation: _frontRotation,
-            child: _buildFrontContainer(),
+            child: _buildFrontContainer(widget.textColor),
           ),
         ),
         _cardGesture(
@@ -423,11 +427,11 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
   /// Builds a front container containing
   /// Card number, Exp. year and Card holder name
   ///
-  Widget _buildFrontContainer() {
+  Widget _buildFrontContainer(Color? textColor) {
     final TextStyle defaultTextStyle =
         Theme.of(context).textTheme.titleLarge!.merge(
-              const TextStyle(
-                color: Colors.white,
+              TextStyle(
+                color: textColor ?? Colors.white,
                 fontFamily: AppConstants.fontFamily,
                 fontSize: 15,
                 package: AppConstants.packageName,

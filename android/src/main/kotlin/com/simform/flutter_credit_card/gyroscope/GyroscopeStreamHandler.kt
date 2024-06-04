@@ -16,7 +16,7 @@ internal class GyroscopeStreamHandler(
     private var sensorEventListener: SensorEventListener? = null
 
     private val sensor: Sensor by lazy {
-        sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+        sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)!!
     }
 
     override fun onListen(arguments: Any?, events: EventSink) {

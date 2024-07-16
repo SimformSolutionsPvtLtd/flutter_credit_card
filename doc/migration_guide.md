@@ -1,0 +1,3 @@
+## Migration guide for Version 4.x.x
+- The `themeColor`, `textColor`, and `cursorColor` properties have been removed from `CreditCardForm` due to changes in how it detects and applies application themes. Please check out the example app to learn how to apply those using `Theme`.
+- The `cardNumberDecoration`, `expiryDateDecoration`, `cvvCodeDecoration`, and `cardHolderDecoration` properties are moved to the newly added `InputDecoration` class that also has `textStyle` properties for all the textFields of the `CreditCardForm`.

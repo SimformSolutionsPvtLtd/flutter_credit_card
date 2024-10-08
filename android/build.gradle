@@ -25,6 +25,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
+    //Added compatibility wih AGP
+    namespace 'com.simform.flutter_credit_card'
+
     compileSdk 31
 
     compileOptions {

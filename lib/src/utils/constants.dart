@@ -124,6 +124,7 @@ class AppConstants {
       <int?>[23, 26]: CardType.mastercard,
       <int?>[223, 229]: CardType.mastercard,
       <int?>[2221, 2229]: CardType.mastercard,
+      <int?>[2200, 2204]: CardType.mir,
     },
   };
 
@@ -136,5 +137,6 @@ class AppConstants {
     CardType.discover: AssetPaths.discover,
     CardType.elo: AssetPaths.elo,
     CardType.hipercard: AssetPaths.hipercard,
+    CardType.mir: AssetPaths.mir,
   };
 }

@@ -11,6 +11,7 @@ class AppConstants {
   static const String packageName = 'flutter_credit_card';
   static const String fontFamily = 'halter';
 
+  static const String bankName = 'Bank Name';
   static const String threeX = 'XXX';
   static const String fourX = 'XXXX';
   static const String sixteenX = 'XXXX XXXX XXXX XXXX';

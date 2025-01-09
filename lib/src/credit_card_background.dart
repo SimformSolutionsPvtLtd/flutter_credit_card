@@ -60,53 +60,56 @@ class CardBackground extends StatelessWidget {
         return Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(padding),
-              width: width ?? screenWidth,
-              height: height ?? implicitHeight,
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                borderRadius: AppConstants.creditCardBorderRadius,
-                boxShadow: shadowConfig != null && floatingController != null
-                    ? <BoxShadow>[
-                        BoxShadow(
-                          blurRadius: shadowConfig!.blurRadius,
-                          color: shadowConfig!.color,
-                          offset: shadowConfig!.offset +
-                              Offset(
-                                floatingController!.y * 100,
-                                -floatingController!.x * 100,
-                              ),
+            ClipRRect(
+              child: Container(
+                margin: EdgeInsets.all(padding),
+                width: width ?? screenWidth,
+                height: height ?? implicitHeight,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: AppConstants.creditCardBorderRadius,
+                  boxShadow: shadowConfig != null && floatingController != null
+                      ? <BoxShadow>[
+                          BoxShadow(
+                            blurRadius: shadowConfig!.blurRadius,
+                            color: shadowConfig!.color,
+                            offset: shadowConfig!.offset +
+                                Offset(
+                                  floatingController!.y * 100,
+                                  -floatingController!.x * 100,
+                                ),
+                          ),
+                        ]
+                      : null,
+                  border: border,
+                  gradient:
+                      glassmorphismConfig?.gradient ?? backgroundGradientColor,
+                  image: backgroundImage?.isNotEmpty ?? false
+                      ? DecorationImage(
+                          image: ExactAssetImage(backgroundImage!),
+                          fit: BoxFit.fill,
+                        )
+                      : backgroundNetworkImage?.isNotEmpty ?? false
+                          ? DecorationImage(
+                              image: NetworkImage(backgroundNetworkImage!),
+                              fit: BoxFit.fill,
+                            )
+                          : null,
+                ),
+                child: GlareEffectWidget(
+                  border: border,
+                  glarePosition: glarePosition,
+                  child: glassmorphismConfig == null
+                      ? child
+                      : BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: glassmorphismConfig!.blurX,
+                            sigmaY: glassmorphismConfig!.blurY,
+                          ),
+                          child: child,
                         ),
-                      ]
-                    : null,
-                border: border,
-                gradient:
-                    glassmorphismConfig?.gradient ?? backgroundGradientColor,
-                image: backgroundImage?.isNotEmpty ?? false
-                    ? DecorationImage(
-                        image: ExactAssetImage(backgroundImage!),
-                        fit: BoxFit.fill,
-                      )
-                    : backgroundNetworkImage?.isNotEmpty ?? false
-                        ? DecorationImage(
-                            image: NetworkImage(backgroundNetworkImage!),
-                            fit: BoxFit.fill,
-                          )
-                        : null,
-              ),
-              child: GlareEffectWidget(
-                border: border,
-                glarePosition: glarePosition,
-                child: glassmorphismConfig == null
-                    ? child
-                    : BackdropFilter(
-                        filter: ImageFilter.blur(
-                          sigmaX: glassmorphismConfig!.blurX,
-                          sigmaY: glassmorphismConfig!.blurY,
-                        ),
-                        child: child,
-                      ),
+                ),
               ),
             ),
             if (glassmorphismConfig != null)

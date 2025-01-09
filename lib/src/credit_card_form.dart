@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/services/text_formatter.dart';
 
 import '../flutter_credit_card.dart';
 import 'masked_text_controller.dart';
 import 'utils/constants.dart';
+import 'utils/helpers.dart';
 import 'utils/typedefs.dart';
 import 'utils/validators.dart';
 
@@ -35,6 +37,7 @@ class CreditCardForm extends StatefulWidget {
     this.cardHolderValidator,
     this.onFormComplete,
     this.disableCardNumberAutoFillHints = false,
+    this.isCardHolderNameUpperCase = false,
     super.key,
   });
 
@@ -133,6 +136,9 @@ class CreditCardForm extends StatefulWidget {
   /// You can follow the issue here
   /// [https://github.com/flutter/flutter/issues/104604](https://github.com/flutter/flutter/issues/104604).
   final bool disableCardNumberAutoFillHints;
+
+  /// When true card holder field will make all the input value to uppercase
+  final bool isCardHolderNameUpperCase;
 
   @override
   State<CreditCardForm> createState() => _CreditCardFormState();
@@ -298,6 +304,14 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 textInputAction: TextInputAction.done,
                 autofillHints: const <String>[AutofillHints.creditCardName],
                 onEditingComplete: _onHolderNameEditComplete,
+                textCapitalization: widget.isCardHolderNameUpperCase
+                    ? TextCapitalization.characters
+                    : TextCapitalization.none,
+                inputFormatters: widget.isCardHolderNameUpperCase
+                    ? <TextInputFormatter>[
+                        UpperCaseTextFormatter(),
+                      ]
+                    : null,
                 validator: widget.cardHolderValidator,
               ),
             ),

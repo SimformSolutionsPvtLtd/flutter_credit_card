@@ -4,6 +4,8 @@
 - Fixed Gyroscope initialization issue [#173](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/173).
 - Fixed Namespace Not Found issue [#176](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/176).
 - Fixed Gradle issues [#181](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/181).
+- Added `isCardHolderNameUpperCase` to make card holder text field always accept uppercase [#174](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/174).
+- Added support for 'mir' cards [#159](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/pull/159).
 
 # [4.0.1](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.0.1)
 

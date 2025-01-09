@@ -211,6 +211,7 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
       expiryDateValidator: (String? expiryDate){},
       cvvValidator: (String? cvv){},
       cardHolderValidator: (String? cardHolderName){},
+      isCardHolderNameUpperCase: true,
       onFormComplete: () {
       // callback to execute at the end of filling card data
       },

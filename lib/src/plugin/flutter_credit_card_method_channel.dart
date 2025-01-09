@@ -77,9 +77,12 @@ class MethodChannelFlutterCreditCard extends FlutterCreditCardPlatform {
 
   @override
   Future<void> dispose() async {
+    if (_isGyroscopeAvailable) {
+      await cancelEvents();
+    }
     _isGyroscopeAvailable = false;
     _gyroscopeEventChannel = null;
-    await cancelEvents();
+
     _methodChannel = null;
   }
 }

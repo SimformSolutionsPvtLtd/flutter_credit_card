@@ -1,4 +1,4 @@
-# [4.0.2](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.0.2) [UNRELEASED]
+# [4.0.2](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.0.2)
 
 - Fixed floating event stream bad state exception [#157](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/157).
 - Fixed Gyroscope initialization issue [#173](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/173).

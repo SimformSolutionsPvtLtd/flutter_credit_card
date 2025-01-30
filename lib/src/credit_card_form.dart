@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/services/text_formatter.dart';
+import 'package:flutter/services.dart';
 
 import '../flutter_credit_card.dart';
 import 'masked_text_controller.dart';
@@ -308,9 +308,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                     ? TextCapitalization.characters
                     : TextCapitalization.none,
                 inputFormatters: widget.isCardHolderNameUpperCase
-                    ? <TextInputFormatter>[
-                        UpperCaseTextFormatter(),
-                      ]
+                    ? const <TextInputFormatter>[UpperCaseTextFormatter()]
                     : null,
                 validator: widget.cardHolderValidator,
               ),

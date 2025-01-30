@@ -90,9 +90,13 @@ Widget getCardTypeImage({
 }
 
 class UpperCaseTextFormatter extends TextInputFormatter {
+  const UpperCaseTextFormatter();
+
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     return TextEditingValue(
       text: newValue.text.toUpperCase(),
       selection: newValue.selection,

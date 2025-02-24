@@ -277,7 +277,6 @@ Check out the **example** app in the [example](example) directory or the 'Exampl
     <td align="center"><a href="https://github.com/Flamingloon"><img src="https://avatars.githubusercontent.com/u/81063988?v=4" width="100px;" alt=""/><br /><sub><b>Sahil Totala</b></sub></a></td>
   </tr>
 </table>
-<br/>
 
 ## Awesome Mobile Libraries
 - Check out our other available [awesome mobile libraries](https://github.com/SimformSolutionsPvtLtd/Awesome-Mobile-Libraries)

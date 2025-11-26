@@ -11,3 +11,9 @@ extension OrientationExtension on Orientation {
 
   bool get isLandscape => this == Orientation.landscape;
 }
+
+extension ColorExtension on Color {
+  /// Converts opacity value to color with alpha
+  /// This avoids using the deprecated overlayOpacity directly
+  Color reduceOpacity(double opacity) => withAlpha((opacity * 255).round());
+}

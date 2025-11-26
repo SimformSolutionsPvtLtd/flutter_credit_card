@@ -1,3 +1,7 @@
+# [5.0.0] (#unreleased)
+
+- [BREAKING] Refactor the minimal sdk support
+
 # [4.1.0](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.1.0)
 
 - Fixed floating event stream bad state exception [#157](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/157).

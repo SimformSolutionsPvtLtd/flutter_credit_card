@@ -87,7 +87,12 @@ class FloatingController {
     matrix
       ..rotateX(x)
       ..rotateY(y)
-      ..translate(y * -90, x * 45);
+      ..translateByDouble(
+        y * -90,
+        x * 45,
+        0.0,
+        1.0,
+      );
 
     return matrix;
   }

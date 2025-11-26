@@ -1,4 +1,4 @@
-library flutter_credit_card;
+library;
 
 export 'src/credit_card_form.dart';
 export 'src/credit_card_widget.dart';

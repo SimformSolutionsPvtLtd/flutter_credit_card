@@ -160,36 +160,45 @@ class _GradientPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final LinearGradient gradient = LinearGradient(
-        begin: Alignment.bottomRight,
-        end: Alignment.topLeft,
-        colors: <Color>[
-          Colors.white.withAlpha(50),
-          Colors.white.withAlpha(55),
-          Colors.white.withAlpha(50),
-        ],
-        stops: const <double>[
-          0.06,
-          0.95,
-          1
-        ]);
+      begin: Alignment.bottomRight,
+      end: Alignment.topLeft,
+      colors: <Color>[
+        Colors.white.withAlpha(50),
+        Colors.white.withAlpha(55),
+        Colors.white.withAlpha(50),
+      ],
+      stops: const <double>[0.06, 0.95, 1],
+    );
     final RRect innerRect2 = RRect.fromRectAndRadius(
-        Rect.fromLTRB(strokeWidth, strokeWidth, size.width - strokeWidth,
-            size.height - strokeWidth),
-        Radius.circular(radius - strokeWidth));
+      Rect.fromLTRB(
+        strokeWidth,
+        strokeWidth,
+        size.width - strokeWidth,
+        size.height - strokeWidth,
+      ),
+      Radius.circular(radius - strokeWidth),
+    );
 
     final RRect outerRect = RRect.fromRectAndRadius(
-        Rect.fromLTRB(0, 0, size.width, size.height), Radius.circular(radius));
+      Rect.fromLTRB(0, 0, size.width, size.height),
+      Radius.circular(radius),
+    );
     paintObject.shader = gradient.createShader(Offset.zero & size);
 
     final Path outerRectPath = Path()..addRRect(outerRect);
     final Path innerRectPath2 = Path()..addRRect(innerRect2);
     canvas.drawPath(
+      Path.combine(
+        PathOperation.difference,
+        outerRectPath,
         Path.combine(
-            PathOperation.difference,
-            outerRectPath,
-            Path.combine(
-                PathOperation.intersect, outerRectPath, innerRectPath2)),
-        paintObject);
+          PathOperation.intersect,
+          outerRectPath,
+          innerRectPath2,
+        ),
+      ),
+      paintObject,
+    );
   }
 
   @override

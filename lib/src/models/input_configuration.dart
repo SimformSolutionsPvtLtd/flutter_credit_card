@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/src/utils/constants.dart';
+
+import '../utils/constants.dart';
 
 class InputConfiguration {
   /// Provides [InputDecoration] and [TextStyle] to [CreditCardForm]'s [TextField].

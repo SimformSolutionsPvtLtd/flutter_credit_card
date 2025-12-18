@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
+import '../utils/extensions.dart';
 
 class GlareEffectWidget extends StatelessWidget {
   const GlareEffectWidget({
@@ -15,9 +16,9 @@ class GlareEffectWidget extends StatelessWidget {
   final double? glarePosition;
 
   static final List<Color> _glareGradientColors = <Color>[
-    AppConstants.defaultGlareColor.withOpacity(0.1),
-    AppConstants.defaultGlareColor.withOpacity(0.07),
-    AppConstants.defaultGlareColor.withOpacity(0.05),
+    AppConstants.defaultGlareColor.reduceOpacity(0.1),
+    AppConstants.defaultGlareColor.reduceOpacity(0.07),
+    AppConstants.defaultGlareColor.reduceOpacity(0.05),
   ];
 
   static const List<double> _gradientStop = <double>[0.1, 0.3, 0.6];
@@ -42,7 +43,7 @@ class GlareEffectWidget extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
       ],
     );
   }

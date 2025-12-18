@@ -1,6 +1,11 @@
 class CreditCardModel {
-  CreditCardModel(this.cardNumber, this.expiryDate, this.cardHolderName,
-      this.cvvCode, this.isCvvFocused);
+  CreditCardModel(
+    this.cardNumber,
+    this.expiryDate,
+    this.cardHolderName,
+    this.cvvCode,
+    this.isCvvFocused,
+  );
 
   /// Number of the credit/debit card.
   String cardNumber = '';

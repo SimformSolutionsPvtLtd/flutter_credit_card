@@ -242,7 +242,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
                       autofillHints: const <String>[
-                        AutofillHints.creditCardExpirationDate
+                        AutofillHints.creditCardExpirationDate,
                       ],
                       validator: widget.expiryDateValidator ??
                           (String? value) => Validators.expiryDateValidator(
@@ -273,7 +273,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                           ? TextInputAction.next
                           : TextInputAction.done,
                       autofillHints: const <String>[
-                        AutofillHints.creditCardSecurityCode
+                        AutofillHints.creditCardSecurityCode,
                       ],
                       onChanged: _onCvvChange,
                       validator: widget.cvvValidator ??

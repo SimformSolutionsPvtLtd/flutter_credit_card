@@ -1,7 +1,8 @@
-import 'package:example/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+
+import 'app_colors.dart';
 
 void main() => runApp(const MySample());
 
@@ -24,7 +25,7 @@ class MySampleState extends State<MySample> {
   bool useFloatingAnimation = true;
   final OutlineInputBorder border = OutlineInputBorder(
     borderSide: BorderSide(
-      color: Colors.grey.withOpacity(0.7),
+      color: Colors.grey.withValues(alpha: 0.7),
       width: 2.0,
     ),
   );
@@ -47,7 +48,7 @@ class MySampleState extends State<MySample> {
         colorScheme: ColorScheme.fromSeed(
           brightness: Brightness.light,
           seedColor: Colors.white,
-          background: Colors.black,
+          surface: Colors.black,
           // Defines colors like cursor color of the text fields.
           primary: Colors.black,
         ),
@@ -67,7 +68,7 @@ class MySampleState extends State<MySample> {
         colorScheme: ColorScheme.fromSeed(
           brightness: Brightness.dark,
           seedColor: Colors.black,
-          background: Colors.white,
+          surface: Colors.white,
           // Defines colors like cursor color of the text fields.
           primary: Colors.white,
         ),
@@ -187,7 +188,7 @@ class MySampleState extends State<MySample> {
                                   Switch(
                                     value: useGlassMorphism,
                                     inactiveTrackColor: Colors.grey,
-                                    activeColor: Colors.white,
+                                    activeThumbColor: Colors.white,
                                     activeTrackColor: AppColors.colorE5D1B2,
                                     onChanged: (bool value) => setState(() {
                                       useGlassMorphism = value;
@@ -207,7 +208,7 @@ class MySampleState extends State<MySample> {
                                   Switch(
                                     value: useBackgroundImage,
                                     inactiveTrackColor: Colors.grey,
-                                    activeColor: Colors.white,
+                                    activeThumbColor: Colors.white,
                                     activeTrackColor: AppColors.colorE5D1B2,
                                     onChanged: (bool value) => setState(() {
                                       useBackgroundImage = value;
@@ -227,7 +228,7 @@ class MySampleState extends State<MySample> {
                                   Switch(
                                     value: useFloatingAnimation,
                                     inactiveTrackColor: Colors.grey,
-                                    activeColor: Colors.white,
+                                    activeThumbColor: Colors.white,
                                     activeTrackColor: AppColors.colorE5D1B2,
                                     onChanged: (bool value) => setState(() {
                                       useFloatingAnimation = value;
@@ -292,9 +293,9 @@ class MySampleState extends State<MySample> {
 
   void _onValidate() {
     if (formKey.currentState?.validate() ?? false) {
-      print('valid!');
+      debugPrint('valid!');
     } else {
-      print('invalid!');
+      debugPrint('invalid!');
     }
   }
 

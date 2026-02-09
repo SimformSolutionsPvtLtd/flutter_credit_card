@@ -29,7 +29,8 @@ class MySampleState extends State<MySample> {
     ),
   );
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final GlobalKey<State<CreditCardForm>> creditCardFormKey = GlobalKey<State<CreditCardForm>>();
+  final GlobalKey<State<CreditCardForm>> creditCardFormKey =
+      GlobalKey<State<CreditCardForm>>();
 
   @override
   Widget build(BuildContext context) {
@@ -267,8 +268,8 @@ class MySampleState extends State<MySample> {
                                           Radius.circular(8),
                                         ),
                                       ),
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 15),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15),
                                       alignment: Alignment.center,
                                       child: const Text(
                                         'Validate',
@@ -299,8 +300,8 @@ class MySampleState extends State<MySample> {
                                           Radius.circular(8),
                                         ),
                                       ),
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 15),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15),
                                       alignment: Alignment.center,
                                       child: const Text(
                                         'Clear',

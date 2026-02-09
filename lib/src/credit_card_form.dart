@@ -394,4 +394,28 @@ class _CreditCardFormState extends State<CreditCardForm> {
     onCreditCardModelChange(creditCardModel);
     widget.onFormComplete?.call();
   }
+
+  /// Clears all the card data from the form fields and resets the credit card model.
+  void clearCardData() {
+    _cardNumberController.clear();
+    _expiryDateController.clear();
+    _cardHolderNameController.clear();
+    _cvvCodeController.clear();
+
+    setState(() {
+      cardNumber = '';
+      expiryDate = '';
+      cardHolderName = '';
+      cvvCode = '';
+      isCvvFocused = false;
+
+      creditCardModel.cardNumber = '';
+      creditCardModel.expiryDate = '';
+      creditCardModel.cardHolderName = '';
+      creditCardModel.cvvCode = '';
+      creditCardModel.isCvvFocused = false;
+
+      onCreditCardModelChange(creditCardModel);
+    });
+  }
 }

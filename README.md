@@ -257,6 +257,42 @@ import 'package:flutter_credit_card/flutter_credit_card.dart';
     ),
 ```
 
+### Clearing Form Data
+
+To clear all the form data programmatically, you can use the `clearCardData()` method:
+
+```dart
+// Create a GlobalKey for the CreditCardForm
+final GlobalKey<State<CreditCardForm>> creditCardFormKey = GlobalKey<State<CreditCardForm>>();
+
+// Use the key with your CreditCardForm
+CreditCardForm(
+  key: creditCardFormKey,
+  // ... other parameters
+)
+
+// Clear the form data
+void clearForm() {
+  if (creditCardFormKey.currentState != null) {
+    (creditCardFormKey.currentState as dynamic).clearCardData();
+  }
+  // Also clear your local state variables
+  setState(() {
+    cardNumber = '';
+    expiryDate = '';
+    cardHolderName = '';
+    cvvCode = '';
+    isCvvFocused = false;
+  });
+}
+```
+
+The `clearCardData()` method will:
+- Clear all text field controllers (card number, expiry date, card holder name, CVV)
+- Reset the credit card model
+- Reset the focus state
+- Trigger the `onCreditCardModelChange` callback to notify listeners
+
 ## How to use
 Check out the **example** app in the [example](example) directory or the 'Example' tab on pub.dartlang.org for a more complete example.
 

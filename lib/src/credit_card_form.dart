@@ -191,12 +191,13 @@ class _CreditCardFormState extends State<CreditCardForm> {
     return Form(
       key: widget.formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Visibility(
             visible: widget.isCardNumberVisible,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              margin: const EdgeInsets.only(left: 16, top: 16, right: 16),
+              margin: const EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 8),
               child: TextFormField(
                 key: widget.cardNumberKey,
                 obscureText: widget.obscureNumber,
@@ -227,7 +228,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 child: Expanded(
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+                    // Adjusted right margin to 8 to perfectly balance the center gap
+                    margin: const EdgeInsets.only(left: 16, top: 8, right: 8, bottom: 8),
                     child: TextFormField(
                       key: widget.expiryDateKey,
                       controller: _expiryDateController,
@@ -258,7 +260,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
                   visible: widget.enableCvv,
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+                    // Adjusted left margin to 8 to perfectly balance the center gap
+                    margin: const EdgeInsets.only(left: 8, top: 8, right: 16, bottom: 8),
                     child: TextFormField(
                       key: widget.cvvCodeKey,
                       obscureText: widget.obscureCvv,
@@ -291,7 +294,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
             visible: widget.isHolderNameVisible,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
+              margin: const EdgeInsets.only(left: 16, top: 8, right: 16, bottom: 16),
               child: TextFormField(
                 key: widget.cardHolderKey,
                 controller: _cardHolderNameController,

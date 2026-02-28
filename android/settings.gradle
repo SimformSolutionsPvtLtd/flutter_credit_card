@@ -1,7 +1,10 @@
 plugins {
     id "dev.flutter.flutter-plugin-loader" version "1.0.0"
-    id "com.android.application" version "7.3.1" apply false
-    id "org.jetbrains.kotlin.android" version "1.7.10" apply false
+    // library plugin version is required to avoid null comparisons during plugin loading
+    id "com.android.library" version "8.3.0" apply false
+    // the application plugin is not used in the library itself, but kept for completeness
+    id "com.android.application" version "8.3.0" apply false
+    id "org.jetbrains.kotlin.android" version "1.8.20" apply false
 }
 
 rootProject.name = 'flutter_credit_card'

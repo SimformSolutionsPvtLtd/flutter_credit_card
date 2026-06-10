@@ -350,10 +350,10 @@ class _CreditCardWidgetState extends State<CreditCardWidget>
       // Add one stop for each color. Stops should increase from 0 to 1
       stops: const <double>[0.1, 0.4, 0.7, 0.9],
       colors: <Color>[
-        widget.cardBgColor.withOpacity(1),
-        widget.cardBgColor.withOpacity(0.97),
-        widget.cardBgColor.withOpacity(0.90),
-        widget.cardBgColor.withOpacity(0.86),
+        widget.cardBgColor.withValues(alpha: 1),
+        widget.cardBgColor.withValues(alpha: 0.97),
+        widget.cardBgColor.withValues(alpha: 0.90),
+        widget.cardBgColor.withValues(alpha: 0.86),
       ],
     );
   }

@@ -1,3 +1,7 @@
+## [Unreleased]
+
+- Added AI coding-agent skills (`skills/flutter-credit-card`). Install with `dart run skills@ get`.
+
 # [4.1.0](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/tree/4.1.0)
 
 - Fixed floating event stream bad state exception [#157](https://github.com/SimformSolutionsPvtLtd/flutter_credit_card/issues/157).
